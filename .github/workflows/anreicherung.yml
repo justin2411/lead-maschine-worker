@@ -1,0 +1,54 @@
+name: anreicherung
+
+# M3: Stapel-Anreicherung auf Zuruf — für einen ganzen Suchlauf ODER
+# eine einzelne Firma (Wiederholung/Stichprobe aus der App heraus).
+# Der automatische Stapel nach jedem Suchlauf steckt in suchlauf.yml.
+#
+# Secrets: APP_URL, WORKER_TOKEN (Pflicht) · ANTHROPIC_API_KEY (optional,
+# Module 7+10 — ohne Key laufen die Regeln allein) · LEADKERN_TOKEN
+# (nur nötig, solange justin2411/leadkern privat ist).
+on:
+  workflow_dispatch:
+    inputs:
+      suchlauf_id:
+        description: "fabrik2_suchlaeufe-Zeile (ganzer Lauf)"
+        required: false
+      firma_id:
+        description: "einzelne fabrik2_firmen-Zeile"
+        required: false
+      limit:
+        description: "max. Firmen (0 = bis zum Deckel ANREICHERUNG_MAX_PRO_LAUF)"
+        default: "0"
+
+jobs:
+  anreicherung:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: leadkern installieren
+        env:
+          LEADKERN_TOKEN: ${{ secrets.LEADKERN_TOKEN }}
+        run: |
+          if [ -n "$LEADKERN_TOKEN" ]; then
+            pip install --quiet "leadkern @ git+https://x-access-token:${LEADKERN_TOKEN}@github.com/justin2411/leadkern@main"
+          else
+            pip install --quiet "leadkern @ git+https://github.com/justin2411/leadkern@main"
+          fi
+
+      - name: Stapel-Anreicherung
+        env:
+          APP_URL: ${{ secrets.APP_URL }}
+          WORKER_TOKEN: ${{ secrets.WORKER_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ANREICHERUNG_MAX_PRO_LAUF: ${{ vars.ANREICHERUNG_MAX_PRO_LAUF }}
+        run: |
+          python worker/anreicherung.py \
+            --suchlauf-id "${{ github.event.inputs.suchlauf_id }}" \
+            --firma-id "${{ github.event.inputs.firma_id }}" \
+            --limit "${{ github.event.inputs.limit }}"

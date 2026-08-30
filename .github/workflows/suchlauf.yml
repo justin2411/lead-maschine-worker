@@ -37,11 +37,18 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Werkzeuge installieren (osmium-tool + pyosmium)
+      - name: Werkzeuge installieren (osmium-tool + pyosmium + leadkern)
+        env:
+          LEADKERN_TOKEN: ${{ secrets.LEADKERN_TOKEN }}
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq osmium-tool
           pip install --quiet osmium
+          if [ -n "$LEADKERN_TOKEN" ]; then
+            pip install --quiet "leadkern @ git+https://x-access-token:${LEADKERN_TOKEN}@github.com/justin2411/leadkern@main"
+          else
+            pip install --quiet "leadkern @ git+https://github.com/justin2411/leadkern@main"
+          fi
 
       - name: OSM-Extract-Suchlauf
         env:
@@ -53,3 +60,14 @@ jobs:
             --quellen "${{ github.event.inputs.quellen }}" \
             --suchlauf-id "${{ github.event.inputs.suchlauf_id }}" \
             --limit "${{ github.event.inputs.limit }}"
+
+      # E-3 = Stapel-Modus Pflicht: nach dem Suchlauf automatisch anreichern
+      - name: Stapel-Anreicherung (automatisch, E-3)
+        env:
+          APP_URL: ${{ secrets.APP_URL }}
+          WORKER_TOKEN: ${{ secrets.WORKER_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ANREICHERUNG_MAX_PRO_LAUF: ${{ vars.ANREICHERUNG_MAX_PRO_LAUF }}
+        run: |
+          python worker/anreicherung.py \
+            --suchlauf-id "${{ github.event.inputs.suchlauf_id }}"
