@@ -37,6 +37,11 @@ jobs:
         with:
           python-version: "3.12"
 
+      # Go nur für den optionalen Karten-Lauf (gosom); schadet sonst nicht
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+
       - name: Werkzeuge installieren (osmium-tool + pyosmium + leadkern)
         env:
           LEADKERN_TOKEN: ${{ secrets.LEADKERN_TOKEN }}
@@ -70,6 +75,32 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
           python worker/verbaende.py \
+            --branche "${{ github.event.inputs.branche }}" \
+            --quellen "${{ github.event.inputs.quellen }}" \
+            --suchlauf-id "${{ github.event.inputs.suchlauf_id }}" \
+            --limit "${{ github.event.inputs.limit }}"
+
+      # Karten-Lauf (D-092) — gosom/Google-Maps, NUR wenn 'maps' angefordert.
+      # Bewusste Ausnahme (Google-ToS); gedrosselt, kein Proxy/Captcha-Solver.
+      - name: gosom-Binary bereitstellen
+        if: contains(github.event.inputs.quellen, 'maps')
+        run: |
+          go install github.com/gosom/google-maps-scraper@latest || true
+          if [ -f "$(go env GOPATH)/bin/google-maps-scraper" ]; then
+            cp "$(go env GOPATH)/bin/google-maps-scraper" ./google-maps-scraper
+          fi
+          # Playwright-Browser für gosom
+          ./google-maps-scraper -install-playwright 2>/dev/null || true
+
+      - name: Karten-Lauf
+        if: contains(github.event.inputs.quellen, 'maps')
+        env:
+          APP_URL: ${{ secrets.APP_URL }}
+          WORKER_TOKEN: ${{ secrets.WORKER_TOKEN }}
+          GOSOM_BIN: ./google-maps-scraper
+          FABRIK2_MAPS_MAX_STAEDTE: ${{ vars.FABRIK2_MAPS_MAX_STAEDTE }}
+        run: |
+          python worker/maps_lauf.py \
             --branche "${{ github.event.inputs.branche }}" \
             --quellen "${{ github.event.inputs.quellen }}" \
             --suchlauf-id "${{ github.event.inputs.suchlauf_id }}" \
