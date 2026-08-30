@@ -1,0 +1,26 @@
+name: suchlauf
+
+# M1-Skeleton: nimmt die Inputs bereits im finalen Format an, tut aber
+# noch nichts — der OSM-Extract-Konnektor kommt mit M2.
+on:
+  workflow_dispatch:
+    inputs:
+      branche:
+        description: "Branche (Pflicht)"
+        required: true
+      quellen:
+        description: "Komma-Liste der Quellen (osm,gelbe_seiten,wlw,verband)"
+        default: "osm"
+      suchlauf_id:
+        description: "suchlaeufe-Zeile in der App (für Trichter-Zahlen)"
+        required: false
+
+jobs:
+  suchlauf:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: M1-Platzhalter
+        run: |
+          echo "Suchlauf-Skeleton: Branche='${{ github.event.inputs.branche }}' Quellen='${{ github.event.inputs.quellen }}'"
+          echo "Konnektoren folgen mit M2 (OSM-Extract, lokal ausgewertet)."
