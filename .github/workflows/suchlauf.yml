@@ -1,26 +1,55 @@
 name: suchlauf
 
-# M1-Skeleton: nimmt die Inputs bereits im finalen Format an, tut aber
-# noch nichts — der OSM-Extract-Konnektor kommt mit M2.
+# M2: OSM-Extract-Suchlauf. Die App (Fabrik 2 im CRM) startet diesen
+# Workflow per workflow_dispatch; der Worker lädt den Geofabrik-Extract,
+# filtert die POI-Familien mit osmium vor, scannt mit pyosmium nach der
+# Branche und meldet Treffer + Förderband an die App zurück.
+#
+# Secrets (Repo-Settings → Secrets and variables → Actions):
+#   APP_URL       z. B. https://4570-98.vercel.app
+#   WORKER_TOKEN  = FABRIK2_WORKER_TOKEN der App (Fallback: ADMIN_API_TOKEN)
+#
+# Datenquelle: © OpenStreetMap contributors (ODbL 1.0).
 on:
   workflow_dispatch:
     inputs:
       branche:
-        description: "Branche (Pflicht)"
+        description: "Branchen-Schlüssel aus worker/branchen.py (Pflicht)"
         required: true
       quellen:
-        description: "Komma-Liste der Quellen (osm,gelbe_seiten,wlw,verband)"
+        description: "Komma-Liste der Quellen (M2: nur osm)"
         default: "osm"
       suchlauf_id:
-        description: "suchlaeufe-Zeile in der App (für Trichter-Zahlen)"
-        required: false
+        description: "fabrik2_suchlaeufe-Zeile in der App (für Trichter/Förderband)"
+        required: true
+      limit:
+        description: "max. gemeldete Treffer (0 = alle)"
+        default: "0"
 
 jobs:
   suchlauf:
     runs-on: ubuntu-latest
+    timeout-minutes: 150
     steps:
       - uses: actions/checkout@v5
-      - name: M1-Platzhalter
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Werkzeuge installieren (osmium-tool + pyosmium)
         run: |
-          echo "Suchlauf-Skeleton: Branche='${{ github.event.inputs.branche }}' Quellen='${{ github.event.inputs.quellen }}'"
-          echo "Konnektoren folgen mit M2 (OSM-Extract, lokal ausgewertet)."
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq osmium-tool
+          pip install --quiet osmium
+
+      - name: OSM-Extract-Suchlauf
+        env:
+          APP_URL: ${{ secrets.APP_URL }}
+          WORKER_TOKEN: ${{ secrets.WORKER_TOKEN }}
+        run: |
+          python worker/osm_extract.py \
+            --branche "${{ github.event.inputs.branche }}" \
+            --quellen "${{ github.event.inputs.quellen }}" \
+            --suchlauf-id "${{ github.event.inputs.suchlauf_id }}" \
+            --limit "${{ github.event.inputs.limit }}"

@@ -24,5 +24,22 @@ Vercel-Production-URL).
 
 ## Stand
 
-M1: Skeleton (Workflow nimmt Inputs an, no-op). Der OSM-Extract-Konnektor
-kommt mit **M2**.
+**M2: OSM-Extract-Quelle ist gebaut.** Ablauf pro Lauf
+(`.github/workflows/suchlauf.yml` → `worker/osm_extract.py`):
+
+1. `germany-latest.osm.pbf` (~4 GB) von Geofabrik laden — ein Download
+   pro Lauf, ehrlicher User-Agent, keine Overpass-Massenabfragen.
+2. Vorfilter mit `osmium tags-filter` auf die POI-Familien
+   `office/healthcare/shop/amenity/leisure/craft/social_facility`.
+3. pyosmium-Scan mit den Branchen-Matchern aus `worker/branchen.py`
+   (Tag-Sätze ODER Namens-Muster, minus Sperr-Muster; 10 Start-Branchen
+   aus E-2). Die Matcher sind ein Kalibrier-Start — nach dem ersten
+   Testlauf nachziehen.
+4. Treffer in Paketen à 100 an `POST $APP_URL/api/fabrik2/import-treffer`
+   (Dedupe + Blacklist macht die App).
+5. Förderband-Zähler + Status an `POST $APP_URL/api/fabrik2/bericht`.
+
+Datenquelle: **© OpenStreetMap contributors, ODbL 1.0**
+(https://www.openstreetmap.org/copyright).
+
+Als Nächstes: M3 (Anreicherungs-Kette: Website/Impressum-Nachschlag).
