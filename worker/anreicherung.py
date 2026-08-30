@@ -328,8 +328,13 @@ def abschluss(module, diff, felder, kontakte, konflikte, verworfen_grund, start,
                     "Du prüfst einen angereicherten Firmen-Lead (deutsche Solo-/Kleinbetriebe, "
                     "Zielgruppe Altersvorsorge-Beratung). Gib NUR JSON zurück: "
                     '{"ampel": "gruen"|"gelb"|"rot", "grund": "..."}. '
-                    "gruen = Daten stimmig und übernehmbar, gelb = Konflikte/Lücken (bitte sichten), "
-                    "rot = unglaubwürdig.\n\nDaten:\n" + json.dumps({
+                    "gruen = Daten stimmig und übernehmbar. "
+                    "gelb = Lücken oder Konflikte, bitte von Hand sichten — auch SPÄRLICHE "
+                    "Daten (nur Name+Telefon+Ort, keine Website) sind gelb, nicht rot: "
+                    "Kleinbetriebe haben oft keinen Webauftritt. "
+                    "rot = NUR bei aktiven Widersprüchen oder klaren Fehl-Treffern "
+                    "(z. B. Name ist eine Einrichtung/Kette, Telefon passt sicher nicht, "
+                    "Daten wirken erfunden).\n\nDaten:\n" + json.dumps({
                         "firma": {k: firma.get(k) for k in ("name", "plz", "ort", "telefon", "website", "email", "branche")},
                         "neue_felder": felder, "kontakte": kontakte,
                         "konflikte": konflikte, "diff": {k: v for k, v in diff.items() if k != "url_pruefung"},
