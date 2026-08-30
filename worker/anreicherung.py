@@ -381,6 +381,13 @@ def abschluss(module, diff, felder, kontakte, konflikte, verworfen_grund, start,
             ampel = ki["ampel"]
             diff["ampel_grund"] = str(ki.get("grund") or "")[:300]
             module["10_final"] = "ok (ki)"
+            # Harter Riegel gegen zu strenge KI: rot NUR bei echtem Konflikt.
+            # Datenarmut (Karten-/Verzeichniseintrag ohne Website) ist KEIN
+            # Grund für „unglaubwürdig" — sonst versteckt die Ampel echte
+            # Betriebe. Ohne Konflikt wird KI-rot auf gelb (sichten) gedeckelt.
+            if ampel == "rot" and not konflikte:
+                ampel = "gelb"
+                module["10_final"] = "ok (ki, rot->gelb gedeckelt: kein Konflikt)"
         else:
             # Regel-Ampel ohne KI: Kontakt + Telefon + keine Konflikte = grün
             telefon_da = bool(felder.get("telefon") or firma.get("telefon"))
