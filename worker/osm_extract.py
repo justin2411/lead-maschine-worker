@@ -106,6 +106,19 @@ def telefon_grob(telefon: str) -> str:
     return re.sub(r"\D", "", telefon)
 
 
+def ist_handy(telefon: str) -> bool:
+    """Grobe Handy-Erkennung (015x/016x/017x) — der Handy-Fokus wird im
+    Förderband mitgezählt; fein klassifiziert die App bzw. leadkern."""
+    ziffern = telefon_grob(telefon)
+    if ziffern.startswith("00"):
+        ziffern = ziffern[2:]
+    elif ziffern.startswith("0"):
+        ziffern = "49" + ziffern[1:]
+    if ziffern.startswith("490"):
+        ziffern = "49" + ziffern[3:]
+    return ziffern.startswith(("4915", "4916", "4917"))
+
+
 # ---------------------------------------------------------------- Melden
 
 class AppClient:
@@ -162,7 +175,7 @@ def scanne(poi_datei: str, branche: dict, limit: int, client: AppClient):
     tag_saetze = branche.get("tag_filter") or []
     beruf = branche["beruf"]
 
-    stufen = {"poi_vorauswahl": 0, "branchen_treffer": 0, "gemeldet": 0}
+    stufen = {"poi_vorauswahl": 0, "branchen_treffer": 0, "gemeldet": 0, "mit_handy": 0}
     verluste = {"name_sperre": 0, "ohne_name": 0, "ohne_schluessel": 0, "doppelt_im_lauf": 0}
     gesehen = set()
     paket = []
@@ -219,6 +232,8 @@ def scanne(poi_datei: str, branche: dict, limit: int, client: AppClient):
             felder["quell_link"] = f"https://www.openstreetmap.org/{osm_typ}/{obj.id}"
             paket.append(felder)
             stufen["gemeldet"] += 1
+            if ist_handy(felder["telefon"]):
+                stufen["mit_handy"] += 1
             if len(paket) >= PAKET_GROESSE:
                 sende_paket()
             if limit and stufen["gemeldet"] >= limit:
