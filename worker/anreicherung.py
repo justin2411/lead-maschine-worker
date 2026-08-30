@@ -111,10 +111,16 @@ class App:
 
 
 # ── KI-Anbindung (Modul 7 + 10) — ohne Key sauber übersprungen ───────
+_ki_lock = threading.Lock()
+KI_CALLS = {"n": 0}  # Kostenanzeige (D-088): jede Abfrage zählt
+
+
 def ki_abfrage(prompt: str) -> dict | None:
     key = os.environ.get("ANTHROPIC_API_KEY", "").strip()
     if not key:
         return None
+    with _ki_lock:
+        KI_CALLS["n"] += 1
     body = json.dumps({
         "model": KI_MODELL, "max_tokens": 600,
         "messages": [{"role": "user", "content": prompt}],
@@ -172,6 +178,35 @@ def kette(firma: dict) -> dict:
     website = (firma.get("website") or "").strip()
     telefon = (firma.get("telefon") or "").strip()
     email_alt = (firma.get("email") or "").strip()
+
+    # ── Sparschaltung (D-088): sind ALLE 4 Parameter schon da
+    # (Ansprechperson mit Vor+Nachname, Telefon, E-Mail, Zielgruppe),
+    # braucht es keine Web-/KI-Schritte — nur E-Mail-Check + Ampel.
+    kontakte_da = [k for k in (firma.get("kontakte") or [])
+                   if len(str(k.get("name") or "").split()) >= 2]
+    if kontakte_da and telefon and email_alt and (firma.get("branche") or "").strip():
+        module["1_name"] = "ok"
+        module["vollstaendig"] = "Module 2–9 übersprungen (alle 4 Parameter vorhanden)"
+        ampel = "gruen"
+        try:
+            pruefung = lk_email.validieren(email_alt)
+            diff["email_pruefung"] = pruefung
+            module["8_email"] = pruefung["status"]
+            if pruefung["status"] == "ungueltig":
+                konflikte.append("email_ungueltig")
+                ampel = "gelb"
+        except Exception as ex:  # noqa: BLE001
+            module["8_email"] = f"fehler: {ex}"
+        if konflikte:
+            diff["konflikte"] = konflikte
+        diff["vollstaendig"] = True
+        module["10_final"] = "ok (regeln, 0 KI-Calls)"
+        return {
+            "firma_id": firma["id"], "modul_status": module, "ergebnis_diff": diff,
+            "felder": {}, "kontakte": [],  # bestehende Kontakte bleiben unangetastet
+            "ampel": ampel, "verworfen_grund": "",
+            "dauer_ms": int((time.monotonic() - start) * 1000),
+        }
 
     # 1 · Name Normalizer
     kandidat = normalisierung.inhaber_kandidat(name)
@@ -383,7 +418,8 @@ def main() -> int:
 
     firmen = app.arbeit(args.suchlauf_id, args.firma_id, limit)
     log(f"Anreicherung: {len(firmen)} Firmen (Deckel {deckel}, Parallelität {PARALLEL})")
-    zaehler = {"gesamt": len(firmen), "fertig": 0, "gruen": 0, "gelb": 0, "rot": 0, "verworfen": 0}
+    zaehler = {"gesamt": len(firmen), "fertig": 0, "gruen": 0, "gelb": 0, "rot": 0,
+               "verworfen": 0, "ki_calls": 0}
     if not firmen:
         app.status(args.suchlauf_id, "fertig", zaehler)
         return 0
@@ -408,6 +444,7 @@ def main() -> int:
                 zaehler["verworfen"] += 1
             elif ergebnis["ampel"] in zaehler:
                 zaehler[ergebnis["ampel"]] += 1
+            zaehler["ki_calls"] = KI_CALLS["n"]
             if zaehler["fertig"] % MELDE_TAKT == 0:
                 app.status(args.suchlauf_id, "laeuft", dict(zaehler))
                 log(f"  {zaehler['fertig']}/{zaehler['gesamt']} … "
@@ -416,8 +453,10 @@ def main() -> int:
     try:
         with ThreadPoolExecutor(max_workers=PARALLEL) as pool:
             list(pool.map(bearbeite, firmen))
+        zaehler["ki_calls"] = KI_CALLS["n"]
         app.status(args.suchlauf_id, "fertig", zaehler)
-        log(f"Anreicherung fertig: {json.dumps(zaehler)}")
+        log(f"Anreicherung fertig: {json.dumps(zaehler)} "
+            f"(KI-Kosten grob: ~{KI_CALLS['n'] * 0.25:.0f} Cent)")
         return 0
     except Exception as ex:  # noqa: BLE001
         log(f"FEHLER im Stapel: {ex}")
