@@ -131,7 +131,8 @@ def ki_abfrage(prompt: str) -> dict | None:
                  "content-type": "application/json"})
     with urllib.request.urlopen(req, timeout=60) as antwort:
         text = json.loads(antwort.read().decode())["content"][0]["text"]
-    m = re.search(r"\{.*\}", text, re.DOTALL)
+    # Array (Extraktion, D-089) oder Objekt (Module 7/10)
+    m = re.search(r"\[\s*\{.*\}\s*\]", text, re.DOTALL) or re.search(r"\{.*\}", text, re.DOTALL)
     return json.loads(m.group(0)) if m else None
 
 
