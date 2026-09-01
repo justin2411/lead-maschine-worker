@@ -1,0 +1,32 @@
+name: automatik-check
+
+# D-095: stündlicher Anstoß des Fabrik-2-Bedarfs-Checks. Liegt hier,
+# weil Vercel-Hobby nur TÄGLICHE Crons erlaubt — die App behält einen
+# täglichen Backup-Cron (vercel.json), den Stundentakt übernimmt diese
+# Action. Auth: WORKER_TOKEN (der Endpoint akzeptiert ihn neben
+# CRON_SECRET). Zusätzlich läuft der Check ohnehin nach jedem fertigen
+# Suchlauf (Kette im Bericht-Endpoint).
+
+on:
+  schedule:
+    - cron: "7 * * * *"   # stündlich, Minute 7 (Actions-Crons zur vollen Stunde stauen sich)
+  workflow_dispatch: {}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Bedarfs-Check anstoßen
+        env:
+          APP_URL: ${{ secrets.APP_URL }}
+          WORKER_TOKEN: ${{ secrets.WORKER_TOKEN }}
+        run: |
+          if [ -z "$APP_URL" ] || [ -z "$WORKER_TOKEN" ]; then
+            echo "APP_URL/WORKER_TOKEN fehlen — übersprungen."; exit 0
+          fi
+          curl -sS --max-time 240 -f \
+            -H "Authorization: Bearer $WORKER_TOKEN" \
+            "$APP_URL/api/fabrik2/automatik-check" | head -c 2000 || {
+              echo "Check fehlgeschlagen (App down oder SQL fehlt) — nächste Stunde wieder."; exit 0
+            }
