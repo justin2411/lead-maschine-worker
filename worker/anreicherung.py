@@ -90,12 +90,14 @@ class App:
                 time.sleep(2 ** (versuch + 1))
         raise RuntimeError(f"{methode} {pfad} endgültig fehlgeschlagen: {letzte}")
 
-    def arbeit(self, suchlauf_id: str, firma_id: str, limit: int) -> list[dict]:
+    def arbeit(self, suchlauf_id: str, firma_id: str, limit: int, branche: str = "") -> list[dict]:
         q = []
         if suchlauf_id:
             q.append(f"suchlauf_id={urllib.parse.quote(suchlauf_id)}")
         if firma_id:
             q.append(f"firma_id={urllib.parse.quote(firma_id)}")
+        if branche:  # ganze Zielgruppe über alle Suchläufe (Justin, 31.08.2026)
+            q.append(f"branche={urllib.parse.quote(branche)}")
         if limit:
             q.append(f"limit={limit}")
         return self._req("GET", f"/api/fabrik2/anreicherung-arbeit?{'&'.join(q)}").get("firmen", [])
@@ -410,11 +412,12 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Stapel-Anreicherung (Fabrik 2, M3)")
     parser.add_argument("--suchlauf-id", default="")
     parser.add_argument("--firma-id", default="")
+    parser.add_argument("--branche", default="")
     parser.add_argument("--limit", type=int, default=0)
     args = parser.parse_args()
 
-    if not args.suchlauf_id and not args.firma_id:
-        log("FEHLER: --suchlauf-id oder --firma-id nötig.")
+    if not args.suchlauf_id and not args.firma_id and not args.branche:
+        log("FEHLER: --suchlauf-id, --firma-id oder --branche nötig.")
         return 1
     app = App()
     if not app.basis or not app.token:
@@ -424,7 +427,7 @@ def main() -> int:
     deckel = int(os.environ.get("ANREICHERUNG_MAX_PRO_LAUF", "500") or 500)
     limit = min(args.limit, deckel) if args.limit else deckel
 
-    firmen = app.arbeit(args.suchlauf_id, args.firma_id, limit)
+    firmen = app.arbeit(args.suchlauf_id, args.firma_id, limit, args.branche)
     log(f"Anreicherung: {len(firmen)} Firmen (Deckel {deckel}, Parallelität {PARALLEL})")
     zaehler = {"gesamt": len(firmen), "fertig": 0, "gruen": 0, "gelb": 0, "rot": 0,
                "verworfen": 0, "ki_calls": 0}

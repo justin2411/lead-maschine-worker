@@ -1,7 +1,8 @@
 name: anreicherung
 
-# M3: Stapel-Anreicherung auf Zuruf — für einen ganzen Suchlauf ODER
-# eine einzelne Firma (Wiederholung/Stichprobe aus der App heraus).
+# M3: Stapel-Anreicherung auf Zuruf — für einen ganzen Suchlauf, eine
+# einzelne Firma ODER eine ganze Zielgruppe (branche, alle rohen Firmen
+# über alle Suchläufe — Justin, 31.08.2026).
 # Der automatische Stapel nach jedem Suchlauf steckt in suchlauf.yml.
 #
 # Secrets: APP_URL, WORKER_TOKEN (Pflicht) · ANTHROPIC_API_KEY (optional,
@@ -15,6 +16,9 @@ on:
         required: false
       firma_id:
         description: "einzelne fabrik2_firmen-Zeile"
+        required: false
+      branche:
+        description: "ganze Zielgruppe (Branchen-Label; alle rohen Firmen)"
         required: false
       limit:
         description: "max. Firmen (0 = bis zum Deckel ANREICHERUNG_MAX_PRO_LAUF)"
@@ -51,4 +55,5 @@ jobs:
           python worker/anreicherung.py \
             --suchlauf-id "${{ github.event.inputs.suchlauf_id }}" \
             --firma-id "${{ github.event.inputs.firma_id }}" \
+            --branche "${{ github.event.inputs.branche }}" \
             --limit "${{ github.event.inputs.limit }}"
