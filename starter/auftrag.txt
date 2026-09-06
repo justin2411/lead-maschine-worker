@@ -1,33 +1,30 @@
-# Welle 3 · 06.09.2026 15:45 · Claude 5.000-Auftrag — Fokus auf gut laufende Zielgruppen
-# (Pool-Statistik 90 Tage: Tagesmutter 84 % geholt / 4,6 % Termine, Hebamme 72 % / 2,4 %,
-#  danach Ernährungsberater, Heilpraktiker, Doula, Yogalehrer, Osteopath, Hundetrainer).
-# Neue Methode 1: Karten-Lauf (D-092, freigegeben 30.08., bisher nie genutzt) — 20 Städte je Lauf, gedrosselt.
-suchlauf.yml;branche=tagesmuetter;quellen=maps;suchlauf_id=82e4d6a9-baa3-4151-9d22-699f94bcc375;limit=0;maps_ab=0
-suchlauf.yml;branche=hebammen;quellen=maps;suchlauf_id=2f72bcb4-9dc6-4914-ad8e-63254deaf2fc;limit=0;maps_ab=0
-suchlauf.yml;branche=doulas;quellen=maps;suchlauf_id=fd77395d-1a99-4d69-98c0-c9204ed21b29;limit=0;maps_ab=0
-suchlauf.yml;branche=yogalehrer;quellen=maps;suchlauf_id=049a60c1-99de-43eb-8d0f-a4704db3c454;limit=0;maps_ab=0
-suchlauf.yml;branche=ernaehrungsberater;quellen=maps;suchlauf_id=5d3e75de-3701-4fdb-a2fe-d24348f94cc0;limit=0;maps_ab=0
-suchlauf.yml;branche=heilpraktiker;quellen=maps;suchlauf_id=a4ac4f25-e567-458f-824b-7c0f33d15735;limit=0;maps_ab=0
-suchlauf.yml;branche=osteopathen;quellen=maps;suchlauf_id=8a83544d-3eba-46b1-b2d1-a0717fac1748;limit=0;maps_ab=0
-suchlauf.yml;branche=hundetrainer;quellen=maps;suchlauf_id=bcf41c85-0f0a-44c4-82bc-f042088ca262;limit=0;maps_ab=0
-# Neue Methode 2: OSM-Regeln der Top-Gruppen verbreitert (mehr Tags + Namensmuster) → Nachlese
-suchlauf.yml;branche=tagesmuetter;quellen=osm;suchlauf_id=4ca86bfe-1d3e-441b-b56b-213b078db01e;limit=0
-suchlauf.yml;branche=hebammen;quellen=osm;suchlauf_id=29545c2b-dfba-41c8-8872-642840ebf6b4;limit=0
-suchlauf.yml;branche=yogalehrer;quellen=osm;suchlauf_id=349f9224-4cff-4470-b98e-c6ba940a94bd;limit=0
-suchlauf.yml;branche=ernaehrungsberater;quellen=osm;suchlauf_id=f5598812-eb0d-44d4-8a2e-50922f5aebf0;limit=0
-suchlauf.yml;branche=doulas;quellen=osm;suchlauf_id=50ddaba3-94b8-4734-a148-6d99b0bf976e;limit=0
-suchlauf.yml;branche=heilpraktiker;quellen=osm;suchlauf_id=a1f9ccfc-9b2b-4583-8f34-303d84b362b7;limit=0
-# Neue OSM-Zielgruppen mit Pool-Nachfrage (Hundetrainer 58 % geholt, Osteopath 39 %; Therapie-Praxen nah dran)
-suchlauf.yml;branche=osteopathen;quellen=osm;suchlauf_id=8a8ff5d4-8de0-4ade-a04f-a302935fd467;limit=0
-suchlauf.yml;branche=hundetrainer;quellen=osm;suchlauf_id=15005b71-1975-4b55-8e1d-38e87d897971;limit=0
-suchlauf.yml;branche=hundefriseure;quellen=osm;suchlauf_id=5c016fc7-a5b5-4c03-bbac-70dc548b25d3;limit=0
-suchlauf.yml;branche=physiotherapeuten;quellen=osm;suchlauf_id=4a89d12b-6106-4eb0-9e64-901c37558584;limit=0
-suchlauf.yml;branche=ergotherapeuten;quellen=osm;suchlauf_id=4a4830f5-5c02-4589-8759-b9f43156fb27;limit=0
-suchlauf.yml;branche=logopaeden;quellen=osm;suchlauf_id=287102f1-a734-485b-aca5-b62c145d4913;limit=0
-suchlauf.yml;branche=fusspflege;quellen=osm;suchlauf_id=7250840a-4cec-451f-b496-089144cfbf99;limit=0
-suchlauf.yml;branche=tierheilpraktiker;quellen=osm;suchlauf_id=034d00b7-d5f0-481f-9048-13730bb62885;limit=0
-# Anreicherung nachlegen: Heilpraktiker (gute Gruppe, roh 596), Kosmetikerin als Füller (roh 7.229, Quote nur 12 %)
+# Welle 4 · 06.09.2026 16:05 · Claude 5.000-Auftrag (Stand 3.302)
+# Karten-Läufe liefern (Hundetrainer 371, Osteopath 326, Hebamme 289, Doula 173 …) → nächste Städte 21–40 und 41–60
+suchlauf.yml;branche=tagesmuetter;quellen=maps;suchlauf_id=f41a046d-f0ff-46ad-b928-ed15b982fc81;limit=0;maps_ab=20
+suchlauf.yml;branche=hebammen;quellen=maps;suchlauf_id=0d773b3e-7e0c-4bdc-9020-53da0a033d7e;limit=0;maps_ab=20
+suchlauf.yml;branche=doulas;quellen=maps;suchlauf_id=98688655-25f4-454b-90d3-baf3d48b9fa5;limit=0;maps_ab=20
+suchlauf.yml;branche=yogalehrer;quellen=maps;suchlauf_id=f4b90b83-2f5d-4baf-97ce-05b4226e749d;limit=0;maps_ab=20
+suchlauf.yml;branche=ernaehrungsberater;quellen=maps;suchlauf_id=a6072489-cb65-49ce-a952-be21c5b0f8fb;limit=0;maps_ab=20
+suchlauf.yml;branche=heilpraktiker;quellen=maps;suchlauf_id=15892609-de10-4647-904b-2d946e82718a;limit=0;maps_ab=20
+suchlauf.yml;branche=osteopathen;quellen=maps;suchlauf_id=d1a8585a-8f09-4c9d-b941-48389a9f158d;limit=0;maps_ab=20
+suchlauf.yml;branche=hundetrainer;quellen=maps;suchlauf_id=30678eb8-5438-404c-bcee-c188dbb90020;limit=0;maps_ab=20
+suchlauf.yml;branche=tagesmuetter;quellen=maps;suchlauf_id=8b0cc473-f8d4-471b-817d-1f7aaab2abd1;limit=0;maps_ab=40
+suchlauf.yml;branche=hebammen;quellen=maps;suchlauf_id=d49b8789-24b4-41b1-a1ce-42c861a1ba9b;limit=0;maps_ab=40
+suchlauf.yml;branche=doulas;quellen=maps;suchlauf_id=f2a90a9e-5147-4b4a-8635-002ac3ed29cd;limit=0;maps_ab=40
+suchlauf.yml;branche=yogalehrer;quellen=maps;suchlauf_id=bd0f5281-0ef2-4026-ab23-f93a0c751670;limit=0;maps_ab=40
+suchlauf.yml;branche=ernaehrungsberater;quellen=maps;suchlauf_id=d5a6f850-561e-4d75-ad15-fddee4cb5d5e;limit=0;maps_ab=40
+suchlauf.yml;branche=heilpraktiker;quellen=maps;suchlauf_id=5341a1cf-6729-46e7-8341-dc9454815228;limit=0;maps_ab=40
+suchlauf.yml;branche=osteopathen;quellen=maps;suchlauf_id=b9fb7004-93aa-4391-8484-a0f432a0d132;limit=0;maps_ab=40
+suchlauf.yml;branche=hundetrainer;quellen=maps;suchlauf_id=881e6646-f23c-4164-9b9a-408504719c9d;limit=0;maps_ab=40
+# Anreicherung nachlegen (roh: Physio 2.495, Ergo 959, Logo 594, Fußpflege 259, Heilpraktiker 254, Hundefriseur 230, Hundetrainer 122)
+anreicherung.yml;branche=Hundetrainer;limit=0
 anreicherung.yml;branche=Heilpraktiker;limit=0
-anreicherung.yml;branche=Heilpraktiker;limit=0
-anreicherung.yml;branche=Kosmetikerin;limit=0
+anreicherung.yml;branche=Hundefriseur;limit=0
+anreicherung.yml;branche=Physiotherapeut;limit=0
+anreicherung.yml;branche=Physiotherapeut;limit=0
+anreicherung.yml;branche=Physiotherapeut;limit=0
+anreicherung.yml;branche=Ergotherapeut;limit=0
+anreicherung.yml;branche=Ergotherapeut;limit=0
+anreicherung.yml;branche=Logopäde;limit=0
+anreicherung.yml;branche=Fußpflegerin;limit=0
 anreicherung.yml;branche=Kosmetikerin;limit=0
