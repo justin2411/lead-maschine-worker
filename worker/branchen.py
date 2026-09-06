@@ -57,7 +57,7 @@ BRANCHEN = {
         "beruf": "Heilpraktiker",
         "tag_filter": [{"healthcare": "alternative"}, {"healthcare": "alternative", "healthcare:speciality": "naturopathy"}, {"shop": "herbalist"}],
         "name_regex": r"heilpraktik|naturheilpraxis|naturheilkunde|hom[öo]opath|praxis\s+f[üu]r\s+naturheil",
-        "name_sperre": r"klinik|zentrum\s+für|gemeinschaftspraxis|schule|akademie",
+        "name_sperre": r"klinik|zentrum\s+für|gemeinschaftspraxis|schule|akademie|gmbh|\bug\b|zentrum|reha\b|kollegen|partner|praxisgemeinschaft|krankenhaus|mvz|institut|verein|ambulan|förder|sozialstation|caritas|diakonie|\bawo\b|\bdrk\b|malteser|johanniter",
     },
     "kosmetikerin": {
         "beruf": "Kosmetikerin",
