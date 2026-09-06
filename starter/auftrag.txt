@@ -1,18 +1,10 @@
-# Welle 5 · 06.09.2026 16:50 · Justin: „mach bitte alle Firmen voll, auch wenn es 5.000 übersteigt"
-# Ketten-Modus: jeder Lauf arbeitet 500 ab und stößt sich selbst neu an, bis seine Portion leer ist.
-# Portionen (je ~1.000), damit parallele Ketten nicht dieselben Firmen greifen.
-anreicherung.yml;suchlauf_id=0524258e-4d6c-4874-9c42-bff9818f9662;limit=0;kette=6
-anreicherung.yml;suchlauf_id=2a197db0-9a4f-470f-8d8c-695bed5888ef;limit=0;kette=6
-anreicherung.yml;suchlauf_id=5be9a4ac-8fed-4d7d-a2ad-777202a8f05c;limit=0;kette=6
-anreicherung.yml;suchlauf_id=891f8b54-9e9d-4177-b5ff-025f3482addb;limit=0;kette=6
-anreicherung.yml;suchlauf_id=a9d93e8c-8fcf-46c7-8217-46f47ad8f8fa;limit=0;kette=6
-anreicherung.yml;suchlauf_id=b59dfb70-cc46-406a-90ff-d4c870a3e602;limit=0;kette=6
-anreicherung.yml;suchlauf_id=08f3ef68-b132-4328-8fb5-23395832e68b;limit=0;kette=6
-anreicherung.yml;suchlauf_id=1a71cea9-99d7-46d5-a4b7-fb06f05aa3b0;limit=0;kette=6
-anreicherung.yml;suchlauf_id=261b672d-0458-4a27-adf3-25b5a95e08d6;limit=0;kette=6
-anreicherung.yml;suchlauf_id=85b2eb6c-ba46-4d34-9c7e-48dcf25839ab;limit=0;kette=6
-anreicherung.yml;suchlauf_id=b5581c6c-8e2c-46ea-bdfc-a3ae8947dc4d;limit=0;kette=6
-anreicherung.yml;suchlauf_id=e417ae39-6a06-4b93-9344-8ecda0af0948;limit=0;kette=6
-# Kleine Reste über das Branchen-Label (nur je eine Kette, keine Überschneidung möglich)
-anreicherung.yml;branche=Logopäde;limit=0;kette=3
-anreicherung.yml;branche=Ergotherapeut;limit=0;kette=3
+# Welle 6 - 06.09.2026 17:00 - Karten-Laeufe Staedte 61-80 (maps_ab=60)
+# Die Anreicherungs-Ketten aus Welle 5 laufen unabhaengig weiter.
+suchlauf.yml;branche=tagesmuetter;quellen=maps;suchlauf_id=b87c3eb5-df2d-4de2-a766-00d48d108b77;limit=0;maps_ab=60
+suchlauf.yml;branche=hebammen;quellen=maps;suchlauf_id=ce760079-386e-43e7-919b-52c9a2eaf743;limit=0;maps_ab=60
+suchlauf.yml;branche=doulas;quellen=maps;suchlauf_id=fb8e479c-4ac4-448f-8304-201ed21db906;limit=0;maps_ab=60
+suchlauf.yml;branche=yogalehrer;quellen=maps;suchlauf_id=238e88dd-50d6-4f4f-9a47-1d496130f7fd;limit=0;maps_ab=60
+suchlauf.yml;branche=ernaehrungsberater;quellen=maps;suchlauf_id=e53efe6f-2f04-414b-a9d5-bf61d2af7d8a;limit=0;maps_ab=60
+suchlauf.yml;branche=heilpraktiker;quellen=maps;suchlauf_id=825a57a6-c474-48cf-9d00-5dcf5ca397e3;limit=0;maps_ab=60
+suchlauf.yml;branche=osteopathen;quellen=maps;suchlauf_id=c47df752-2f11-4cbe-9fbc-d82ad93e2df8;limit=0;maps_ab=60
+suchlauf.yml;branche=hundetrainer;quellen=maps;suchlauf_id=9ccf662e-7e1f-40f3-bc48-82a079a127a5;limit=0;maps_ab=60
