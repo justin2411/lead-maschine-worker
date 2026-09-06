@@ -76,7 +76,7 @@ BRANCHEN = {
         "tag_filter": [{"social_facility": "ambulatory_care"}],
         "name_regex": r"ambulante\s+pflege|pflegedienst|hauskrankenpflege|pflegeberat",
         "name_sperre": r"caritas|diakonie|awo|drk|malteser|johanniter|gmbh\s*&\s*co|heim|residenz|stift",
-    },,
+    },
     # ── Erweiterung 06.09.2026 (Claude, 5.000-Leads-Auftrag): kostenfreie
     # OSM-Zielgruppen, Beruf-Labels = bestehende CRM-Berufe. Sperren zielen
     # auf Ketten/Kapitalgesellschaften/Institutionen (D-035: nur Solo).
