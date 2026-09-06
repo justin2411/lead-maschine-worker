@@ -1,10 +1,9 @@
-# Welle 6 - 06.09.2026 17:00 - Karten-Laeufe Staedte 61-80 (maps_ab=60)
-# Die Anreicherungs-Ketten aus Welle 5 laufen unabhaengig weiter.
-suchlauf.yml;branche=tagesmuetter;quellen=maps;suchlauf_id=b87c3eb5-df2d-4de2-a766-00d48d108b77;limit=0;maps_ab=60
-suchlauf.yml;branche=hebammen;quellen=maps;suchlauf_id=ce760079-386e-43e7-919b-52c9a2eaf743;limit=0;maps_ab=60
-suchlauf.yml;branche=doulas;quellen=maps;suchlauf_id=fb8e479c-4ac4-448f-8304-201ed21db906;limit=0;maps_ab=60
-suchlauf.yml;branche=yogalehrer;quellen=maps;suchlauf_id=238e88dd-50d6-4f4f-9a47-1d496130f7fd;limit=0;maps_ab=60
-suchlauf.yml;branche=ernaehrungsberater;quellen=maps;suchlauf_id=e53efe6f-2f04-414b-a9d5-bf61d2af7d8a;limit=0;maps_ab=60
-suchlauf.yml;branche=heilpraktiker;quellen=maps;suchlauf_id=825a57a6-c474-48cf-9d00-5dcf5ca397e3;limit=0;maps_ab=60
-suchlauf.yml;branche=osteopathen;quellen=maps;suchlauf_id=c47df752-2f11-4cbe-9fbc-d82ad93e2df8;limit=0;maps_ab=60
-suchlauf.yml;branche=hundetrainer;quellen=maps;suchlauf_id=9ccf662e-7e1f-40f3-bc48-82a079a127a5;limit=0;maps_ab=60
+# Welle 7 - 06.09.2026 18:00 - Karten-Laeufe Staedte 81-100 (maps_ab=80)
+suchlauf.yml;branche=hebammen;quellen=maps;suchlauf_id=b58b8794-12c6-46a6-95dc-35fa2f8994dd;limit=0;maps_ab=80
+suchlauf.yml;branche=doulas;quellen=maps;suchlauf_id=631b5613-f239-4d97-9a9d-55cf5c80d60c;limit=0;maps_ab=80
+suchlauf.yml;branche=tagesmuetter;quellen=maps;suchlauf_id=1df03efb-1162-4b8b-8e9e-0a30a234f863;limit=0;maps_ab=80
+suchlauf.yml;branche=yogalehrer;quellen=maps;suchlauf_id=323382b0-ccd2-414e-bb8d-ec6b48b80028;limit=0;maps_ab=80
+suchlauf.yml;branche=ernaehrungsberater;quellen=maps;suchlauf_id=d45d9424-476f-47af-9e95-d4e4601be571;limit=0;maps_ab=80
+suchlauf.yml;branche=heilpraktiker;quellen=maps;suchlauf_id=7c189572-2674-4dff-83c2-f542c8c9d6a5;limit=0;maps_ab=80
+suchlauf.yml;branche=osteopathen;quellen=maps;suchlauf_id=70ecd02d-becf-4e90-a62b-7d18e6456a7f;limit=0;maps_ab=80
+suchlauf.yml;branche=hundetrainer;quellen=maps;suchlauf_id=b6e8a7d7-9ea7-4935-81c0-fe715c02e104;limit=0;maps_ab=80
