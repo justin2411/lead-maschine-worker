@@ -1,8 +1,6 @@
-# Welle 1 · 06.09.2026 · Claude 5.000-Auftrag
-suchlauf.yml;branche=hebammen;quellen=osm,verband_hebammen_bb,verband_hebammen_saar;suchlauf_id=455399d4-20a3-4391-b048-15c3b5718a44;limit=0
-anreicherung.yml;branche=Heilpraktiker;limit=0
-anreicherung.yml;branche=Yogalehrer;limit=0
-anreicherung.yml;branche=Lehrer (selbstständig);limit=0
-anreicherung.yml;branche=Pflegefachkraft;limit=0
-anreicherung.yml;branche=Tagesmutter;limit=0
+# Welle 2 · 06.09.2026 15:15 · Claude 5.000-Auftrag (Welle 1 durch: Tagesmutter/Lehrer/Yoga roh=0)
 anreicherung.yml;branche=Kosmetikerin;limit=0
+anreicherung.yml;branche=Kosmetikerin;limit=0
+anreicherung.yml;branche=Heilpraktiker;limit=0
+anreicherung.yml;branche=Pflegefachkraft;limit=0
+anreicherung.yml;branche=Hebamme;limit=0
