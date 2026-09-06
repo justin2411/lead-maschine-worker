@@ -427,12 +427,24 @@ def main() -> int:
     deckel = int(os.environ.get("ANREICHERUNG_MAX_PRO_LAUF", "500") or 500)
     limit = min(args.limit, deckel) if args.limit else deckel
 
+    def rest_melden(n: int) -> None:
+        """Ketten-Modus (Justin, 06.09.2026: „mach bitte alle Firmen voll"):
+        Der Workflow liest 'rest' und stößt sich selbst erneut an, solange
+        noch rohe Firmen offen sind. So läuft eine Zielgruppe ohne Zutun
+        bis zum Ende durch, statt nur 500 pro Handgriff."""
+        pfad = os.environ.get("GITHUB_OUTPUT")
+        if pfad:
+            with open(pfad, "a", encoding="utf-8") as f:
+                f.write(f"rest={n}\n")
+        log(f"Rest offen: {n}")
+
     firmen = app.arbeit(args.suchlauf_id, args.firma_id, limit, args.branche)
     log(f"Anreicherung: {len(firmen)} Firmen (Deckel {deckel}, Parallelität {PARALLEL})")
     zaehler = {"gesamt": len(firmen), "fertig": 0, "gruen": 0, "gelb": 0, "rot": 0,
                "verworfen": 0, "ki_calls": 0}
     if not firmen:
         app.status(args.suchlauf_id, "fertig", zaehler)
+        rest_melden(0)
         return 0
     app.status(args.suchlauf_id, "laeuft", zaehler)
 
@@ -468,6 +480,12 @@ def main() -> int:
         app.status(args.suchlauf_id, "fertig", zaehler)
         log(f"Anreicherung fertig: {json.dumps(zaehler)} "
             f"(KI-Kosten grob: ~{KI_CALLS['n'] * 0.25:.0f} Cent)")
+        # Kette: ist noch etwas offen? (eine billige Abfrage, limit 1)
+        try:
+            rest_melden(len(app.arbeit(args.suchlauf_id, args.firma_id, 1, args.branche)))
+        except Exception as ex:  # noqa: BLE001
+            log(f"Rest-Abfrage fehlgeschlagen: {ex}")
+            rest_melden(0)
         return 0
     except Exception as ex:  # noqa: BLE001
         log(f"FEHLER im Stapel: {ex}")

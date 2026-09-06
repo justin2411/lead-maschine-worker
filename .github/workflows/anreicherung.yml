@@ -23,6 +23,13 @@ on:
       limit:
         description: "max. Firmen (0 = bis zum Deckel ANREICHERUNG_MAX_PRO_LAUF)"
         default: "0"
+      kette:
+        description: "Ketten-Runden: nach dem Stapel erneut starten, solange rohe Firmen offen sind (0 = aus)"
+        default: "0"
+
+permissions:
+  actions: write
+  contents: read
 
 jobs:
   anreicherung:
@@ -46,6 +53,7 @@ jobs:
           fi
 
       - name: Stapel-Anreicherung
+        id: stapel
         env:
           APP_URL: ${{ secrets.APP_URL }}
           WORKER_TOKEN: ${{ secrets.WORKER_TOKEN }}
@@ -57,3 +65,26 @@ jobs:
             --firma-id "${{ github.event.inputs.firma_id }}" \
             --branche "${{ github.event.inputs.branche }}" \
             --limit "${{ github.event.inputs.limit }}"
+
+      # Ketten-Modus (Justin, 06.09.2026): solange die Zielgruppe/der
+      # Suchlauf noch rohe Firmen hat und Runden übrig sind, den nächsten
+      # Stapel selbst anstoßen. `kette` zählt die verbleibenden Runden
+      # herunter — harter Riegel gegen Endlosschleifen.
+      - name: Nächsten Stapel anstoßen
+        if: ${{ steps.stapel.outputs.rest != '0' && github.event.inputs.kette != '0' && github.event.inputs.kette != '' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          rest_runden=$(( ${{ github.event.inputs.kette }} - 1 ))
+          if [ "$rest_runden" -le 0 ]; then
+            echo "Ketten-Runden aufgebraucht — Stopp." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          gh workflow run anreicherung.yml --ref "$GITHUB_REF_NAME" \
+            -f suchlauf_id="${{ github.event.inputs.suchlauf_id }}" \
+            -f firma_id="${{ github.event.inputs.firma_id }}" \
+            -f branche="${{ github.event.inputs.branche }}" \
+            -f limit="${{ github.event.inputs.limit }}" \
+            -f kette="$rest_runden"
+          echo "Kette: nächster Stapel angestoßen ($rest_runden Runden übrig)" >> "$GITHUB_STEP_SUMMARY"

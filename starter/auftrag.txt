@@ -1,30 +1,18 @@
-# Welle 4 · 06.09.2026 16:05 · Claude 5.000-Auftrag (Stand 3.302)
-# Karten-Läufe liefern (Hundetrainer 371, Osteopath 326, Hebamme 289, Doula 173 …) → nächste Städte 21–40 und 41–60
-suchlauf.yml;branche=tagesmuetter;quellen=maps;suchlauf_id=f41a046d-f0ff-46ad-b928-ed15b982fc81;limit=0;maps_ab=20
-suchlauf.yml;branche=hebammen;quellen=maps;suchlauf_id=0d773b3e-7e0c-4bdc-9020-53da0a033d7e;limit=0;maps_ab=20
-suchlauf.yml;branche=doulas;quellen=maps;suchlauf_id=98688655-25f4-454b-90d3-baf3d48b9fa5;limit=0;maps_ab=20
-suchlauf.yml;branche=yogalehrer;quellen=maps;suchlauf_id=f4b90b83-2f5d-4baf-97ce-05b4226e749d;limit=0;maps_ab=20
-suchlauf.yml;branche=ernaehrungsberater;quellen=maps;suchlauf_id=a6072489-cb65-49ce-a952-be21c5b0f8fb;limit=0;maps_ab=20
-suchlauf.yml;branche=heilpraktiker;quellen=maps;suchlauf_id=15892609-de10-4647-904b-2d946e82718a;limit=0;maps_ab=20
-suchlauf.yml;branche=osteopathen;quellen=maps;suchlauf_id=d1a8585a-8f09-4c9d-b941-48389a9f158d;limit=0;maps_ab=20
-suchlauf.yml;branche=hundetrainer;quellen=maps;suchlauf_id=30678eb8-5438-404c-bcee-c188dbb90020;limit=0;maps_ab=20
-suchlauf.yml;branche=tagesmuetter;quellen=maps;suchlauf_id=8b0cc473-f8d4-471b-817d-1f7aaab2abd1;limit=0;maps_ab=40
-suchlauf.yml;branche=hebammen;quellen=maps;suchlauf_id=d49b8789-24b4-41b1-a1ce-42c861a1ba9b;limit=0;maps_ab=40
-suchlauf.yml;branche=doulas;quellen=maps;suchlauf_id=f2a90a9e-5147-4b4a-8635-002ac3ed29cd;limit=0;maps_ab=40
-suchlauf.yml;branche=yogalehrer;quellen=maps;suchlauf_id=bd0f5281-0ef2-4026-ab23-f93a0c751670;limit=0;maps_ab=40
-suchlauf.yml;branche=ernaehrungsberater;quellen=maps;suchlauf_id=d5a6f850-561e-4d75-ad15-fddee4cb5d5e;limit=0;maps_ab=40
-suchlauf.yml;branche=heilpraktiker;quellen=maps;suchlauf_id=5341a1cf-6729-46e7-8341-dc9454815228;limit=0;maps_ab=40
-suchlauf.yml;branche=osteopathen;quellen=maps;suchlauf_id=b9fb7004-93aa-4391-8484-a0f432a0d132;limit=0;maps_ab=40
-suchlauf.yml;branche=hundetrainer;quellen=maps;suchlauf_id=881e6646-f23c-4164-9b9a-408504719c9d;limit=0;maps_ab=40
-# Anreicherung nachlegen (roh: Physio 2.495, Ergo 959, Logo 594, Fußpflege 259, Heilpraktiker 254, Hundefriseur 230, Hundetrainer 122)
-anreicherung.yml;branche=Hundetrainer;limit=0
-anreicherung.yml;branche=Heilpraktiker;limit=0
-anreicherung.yml;branche=Hundefriseur;limit=0
-anreicherung.yml;branche=Physiotherapeut;limit=0
-anreicherung.yml;branche=Physiotherapeut;limit=0
-anreicherung.yml;branche=Physiotherapeut;limit=0
-anreicherung.yml;branche=Ergotherapeut;limit=0
-anreicherung.yml;branche=Ergotherapeut;limit=0
-anreicherung.yml;branche=Logopäde;limit=0
-anreicherung.yml;branche=Fußpflegerin;limit=0
-anreicherung.yml;branche=Kosmetikerin;limit=0
+# Welle 5 · 06.09.2026 16:50 · Justin: „mach bitte alle Firmen voll, auch wenn es 5.000 übersteigt"
+# Ketten-Modus: jeder Lauf arbeitet 500 ab und stößt sich selbst neu an, bis seine Portion leer ist.
+# Portionen (je ~1.000), damit parallele Ketten nicht dieselben Firmen greifen.
+anreicherung.yml;suchlauf_id=0524258e-4d6c-4874-9c42-bff9818f9662;limit=0;kette=6
+anreicherung.yml;suchlauf_id=2a197db0-9a4f-470f-8d8c-695bed5888ef;limit=0;kette=6
+anreicherung.yml;suchlauf_id=5be9a4ac-8fed-4d7d-a2ad-777202a8f05c;limit=0;kette=6
+anreicherung.yml;suchlauf_id=891f8b54-9e9d-4177-b5ff-025f3482addb;limit=0;kette=6
+anreicherung.yml;suchlauf_id=a9d93e8c-8fcf-46c7-8217-46f47ad8f8fa;limit=0;kette=6
+anreicherung.yml;suchlauf_id=b59dfb70-cc46-406a-90ff-d4c870a3e602;limit=0;kette=6
+anreicherung.yml;suchlauf_id=08f3ef68-b132-4328-8fb5-23395832e68b;limit=0;kette=6
+anreicherung.yml;suchlauf_id=1a71cea9-99d7-46d5-a4b7-fb06f05aa3b0;limit=0;kette=6
+anreicherung.yml;suchlauf_id=261b672d-0458-4a27-adf3-25b5a95e08d6;limit=0;kette=6
+anreicherung.yml;suchlauf_id=85b2eb6c-ba46-4d34-9c7e-48dcf25839ab;limit=0;kette=6
+anreicherung.yml;suchlauf_id=b5581c6c-8e2c-46ea-bdfc-a3ae8947dc4d;limit=0;kette=6
+anreicherung.yml;suchlauf_id=e417ae39-6a06-4b93-9344-8ecda0af0948;limit=0;kette=6
+# Kleine Reste über das Branchen-Label (nur je eine Kette, keine Überschneidung möglich)
+anreicherung.yml;branche=Logopäde;limit=0;kette=3
+anreicherung.yml;branche=Ergotherapeut;limit=0;kette=3
