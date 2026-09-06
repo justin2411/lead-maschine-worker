@@ -25,6 +25,9 @@ on:
       limit:
         description: "max. gemeldete Treffer (0 = alle)"
         default: "0"
+      maps_ab:
+        description: "Karten-Lauf: Städte-Versatz in STAEDTE (Folgeläufe decken weitere Städte ab)"
+        default: "0"
 
 jobs:
   suchlauf:
@@ -99,6 +102,7 @@ jobs:
           WORKER_TOKEN: ${{ secrets.WORKER_TOKEN }}
           GOSOM_BIN: ./google-maps-scraper
           FABRIK2_MAPS_MAX_STAEDTE: ${{ vars.FABRIK2_MAPS_MAX_STAEDTE }}
+          FABRIK2_MAPS_STAEDTE_AB: ${{ github.event.inputs.maps_ab }}
         run: |
           python worker/maps_lauf.py \
             --branche "${{ github.event.inputs.branche }}" \

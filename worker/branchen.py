@@ -19,14 +19,14 @@ Anreicherungs-Kette (M3).
 BRANCHEN = {
     "tagesmuetter": {
         "beruf": "Tagesmutter",
-        "tag_filter": [{"amenity": "childcare"}],
-        "name_regex": r"tagesmutter|tagesvater|tagespflege|tageskinder",
+        "tag_filter": [{"amenity": "childcare"}, {"amenity": "kindergarten", "kindergarten": "childcare"}, {"social_facility": "childcare"}],
+        "name_regex": r"tagesmutter|tagesvater|tagesmama|tagespapa|tagespflege|kindertagespflege|gro(ß|ss)tagespflege|tageskind|tageskinder|tagesfamilie",
         "name_sperre": r"kita|kindergarten|krippe|hort|e\.\s?v\.|ggmbh|awo|drk|caritas|diakonie|johanniter",
     },
     "hebammen": {
         "beruf": "Hebamme",
         "tag_filter": [{"healthcare": "midwife"}],
-        "name_regex": r"hebamme",
+        "name_regex": r"hebamme|geburtshaus|wochenbett|geburtsvorbereitung|r[üu]ckbildung",
         "name_sperre": r"klinik|krankenhaus|geburtshaus\s+team|zentrum\s+für",
     },
     "business_coaches": {
@@ -37,26 +37,26 @@ BRANCHEN = {
     },
     "yogalehrer": {
         "beruf": "Yogalehrer",
-        "tag_filter": [{"sport": "yoga"}, {"shop": "yoga"}],
-        "name_regex": r"yoga|pilates",
+        "tag_filter": [{"sport": "yoga"}, {"shop": "yoga"}, {"leisure": "fitness_centre", "sport": "yoga"}, {"sport": "pilates"}],
+        "name_regex": r"yoga|pilates|yogini|yogaraum|yogaloft|yogaschule|yogastudio|yogalehrer",
         "name_sperre": r"fitnessstudio|mcfit|clever\s?fit|fitx|kette|franchise",
     },
     "ernaehrungsberater": {
         "beruf": "Ernährungsberater",
-        "tag_filter": [{"healthcare": "nutrition_counselling"}],
-        "name_regex": r"ern[äa]hrungsberat|di[äa]tberat",
+        "tag_filter": [{"healthcare": "nutrition_counselling"}, {"office": "nutrition"}, {"healthcare": "dietitian"}],
+        "name_regex": r"ern[äa]hrungsberat|ern[äa]hrungscoach|ern[äa]hrungstherap|di[äa]tberat|abnehmcoach|ern[äa]hrungspraxis",
         "name_sperre": r"klinik|krankenhaus|krankenkasse",
     },
     "doulas": {
         "beruf": "Doula",
         "tag_filter": [],
-        "name_regex": r"doula",
+        "name_regex": r"doula|geburtsbegleit",
         "name_sperre": r"verband|netzwerk|ausbildung",
     },
     "heilpraktiker": {
         "beruf": "Heilpraktiker",
-        "tag_filter": [{"healthcare": "alternative"}],
-        "name_regex": r"heilpraktik|naturheilpraxis",
+        "tag_filter": [{"healthcare": "alternative"}, {"healthcare": "alternative", "healthcare:speciality": "naturopathy"}, {"shop": "herbalist"}],
+        "name_regex": r"heilpraktik|naturheilpraxis|naturheilkunde|hom[öo]opath|praxis\s+f[üu]r\s+naturheil",
         "name_sperre": r"klinik|zentrum\s+für|gemeinschaftspraxis|schule|akademie",
     },
     "kosmetikerin": {

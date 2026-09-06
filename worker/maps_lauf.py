@@ -71,7 +71,8 @@ def main() -> int:
 
     max_staedte = int(os.environ.get("FABRIK2_MAPS_MAX_STAEDTE", "20") or 20)
     tiefe = int(os.environ.get("FABRIK2_MAPS_TIEFE", "1") or 1)  # gosom -depth, klein halten
-    staedte = STAEDTE[:max_staedte]
+    ab = int(os.environ.get("FABRIK2_MAPS_STAEDTE_AB", "0") or 0)  # Versatz für Folgeläufe
+    staedte = STAEDTE[ab:ab + max_staedte]
 
     stufen = {"queries": len(staedte), "roh": 0, "gemeldet": 0, "mit_handy": 0}
     verluste = {"portal": 0, "ohne_name": 0, "ohne_schluessel": 0, "doppelt_im_lauf": 0}

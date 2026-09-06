@@ -44,6 +44,21 @@ BEGRIFFE = {
     "kosmetikerin": "Kosmetikstudio",
     "lehrer_selbststaendig": "Musikunterricht Nachhilfe privat",
     "pflegefachkraefte": "ambulanter Pflegedienst inhabergeführt",
+    # Erweiterung 06.09.2026 (Claude, 5.000-Leads-Auftrag)
+    "friseure": "Friseursalon inhabergeführt",
+    "physiotherapeuten": "Physiotherapie Praxis",
+    "ergotherapeuten": "Ergotherapie Praxis",
+    "logopaeden": "Logopädie Praxis",
+    "osteopathen": "Osteopathie Praxis",
+    "fusspflege": "Fußpflege Podologie",
+    "taetowierer": "Tattoostudio",
+    "fotografen": "Fotograf Fotostudio",
+    "goldschmiede": "Goldschmied Schmuckwerkstatt",
+    "hundefriseure": "Hundefriseur Hundesalon",
+    "hundetrainer": "Hundetrainer Hundeschule",
+    "tierheilpraktiker": "Tierheilpraktiker",
+    "immobilienmakler": "Immobilienmakler",
+    "handwerksmeister": "Meisterbetrieb Handwerk",
 }
 
 STAEDTE = [

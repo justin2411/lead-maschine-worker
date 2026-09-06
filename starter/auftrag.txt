@@ -1,6 +1,33 @@
-# Welle 2 · 06.09.2026 15:15 · Claude 5.000-Auftrag (Welle 1 durch: Tagesmutter/Lehrer/Yoga roh=0)
-anreicherung.yml;branche=Kosmetikerin;limit=0
-anreicherung.yml;branche=Kosmetikerin;limit=0
+# Welle 3 · 06.09.2026 15:45 · Claude 5.000-Auftrag — Fokus auf gut laufende Zielgruppen
+# (Pool-Statistik 90 Tage: Tagesmutter 84 % geholt / 4,6 % Termine, Hebamme 72 % / 2,4 %,
+#  danach Ernährungsberater, Heilpraktiker, Doula, Yogalehrer, Osteopath, Hundetrainer).
+# Neue Methode 1: Karten-Lauf (D-092, freigegeben 30.08., bisher nie genutzt) — 20 Städte je Lauf, gedrosselt.
+suchlauf.yml;branche=tagesmuetter;quellen=maps;suchlauf_id=82e4d6a9-baa3-4151-9d22-699f94bcc375;limit=0;maps_ab=0
+suchlauf.yml;branche=hebammen;quellen=maps;suchlauf_id=2f72bcb4-9dc6-4914-ad8e-63254deaf2fc;limit=0;maps_ab=0
+suchlauf.yml;branche=doulas;quellen=maps;suchlauf_id=fd77395d-1a99-4d69-98c0-c9204ed21b29;limit=0;maps_ab=0
+suchlauf.yml;branche=yogalehrer;quellen=maps;suchlauf_id=049a60c1-99de-43eb-8d0f-a4704db3c454;limit=0;maps_ab=0
+suchlauf.yml;branche=ernaehrungsberater;quellen=maps;suchlauf_id=5d3e75de-3701-4fdb-a2fe-d24348f94cc0;limit=0;maps_ab=0
+suchlauf.yml;branche=heilpraktiker;quellen=maps;suchlauf_id=a4ac4f25-e567-458f-824b-7c0f33d15735;limit=0;maps_ab=0
+suchlauf.yml;branche=osteopathen;quellen=maps;suchlauf_id=8a83544d-3eba-46b1-b2d1-a0717fac1748;limit=0;maps_ab=0
+suchlauf.yml;branche=hundetrainer;quellen=maps;suchlauf_id=bcf41c85-0f0a-44c4-82bc-f042088ca262;limit=0;maps_ab=0
+# Neue Methode 2: OSM-Regeln der Top-Gruppen verbreitert (mehr Tags + Namensmuster) → Nachlese
+suchlauf.yml;branche=tagesmuetter;quellen=osm;suchlauf_id=4ca86bfe-1d3e-441b-b56b-213b078db01e;limit=0
+suchlauf.yml;branche=hebammen;quellen=osm;suchlauf_id=29545c2b-dfba-41c8-8872-642840ebf6b4;limit=0
+suchlauf.yml;branche=yogalehrer;quellen=osm;suchlauf_id=349f9224-4cff-4470-b98e-c6ba940a94bd;limit=0
+suchlauf.yml;branche=ernaehrungsberater;quellen=osm;suchlauf_id=f5598812-eb0d-44d4-8a2e-50922f5aebf0;limit=0
+suchlauf.yml;branche=doulas;quellen=osm;suchlauf_id=50ddaba3-94b8-4734-a148-6d99b0bf976e;limit=0
+suchlauf.yml;branche=heilpraktiker;quellen=osm;suchlauf_id=a1f9ccfc-9b2b-4583-8f34-303d84b362b7;limit=0
+# Neue OSM-Zielgruppen mit Pool-Nachfrage (Hundetrainer 58 % geholt, Osteopath 39 %; Therapie-Praxen nah dran)
+suchlauf.yml;branche=osteopathen;quellen=osm;suchlauf_id=8a8ff5d4-8de0-4ade-a04f-a302935fd467;limit=0
+suchlauf.yml;branche=hundetrainer;quellen=osm;suchlauf_id=15005b71-1975-4b55-8e1d-38e87d897971;limit=0
+suchlauf.yml;branche=hundefriseure;quellen=osm;suchlauf_id=5c016fc7-a5b5-4c03-bbac-70dc548b25d3;limit=0
+suchlauf.yml;branche=physiotherapeuten;quellen=osm;suchlauf_id=4a89d12b-6106-4eb0-9e64-901c37558584;limit=0
+suchlauf.yml;branche=ergotherapeuten;quellen=osm;suchlauf_id=4a4830f5-5c02-4589-8759-b9f43156fb27;limit=0
+suchlauf.yml;branche=logopaeden;quellen=osm;suchlauf_id=287102f1-a734-485b-aca5-b62c145d4913;limit=0
+suchlauf.yml;branche=fusspflege;quellen=osm;suchlauf_id=7250840a-4cec-451f-b496-089144cfbf99;limit=0
+suchlauf.yml;branche=tierheilpraktiker;quellen=osm;suchlauf_id=034d00b7-d5f0-481f-9048-13730bb62885;limit=0
+# Anreicherung nachlegen: Heilpraktiker (gute Gruppe, roh 596), Kosmetikerin als Füller (roh 7.229, Quote nur 12 %)
 anreicherung.yml;branche=Heilpraktiker;limit=0
-anreicherung.yml;branche=Pflegefachkraft;limit=0
-anreicherung.yml;branche=Hebamme;limit=0
+anreicherung.yml;branche=Heilpraktiker;limit=0
+anreicherung.yml;branche=Kosmetikerin;limit=0
+anreicherung.yml;branche=Kosmetikerin;limit=0
