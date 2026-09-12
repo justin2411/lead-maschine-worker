@@ -1,38 +1,28 @@
-# 12.09.2026 18:35 - Neustart nach App-Zeitueberschreitungen + Welle 9
-# Welle 9: neun nie per OSM abgefragte Gruppen in EINEM Lauf (Sparmodus, D-109)
-suchlauf.yml;branche=friseure,handwerksmeister,immobilienmakler,business_coaches,lehrer_selbststaendig,pflegefachkraefte,fotografen,taetowierer,goldschmiede;quellen=osm;suchlauf_id=30484458-7371-4c92-8244-d6c4f4e3562f,830bc5c6-a637-4a74-86e7-4d84517ec294,da3f438b-bd70-4e67-9aa1-cdf55e3f2f1b,8c1c161c-c972-4472-a10a-b59b619614f5,6d16fa34-be88-48ab-b15f-f8de729e2167,9eeb1736-fa5b-484c-95f2-df2adba07a65,49085853-d162-4fcf-8363-524d76d6a259,ac5b20c3-ddef-4d97-812a-1bdae48f3e36,7af6d743-84d2-4a7b-8a0b-a268f205e771;limit=0
-# Welle 10: 13 Anreicherungen, die an der App-Last abgebrochen sind (Rest-Firmen noch 'roh')
-anreicherung.yml;suchlauf_id=5d6330a6-15e5-4bf1-b153-469c38349b54;limit=0;kette=2
-anreicherung.yml;suchlauf_id=3df10ab8-2097-4897-8940-43ff5fbec695;limit=0;kette=2
-anreicherung.yml;suchlauf_id=f9040856-b1e4-4f5c-8631-fffc0f918e41;limit=0;kette=2
-anreicherung.yml;suchlauf_id=e0b883d4-2a39-4d57-9b62-d2a2af6b751b;limit=0;kette=2
-anreicherung.yml;suchlauf_id=98b496e1-e0c6-40b4-8c93-8a2ff56d5f11;limit=0;kette=2
-anreicherung.yml;suchlauf_id=5b3fa5f5-de93-4686-91fb-1767c900d49d;limit=0;kette=2
-anreicherung.yml;suchlauf_id=c0a8c1f8-c610-4bb5-9345-b68ba56ba0cd;limit=0;kette=2
-anreicherung.yml;suchlauf_id=59f894f2-ad97-4e50-9675-8a7e2304a4ae;limit=0;kette=2
-anreicherung.yml;suchlauf_id=7856dcb3-1b29-43c8-a7e1-26d41339a71d;limit=0;kette=2
-anreicherung.yml;suchlauf_id=a1b751db-85c5-4357-bbc4-67dc0b121f7a;limit=0;kette=2
-anreicherung.yml;suchlauf_id=1762ec77-f9cc-4f0c-8799-d4781b35811a;limit=0;kette=2
-anreicherung.yml;suchlauf_id=a29cb31f-d650-4535-8bc9-c382ef22701d;limit=0;kette=2
-anreicherung.yml;suchlauf_id=5e325f5e-2dd3-4ced-99cb-66c6cf94ad07;limit=0;kette=2
-# Welle 11: 20 Namens-Nachlauf-Portionen, die abgebrochen sind (9.383 Firmen noch 'roh')
-anreicherung.yml;suchlauf_id=074a41c7-1114-43e0-a7f0-fcab69fe5892;limit=0;kette=3
-anreicherung.yml;suchlauf_id=e0457b8a-510d-4cc1-b767-d1ee18c0a4b2;limit=0;kette=3
-anreicherung.yml;suchlauf_id=0aa6e79e-bbb1-4bc7-b790-b7ec5dbb02d5;limit=0;kette=3
-anreicherung.yml;suchlauf_id=7ee81710-2ce9-442f-9e05-c38d2c222533;limit=0;kette=3
-anreicherung.yml;suchlauf_id=9c3d27a0-6b66-4a27-899f-d149744f2df1;limit=0;kette=3
-anreicherung.yml;suchlauf_id=5e0c97e0-af55-4e9b-b65c-1c1a63b90110;limit=0;kette=3
-anreicherung.yml;suchlauf_id=72dd27bf-2457-4c29-9392-198012f6960e;limit=0;kette=3
-anreicherung.yml;suchlauf_id=46d5889b-c711-47d0-a840-c6638fa6c577;limit=0;kette=3
-anreicherung.yml;suchlauf_id=97927aba-bbf8-4783-a305-eb2f56ce6124;limit=0;kette=3
-anreicherung.yml;suchlauf_id=d47489ff-f495-4d3e-ba26-3c0ee42628c2;limit=0;kette=3
-anreicherung.yml;suchlauf_id=1fb42d2a-1b26-4596-b5a1-a453c6dc9bd3;limit=0;kette=3
-anreicherung.yml;suchlauf_id=7e816b98-69b3-4f0a-b2b3-5504151d466f;limit=0;kette=3
-anreicherung.yml;suchlauf_id=6f81df03-0751-4755-a96a-2e9f4d4f1643;limit=0;kette=3
-anreicherung.yml;suchlauf_id=65414cc1-79c4-4be0-89ae-5a658bdbfdea;limit=0;kette=3
-anreicherung.yml;suchlauf_id=f30f6281-7f27-405c-a513-5c7948885dd8;limit=0;kette=3
-anreicherung.yml;suchlauf_id=10332179-041e-4e0c-b3c8-a236577f2ba4;limit=0;kette=3
-anreicherung.yml;suchlauf_id=e349c2ed-62f6-4444-b8e6-4454a37aed3a;limit=0;kette=3
-anreicherung.yml;suchlauf_id=3fb613d4-b39e-4058-a53d-918914eb8e87;limit=0;kette=3
-anreicherung.yml;suchlauf_id=2f41ad38-c618-45e7-af71-774894a47ed8;limit=0;kette=3
-anreicherung.yml;suchlauf_id=524acc9b-447a-44f6-8b64-e6bd70ca5731;limit=0;kette=3
+# 12.09.2026 19:00 - Anreicherung fuer alles, was noch 'roh' ist
+# Welle 9 Friseur (6.143 Firmen, OSM) - Kette 13 x 500
+anreicherung.yml;suchlauf_id=30484458-7371-4c92-8244-d6c4f4e3562f;limit=0;kette=13
+# Sammlung 10.000 (Overpass-Sammler vom 11.09., 1.265 Firmen)
+anreicherung.yml;suchlauf_id=1828030f-4587-444a-9d0a-7c29dc79eb76;limit=0;kette=3
+# Welle 10: 17 Laeufe, deren Anreicherungs-Schritt nicht lief (Karten-Schritt an der App-Last gescheitert)
+anreicherung.yml;suchlauf_id=a25c172d-a6f6-40bc-96be-a781c40ca841;limit=0;kette=2
+anreicherung.yml;suchlauf_id=3ac5b933-121b-48aa-b5ff-012c5d3cc091;limit=0;kette=2
+anreicherung.yml;suchlauf_id=415dedd0-b673-488b-a4db-9edceabf0467;limit=0;kette=2
+anreicherung.yml;suchlauf_id=663be6fb-5147-4ecb-94cd-b191ecd3ca7a;limit=0;kette=2
+anreicherung.yml;suchlauf_id=4ead1f23-7d18-4eb2-8aca-ac07140c6db9;limit=0;kette=2
+anreicherung.yml;suchlauf_id=eaacd0fd-03db-4dff-bca7-66f3c00aef22;limit=0;kette=2
+anreicherung.yml;suchlauf_id=6709d43f-84d1-4938-8f16-ca9313c133a7;limit=0;kette=2
+anreicherung.yml;suchlauf_id=a5a2a41e-c913-4b6c-b86d-eb10c8548de2;limit=0;kette=2
+anreicherung.yml;suchlauf_id=832038b6-e908-47f3-a593-b662a3f26e99;limit=0;kette=2
+anreicherung.yml;suchlauf_id=ee6a437e-a653-40ca-a8ad-5867ead6904b;limit=0;kette=2
+anreicherung.yml;suchlauf_id=ee2b885f-8db5-4815-a69e-d43d88bf784a;limit=0;kette=2
+anreicherung.yml;suchlauf_id=2ff34bf0-dae0-4c4a-811f-4e6b42d9f7a6;limit=0;kette=2
+anreicherung.yml;suchlauf_id=de410902-9f73-4708-94ad-9aad2da60154;limit=0;kette=2
+anreicherung.yml;suchlauf_id=17fe33f2-6a54-4219-9192-bba18be5b524;limit=0;kette=2
+anreicherung.yml;suchlauf_id=d47edf87-885b-402b-afb6-451337a591a4;limit=0;kette=2
+anreicherung.yml;suchlauf_id=0524d370-1bb2-42b8-a6a8-0fa19724913f;limit=0;kette=2
+anreicherung.yml;suchlauf_id=70f544e3-d2da-406e-8c9d-6810aae415e7;limit=0;kette=2
+# Welle 8 Reste (OSM, fehlgeschlagen)
+anreicherung.yml;suchlauf_id=bd2086f2-935a-4eae-8700-b90e487c8977;limit=0;kette=1
+anreicherung.yml;suchlauf_id=871795c0-30fc-4941-8128-aa7dbd8bbb81;limit=0;kette=1
+anreicherung.yml;suchlauf_id=12ed229b-c5ea-47fd-b094-8e028bb0e9a4;limit=0;kette=1
+anreicherung.yml;suchlauf_id=532a35b0-625a-45f0-b105-9a8d488461f3;limit=0;kette=1
