@@ -296,7 +296,8 @@ def kette(firma: dict) -> dict:
                 geladen += 1
                 if status_code == 200 and html:
                     seiten_html[url] = html
-                    impressum = web.impressum_auslesen(html, ki_abfrage=ki_abfrage)
+                    # Sparmodus (12.09.2026): erst Regeln, KI erst nach dem Lexikon-Finder (6b)
+                    impressum = web.impressum_auslesen(html, ki_abfrage=None)
                     if impressum.get("nachname"):
                         break
             if impressum:
@@ -355,6 +356,28 @@ def kette(firma: dict) -> dict:
                 module["6b_namensfinder"] = "kein Name"
         except Exception as ex:  # noqa: BLE001
             module["6b_namensfinder"] = f"fehler: {ex}"
+
+    # 6c · KI-Nachschlag NUR wenn Regeln und Lexikon leer blieben — spart
+    # rund zwei Drittel der KI-Aufrufe (Sparmodus, Justin 12.09.2026:
+    # Guthaben knapp). Nimmt die schon geladenen Impressum-/Kontakt-Seiten.
+    if website and web_lebt is not False and seiten_html and not any(k.get("name") for k in kontakte) \
+       and os.environ.get("ANTHROPIC_API_KEY") and not KI_STATUS["aus"]:
+        try:
+            for url, html in list(seiten_html.items())[:2]:
+                imp_ki = web.impressum_auslesen(html, ki_abfrage=ki_abfrage)
+                if imp_ki.get("nachname"):
+                    kontakte.append({
+                        "name": f'{imp_ki.get("vorname", "")} {imp_ki["nachname"]}'.strip(),
+                        "rolle": imp_ki.get("rolle") or "", "email": imp_ki.get("email") or "",
+                        "telefon": imp_ki.get("telefon") or "", "quelle": "impressum",
+                    })
+                    if imp_ki.get("email") and not email_alt and not felder.get("email"):
+                        felder["email"] = imp_ki["email"]
+                    module["6c_ki_name"] = "ok"
+                    break
+            module.setdefault("6c_ki_name", "kein Name")
+        except Exception as ex:  # noqa: BLE001
+            module["6c_ki_name"] = f"fehler: {ex}"
     module.setdefault("7_ki_analyse", "uebersprungen")
     module["9_zweitquellen"] = "konflikt" if konflikte else "ok"
 
@@ -405,7 +428,10 @@ def abschluss(module, diff, felder, kontakte, konflikte, verworfen_grund, start,
         module["10_final"] = "verworfen"
     else:
         ki = None
-        if os.environ.get("ANTHROPIC_API_KEY"):
+        # Sparmodus (12.09.2026): Die KI-Ampel kostete einen Aufruf je Firma und
+        # lieferte fast nur „gelb". Die Übernahme entscheidet ohnehin nach
+        # Name + Telefon (Pool-Regeln). Nur mit ANREICHERUNG_KI_AMPEL=1 aktiv.
+        if os.environ.get("ANTHROPIC_API_KEY") and os.environ.get("ANREICHERUNG_KI_AMPEL", "0") == "1":
             try:
                 ki = ki_abfrage(
                     "Du prüfst einen angereicherten Firmen-Lead (deutsche Solo-/Kleinbetriebe, "
