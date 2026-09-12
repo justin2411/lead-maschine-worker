@@ -14,13 +14,13 @@ on:
   workflow_dispatch:
     inputs:
       branche:
-        description: "Branchen-Schlüssel aus worker/branchen.py (Pflicht)"
+        description: "Branchen-Schlüssel aus worker/branchen.py — mehrere per Komma (spart den 4-GB-Download je Lauf)"
         required: true
       quellen:
         description: "Komma-Liste der Quellen (M2: nur osm)"
         default: "osm"
       suchlauf_id:
-        description: "fabrik2_suchlaeufe-Zeile in der App (für Trichter/Förderband)"
+        description: "fabrik2_suchlaeufe-Zeile je Branche, gleiche Reihenfolge (Komma)"
         required: true
       limit:
         description: "max. gemeldete Treffer (0 = alle)"

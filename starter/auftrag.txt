@@ -1,3 +1,6 @@
-# Probelauf 12.09.2026: nur pruefen, ob GitHub Actions wieder Jobs startet.
-# Keine Auftragszeilen -> der Starter laeuft leer durch, verbraucht also
-# nur Sekunden statt Runner-Minuten.
+# Welle 8 · 12.09.2026 · sparsam nach dem Actions-Ausfall
+# EIN Lauf für 18 Zielgruppen statt 18 Läufe: der 4-GB-Geofabrik-Download
+# und der osmium-Vorfilter kosten ~15 Min, der Scan je Branche nur ~1 Min.
+# Am 06.09. hat ein Lauf je Branche das Monatskontingent an einem Tag
+# aufgebraucht — das hier kostet rund 35 statt 470 Minuten.
+suchlauf.yml;branche=hebammen,tagesmuetter,doulas,yogalehrer,ernaehrungsberater,heilpraktiker,kosmetikerin,osteopathen,hundetrainer,hundefriseure,fusspflege,tierheilpraktiker,fotografen,taetowierer,goldschmiede,logopaeden,ergotherapeuten,physiotherapeuten;quellen=osm;suchlauf_id=d0ff6da0-4f4f-4cfd-b480-b5d0c5c85a22,871795c0-30fc-4941-8128-aa7dbd8bbb81,cc015fcf-2e88-40bc-945b-0792cb998c90,532a35b0-625a-45f0-b105-9a8d488461f3,5153e77b-98d6-429f-9c9f-a6ef1c620f62,12ed229b-c5ea-47fd-b094-8e028bb0e9a4,bd2086f2-935a-4eae-8700-b90e487c8977,9d30427d-32ec-4fe1-8bfc-9d4ec02aafa2,c2c5dacc-d43a-4e24-b970-11fe002c2033,0ef1284b-a34f-4aad-a681-e7634d9f65db,f1adab5b-481d-4cce-bfd1-8697678a0764,140bc397-ea0e-4835-bfb6-dfeb126efbfb,c4590c39-ae3f-4f70-826f-c4b58433cab1,c29ccd3e-7b81-4f4b-a2b9-58550fea899e,3e5ef38a-8865-46b6-bbef-e8fe6179fcf6,f31833c4-a1f7-4530-b90c-5043acb1c3d3,0a40f412-08ae-4468-b79d-a95e33ca965c,a720c593-d3dc-4203-bde5-b83f9722d970;limit=0

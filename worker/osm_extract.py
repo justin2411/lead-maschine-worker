@@ -258,9 +258,15 @@ def scanne(poi_datei: str, branche: dict, limit: int, client: AppClient):
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="OSM-Extract-Suchlauf (Fabrik 2, M2)")
-    parser.add_argument("--branche", required=True, help=f"eine von: {', '.join(BRANCHEN)}")
+    # Mehrere Branchen je Lauf (12.09.2026): der 4-GB-Download und der
+    # osmium-Vorfilter kosten ~15 Minuten, der Scan je Branche nur ~1. Ein
+    # Lauf pro Branche hat am 06.09. das Actions-Monatskontingent an einem
+    # Tag aufgebraucht. Komma-Liste spart den Faktor 10.
+    parser.add_argument("--branche", required=True,
+                        help=f"eine oder mehrere (Komma) von: {', '.join(BRANCHEN)}")
     parser.add_argument("--quellen", default="osm", help="Komma-Liste; hier zählt nur 'osm'")
-    parser.add_argument("--suchlauf-id", required=True)
+    parser.add_argument("--suchlauf-id", required=True,
+                        help="eine ID je Branche, gleiche Reihenfolge (Komma)")
     parser.add_argument("--limit", type=int, default=0, help="max. gemeldete Treffer (0 = alle)")
     parser.add_argument("--arbeitsordner", default=os.environ.get("RUNNER_TEMP", "/tmp"))
     args = parser.parse_args()
@@ -271,36 +277,49 @@ def main() -> int:
         log("FEHLER: APP_URL und WORKER_TOKEN müssen gesetzt sein (Repo-Secrets).")
         return 1
 
-    if args.branche not in BRANCHEN:
-        log(f"FEHLER: unbekannte Branche '{args.branche}'. Bekannt: {', '.join(BRANCHEN)}")
+    branchen = [b.strip() for b in args.branche.split(",") if b.strip()]
+    ids = [i.strip() for i in args.suchlauf_id.split(",") if i.strip()]
+    unbekannt = [b for b in branchen if b not in BRANCHEN]
+    if unbekannt:
+        log(f"FEHLER: unbekannte Branche(n) {', '.join(unbekannt)}. Bekannt: {', '.join(BRANCHEN)}")
+        return 1
+    if len(ids) != len(branchen):
+        log(f"FEHLER: {len(branchen)} Branchen, aber {len(ids)} Suchlauf-IDs — muss gleich sein.")
         return 1
     if "osm" not in [q.strip() for q in args.quellen.split(",") if q.strip()]:
         log("Quelle 'osm' nicht angefordert — nichts zu tun.")
         return 0
 
-    client = AppClient(app_url, token, args.suchlauf_id)
-    branche = BRANCHEN[args.branche]
     extract = os.path.join(args.arbeitsordner, "germany-latest.osm.pbf")
     poi_datei = os.path.join(args.arbeitsordner, "poi-vorauswahl.osm.pbf")
+    clients = [AppClient(app_url, token, i) for i in ids]
 
     try:
-        client.melde_bericht({"stufen": {}}, "laeuft")
+        for c in clients:
+            c.melde_bericht({"stufen": {}}, "laeuft")
+        # Einmal laden und vorfiltern — danach jede Branche über dieselbe
+        # POI-Vorauswahl scannen.
         lade_extract(extract)
         vorfilter(extract, poi_datei)
         os.remove(extract)  # 4 GB sofort freigeben, die Vorauswahl reicht
-        stufen, verluste = scanne(poi_datei, branche, args.limit, client)
-        client.melde_bericht(
-            {"stufen": stufen, "verluste_worker": verluste, "name_quelle": {"osm": stufen["gemeldet"]}},
-            "fertig",
-        )
-        log("Suchlauf fertig gemeldet.")
+        for name, client in zip(branchen, clients):
+            log(f"── Branche {name} ({branchen.index(name)+1}/{len(branchen)})")
+            stufen, verluste = scanne(poi_datei, BRANCHEN[name], args.limit, client)
+            client.melde_bericht(
+                {"stufen": stufen, "verluste_worker": verluste, "name_quelle": {"osm": stufen["gemeldet"]}},
+                "fertig",
+            )
+        log(f"Suchlauf fertig gemeldet ({len(branchen)} Branchen in einem Lauf).")
         return 0
     except Exception as ex:  # noqa: BLE001 — Fehler ehrlich an die App melden
         log(f"FEHLER im Suchlauf: {ex}")
-        try:
-            client.melde_bericht({}, "fehlgeschlagen", quellen_fehler=[{"quelle": "osm", "fehler": str(ex)[:500]}])
-        except Exception as melde_ex:  # noqa: BLE001
-            log(f"Fehlerbericht selbst fehlgeschlagen: {melde_ex}")
+        # Jede Branche des Laufs bekommt ihren eigenen Fehlerbericht, sonst
+        # bleiben die anderen Suchlauf-Zeilen ewig auf "laeuft" stehen.
+        for c in clients:
+            try:
+                c.melde_bericht({}, "fehlgeschlagen", quellen_fehler=[{"quelle": "osm", "fehler": str(ex)[:500]}])
+            except Exception as melde_ex:  # noqa: BLE001
+                log(f"Fehlerbericht selbst fehlgeschlagen: {melde_ex}")
         return 1
 
 
