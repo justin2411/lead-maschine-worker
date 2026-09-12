@@ -1,68 +1,32 @@
-# Welle 10 · 12.09.2026 · Karten-Laeufe Staedte 1-20 fuer 63 Zielgruppen
-# (51 neue Karten-Zielgruppen mit hohem Handy-Anteil + 12 Gruppen, die nie
-# ueber Maps liefen). Anreicherung laeuft direkt mit (Justin: 'duerfen auch
-# schon angereichert werden, brauch die Montag fuers Team').
-# Karten-Laeufe laden keinen Geofabrik-Extract; parallel zu Welle 7/8.
-suchlauf.yml;branche=personal_trainer;quellen=maps;suchlauf_id=be68a409-2647-45b6-b2a5-2c339d8f4a00;limit=0;maps_ab=0
-suchlauf.yml;branche=pilates;quellen=maps;suchlauf_id=559a8014-6292-4c5c-b388-cbdd832359fb;limit=0;maps_ab=0
-suchlauf.yml;branche=nageldesign;quellen=maps;suchlauf_id=157dfc0b-070f-4d63-9188-d50a2dc67835;limit=0;maps_ab=0
-suchlauf.yml;branche=wimpern_pmu;quellen=maps;suchlauf_id=da73ccf9-3cba-4c1b-80ad-ae34a942b52e;limit=0;maps_ab=0
-suchlauf.yml;branche=mobile_kosmetik;quellen=maps;suchlauf_id=6bc3b5e9-2a4a-4bcc-b0eb-d99656cbcf4e;limit=0;maps_ab=0
-suchlauf.yml;branche=make_up_artist;quellen=maps;suchlauf_id=327a3043-ef4a-4f0a-b1ec-7b24b35509a0;limit=0;maps_ab=0
-suchlauf.yml;branche=mobile_fusspflege;quellen=maps;suchlauf_id=e673f9f6-5af7-4b83-9875-3a4e27255ac3;limit=0;maps_ab=0
-suchlauf.yml;branche=mobile_friseure;quellen=maps;suchlauf_id=926082ed-67e5-4ae4-a27f-341381b3fd0d;limit=0;maps_ab=0
-suchlauf.yml;branche=barbiere;quellen=maps;suchlauf_id=6442f2f7-460e-4307-b8f2-d7aa8b45a039;limit=0;maps_ab=0
-suchlauf.yml;branche=masseure;quellen=maps;suchlauf_id=7aa9fab1-7422-444c-a810-8fa1b82dedf4;limit=0;maps_ab=0
-suchlauf.yml;branche=hochzeitsplaner;quellen=maps;suchlauf_id=03cca4bf-5d05-4645-a6e4-ed647d503e1f;limit=0;maps_ab=0
-suchlauf.yml;branche=freie_redner;quellen=maps;suchlauf_id=2e41e19c-77b4-4cad-816b-a816d4a4d460;limit=0;maps_ab=0
-suchlauf.yml;branche=trauerredner;quellen=maps;suchlauf_id=9a12434f-25d0-4fe0-8377-eedf51389679;limit=0;maps_ab=0
-suchlauf.yml;branche=hochzeitsfotografen;quellen=maps;suchlauf_id=a29cb31f-d650-4535-8bc9-c382ef22701d;limit=0;maps_ab=0
-suchlauf.yml;branche=djs;quellen=maps;suchlauf_id=927b5540-ce90-4268-a313-a6fcbea263d4;limit=0;maps_ab=0
-suchlauf.yml;branche=musiklehrer;quellen=maps;suchlauf_id=00dc3f92-e340-430e-986f-970646a2b33d;limit=0;maps_ab=0
-suchlauf.yml;branche=nachhilfe;quellen=maps;suchlauf_id=d88826ae-1a64-433e-8de0-0f76f7742cff;limit=0;maps_ab=0
-suchlauf.yml;branche=sprachlehrer;quellen=maps;suchlauf_id=1d032f30-cc06-438f-b2cb-29703d9d4274;limit=0;maps_ab=0
-suchlauf.yml;branche=lerntherapeuten;quellen=maps;suchlauf_id=988837f1-e8b4-41ee-a92f-2c8c3006c56e;limit=0;maps_ab=0
-suchlauf.yml;branche=hp_psychotherapie;quellen=maps;suchlauf_id=b333b2dc-1fda-419f-b7ce-4f964a46c67f;limit=0;maps_ab=0
-suchlauf.yml;branche=hypnose;quellen=maps;suchlauf_id=35107004-ebde-4067-b0cf-e41957cf8289;limit=0;maps_ab=0
-suchlauf.yml;branche=mentalcoaches;quellen=maps;suchlauf_id=262659cb-487b-473f-b198-318798d60c74;limit=0;maps_ab=0
-suchlauf.yml;branche=karrierecoaches;quellen=maps;suchlauf_id=2dccc794-4098-4766-83fa-67d774df0bdc;limit=0;maps_ab=0
-suchlauf.yml;branche=stillberaterinnen;quellen=maps;suchlauf_id=3c217324-9b51-4ba5-b94d-6f376c50f059;limit=0;maps_ab=0
-suchlauf.yml;branche=trageberatung;quellen=maps;suchlauf_id=1aac5518-6647-4fce-bafd-a571d002998f;limit=0;maps_ab=0
-suchlauf.yml;branche=hebammen_praxis;quellen=maps;suchlauf_id=852d305f-82b1-4c4e-a86f-1d7a00f430d0;limit=0;maps_ab=0
-suchlauf.yml;branche=kindertagespflege;quellen=maps;suchlauf_id=78f2353e-eebf-4676-b9a4-9d5bc1158e33;limit=0;maps_ab=0
-suchlauf.yml;branche=abnehmcoach;quellen=maps;suchlauf_id=d8865a0a-f30d-4075-bc9d-a371429b0272;limit=0;maps_ab=0
-suchlauf.yml;branche=chiropraktiker;quellen=maps;suchlauf_id=9a855bb2-0ad1-41b3-80f6-668c78146f1c;limit=0;maps_ab=0
-suchlauf.yml;branche=tierphysio;quellen=maps;suchlauf_id=63dfac8c-1448-42ec-970f-7ea32ebcd44e;limit=0;maps_ab=0
-suchlauf.yml;branche=hundesitter;quellen=maps;suchlauf_id=5f12c055-2f13-4353-bdaf-bd3e051245c8;limit=0;maps_ab=0
-suchlauf.yml;branche=reitlehrer;quellen=maps;suchlauf_id=fe739cc8-f141-4f8b-86e5-65c5ec29cf3a;limit=0;maps_ab=0
-suchlauf.yml;branche=hufschmiede;quellen=maps;suchlauf_id=fbf7fb25-f377-4b22-926e-0a4ae3754af1;limit=0;maps_ab=0
-suchlauf.yml;branche=kfz_gutachter;quellen=maps;suchlauf_id=a1b751db-85c5-4357-bbc4-67dc0b121f7a;limit=0;maps_ab=0
-suchlauf.yml;branche=uebersetzer;quellen=maps;suchlauf_id=5e325f5e-2dd3-4ced-99cb-66c6cf94ad07;limit=0;maps_ab=0
-suchlauf.yml;branche=webdesigner;quellen=maps;suchlauf_id=1762ec77-f9cc-4f0c-8799-d4781b35811a;limit=0;maps_ab=0
-suchlauf.yml;branche=grafikdesigner;quellen=maps;suchlauf_id=98b496e1-e0c6-40b4-8c93-8a2ff56d5f11;limit=0;maps_ab=0
-suchlauf.yml;branche=virtuelle_assistenz;quellen=maps;suchlauf_id=608442bb-d652-4bf0-ae47-a26e0d790d7d;limit=0;maps_ab=0
-suchlauf.yml;branche=gartenpflege;quellen=maps;suchlauf_id=59f894f2-ad97-4e50-9675-8a7e2304a4ae;limit=0;maps_ab=0
-suchlauf.yml;branche=hausmeisterservice;quellen=maps;suchlauf_id=7856dcb3-1b29-43c8-a7e1-26d41339a71d;limit=0;maps_ab=0
-suchlauf.yml;branche=reinigungsservice;quellen=maps;suchlauf_id=5d6330a6-15e5-4bf1-b153-469c38349b54;limit=0;maps_ab=0
-suchlauf.yml;branche=seniorenassistenz;quellen=maps;suchlauf_id=f9040856-b1e4-4f5c-8631-fffc0f918e41;limit=0;maps_ab=0
-suchlauf.yml;branche=schneiderinnen;quellen=maps;suchlauf_id=e0b883d4-2a39-4d57-9b62-d2a2af6b751b;limit=0;maps_ab=0
-suchlauf.yml;branche=piercer;quellen=maps;suchlauf_id=5b3fa5f5-de93-4686-91fb-1767c900d49d;limit=0;maps_ab=0
-suchlauf.yml;branche=handwerk_elektro;quellen=maps;suchlauf_id=3df10ab8-2097-4897-8940-43ff5fbec695;limit=0;maps_ab=0
-suchlauf.yml;branche=handwerk_maler;quellen=maps;suchlauf_id=415dedd0-b673-488b-a4db-9edceabf0467;limit=0;maps_ab=0
-suchlauf.yml;branche=handwerk_fliesen;quellen=maps;suchlauf_id=a25c172d-a6f6-40bc-96be-a781c40ca841;limit=0;maps_ab=0
-suchlauf.yml;branche=handwerk_dach;quellen=maps;suchlauf_id=6709d43f-84d1-4938-8f16-ca9313c133a7;limit=0;maps_ab=0
-suchlauf.yml;branche=handwerk_shk;quellen=maps;suchlauf_id=c0a8c1f8-c610-4bb5-9345-b68ba56ba0cd;limit=0;maps_ab=0
-suchlauf.yml;branche=handwerk_tischler;quellen=maps;suchlauf_id=663be6fb-5147-4ecb-94cd-b191ecd3ca7a;limit=0;maps_ab=0
-suchlauf.yml;branche=handwerk_raum;quellen=maps;suchlauf_id=3ac5b933-121b-48aa-b5ff-012c5d3cc091;limit=0;maps_ab=0
-suchlauf.yml;branche=business_coaches;quellen=maps;suchlauf_id=d47edf87-885b-402b-afb6-451337a591a4;limit=0;maps_ab=0
-suchlauf.yml;branche=kosmetikerin;quellen=maps;suchlauf_id=4ead1f23-7d18-4eb2-8aca-ac07140c6db9;limit=0;maps_ab=0
-suchlauf.yml;branche=lehrer_selbststaendig;quellen=maps;suchlauf_id=70f544e3-d2da-406e-8c9d-6810aae415e7;limit=0;maps_ab=0
-suchlauf.yml;branche=friseure;quellen=maps;suchlauf_id=ee2b885f-8db5-4815-a69e-d43d88bf784a;limit=0;maps_ab=0
-suchlauf.yml;branche=fusspflege;quellen=maps;suchlauf_id=0524d370-1bb2-42b8-a6a8-0fa19724913f;limit=0;maps_ab=0
-suchlauf.yml;branche=taetowierer;quellen=maps;suchlauf_id=17fe33f2-6a54-4219-9192-bba18be5b524;limit=0;maps_ab=0
-suchlauf.yml;branche=fotografen;quellen=maps;suchlauf_id=ee6a437e-a653-40ca-a8ad-5867ead6904b;limit=0;maps_ab=0
-suchlauf.yml;branche=goldschmiede;quellen=maps;suchlauf_id=eaacd0fd-03db-4dff-bca7-66f3c00aef22;limit=0;maps_ab=0
-suchlauf.yml;branche=hundefriseure;quellen=maps;suchlauf_id=2ff34bf0-dae0-4c4a-811f-4e6b42d9f7a6;limit=0;maps_ab=0
-suchlauf.yml;branche=tierheilpraktiker;quellen=maps;suchlauf_id=de410902-9f73-4708-94ad-9aad2da60154;limit=0;maps_ab=0
-suchlauf.yml;branche=immobilienmakler;quellen=maps;suchlauf_id=a5a2a41e-c913-4b6c-b86d-eb10c8548de2;limit=0;maps_ab=0
-suchlauf.yml;branche=handwerksmeister;quellen=maps;suchlauf_id=832038b6-e908-47f3-a593-b662a3f26e99;limit=0;maps_ab=0
+# Welle 11 · 12.09.2026 · Namens-Nachlauf (Lexikon, ohne KI) ueber 13.908 gelbe
+# Firmen mit Website + Telefon, aber ohne Ansprechpartner (5.548 mit Handy).
+# Firmen wurden per SQL auf 27 Portions-Suchlaeufe verteilt und auf 'roh' gesetzt;
+# kette=2 faengt den Rest ueber dem 500er-Deckel je Portion ab.
+# (Welle 10 wurde bereits angestossen - nicht erneut aufnehmen!)
+anreicherung.yml;suchlauf_id=074a41c7-1114-43e0-a7f0-fcab69fe5892;limit=0;kette=2
+anreicherung.yml;suchlauf_id=e0457b8a-510d-4cc1-b767-d1ee18c0a4b2;limit=0;kette=2
+anreicherung.yml;suchlauf_id=0aa6e79e-bbb1-4bc7-b790-b7ec5dbb02d5;limit=0;kette=2
+anreicherung.yml;suchlauf_id=7ee81710-2ce9-442f-9e05-c38d2c222533;limit=0;kette=2
+anreicherung.yml;suchlauf_id=9c3d27a0-6b66-4a27-899f-d149744f2df1;limit=0;kette=2
+anreicherung.yml;suchlauf_id=5e0c97e0-af55-4e9b-b65c-1c1a63b90110;limit=0;kette=2
+anreicherung.yml;suchlauf_id=72dd27bf-2457-4c29-9392-198012f6960e;limit=0;kette=2
+anreicherung.yml;suchlauf_id=46d5889b-c711-47d0-a840-c6638fa6c577;limit=0;kette=2
+anreicherung.yml;suchlauf_id=97927aba-bbf8-4783-a305-eb2f56ce6124;limit=0;kette=2
+anreicherung.yml;suchlauf_id=d47489ff-f495-4d3e-ba26-3c0ee42628c2;limit=0;kette=2
+anreicherung.yml;suchlauf_id=1fb42d2a-1b26-4596-b5a1-a453c6dc9bd3;limit=0;kette=2
+anreicherung.yml;suchlauf_id=7e816b98-69b3-4f0a-b2b3-5504151d466f;limit=0;kette=2
+anreicherung.yml;suchlauf_id=6f81df03-0751-4755-a96a-2e9f4d4f1643;limit=0;kette=2
+anreicherung.yml;suchlauf_id=65414cc1-79c4-4be0-89ae-5a658bdbfdea;limit=0;kette=2
+anreicherung.yml;suchlauf_id=f30f6281-7f27-405c-a513-5c7948885dd8;limit=0;kette=2
+anreicherung.yml;suchlauf_id=10332179-041e-4e0c-b3c8-a236577f2ba4;limit=0;kette=2
+anreicherung.yml;suchlauf_id=e349c2ed-62f6-4444-b8e6-4454a37aed3a;limit=0;kette=2
+anreicherung.yml;suchlauf_id=3fb613d4-b39e-4058-a53d-918914eb8e87;limit=0;kette=2
+anreicherung.yml;suchlauf_id=2f41ad38-c618-45e7-af71-774894a47ed8;limit=0;kette=2
+anreicherung.yml;suchlauf_id=524acc9b-447a-44f6-8b64-e6bd70ca5731;limit=0;kette=2
+anreicherung.yml;suchlauf_id=f9fbba20-1f39-400d-ae70-f378a68247c9;limit=0;kette=2
+anreicherung.yml;suchlauf_id=98f5ce22-1cfa-4d59-862c-12dd44e5d66a;limit=0;kette=2
+anreicherung.yml;suchlauf_id=2927393f-79a1-4d8b-a47e-fb3cdaa3db3b;limit=0;kette=2
+anreicherung.yml;suchlauf_id=a5af4418-00e7-4972-8af5-0cbaea14130c;limit=0;kette=2
+anreicherung.yml;suchlauf_id=0c809d5b-8406-4aa4-95c7-db846ee792e5;limit=0;kette=2
+anreicherung.yml;suchlauf_id=035e2a94-e70b-476b-9919-486ec7d5caa1;limit=0;kette=2
+anreicherung.yml;suchlauf_id=33c706c7-8851-448c-9c90-47f378d9f78e;limit=0;kette=2
