@@ -38,6 +38,8 @@ from concurrent.futures import ThreadPoolExecutor
 
 from leadkern import drossel, email as lk_email, normalisierung, web
 
+from namen import namens_nachlauf
+
 USER_AGENT = "LeadMaschine2-Suchlauf/1.0 (+https://github.com/justin2411/lead-maschine-worker)"
 PARALLEL = 5
 MELDE_TAKT = 20
@@ -115,11 +117,16 @@ class App:
 # ── KI-Anbindung (Modul 7 + 10) — ohne Key sauber übersprungen ───────
 _ki_lock = threading.Lock()
 KI_CALLS = {"n": 0}  # Kostenanzeige (D-088): jede Abfrage zählt
+# Seit 06.09.2026 antwortete die API auf JEDEN Aufruf mit HTTP 400 (27.043
+# Fehlversuche an einem Tag), ohne dass es jemand sah. Jetzt: Fehlertext
+# einmal ins Log, und bei Konto-/Kontingentfehlern (400/401/402/403) wird
+# die KI für den Rest des Laufs abgeschaltet statt 500-mal zu scheitern.
+KI_STATUS = {"aus": False, "grund": ""}
 
 
 def ki_abfrage(prompt: str) -> dict | None:
     key = os.environ.get("ANTHROPIC_API_KEY", "").strip()
-    if not key:
+    if not key or KI_STATUS["aus"]:
         return None
     with _ki_lock:
         KI_CALLS["n"] += 1
@@ -131,8 +138,23 @@ def ki_abfrage(prompt: str) -> dict | None:
         "https://api.anthropic.com/v1/messages", data=body, method="POST",
         headers={"x-api-key": key, "anthropic-version": "2023-06-01",
                  "content-type": "application/json"})
-    with urllib.request.urlopen(req, timeout=60) as antwort:
-        text = json.loads(antwort.read().decode())["content"][0]["text"]
+    try:
+        with urllib.request.urlopen(req, timeout=60) as antwort:
+            text = json.loads(antwort.read().decode())["content"][0]["text"]
+    except urllib.error.HTTPError as e:
+        detail = ""
+        try:
+            detail = e.read().decode(errors="replace")[:300]
+        except Exception:  # noqa: BLE001
+            pass
+        with _ki_lock:
+            if not KI_STATUS["grund"]:
+                KI_STATUS["grund"] = f"HTTP {e.code}: {detail}"
+                log(f"  KI-FEHLER (erster): HTTP {e.code} — {detail}")
+            if e.code in (400, 401, 402, 403):
+                KI_STATUS["aus"] = True
+                log("  KI für diesen Lauf abgeschaltet (Konto-/Anfragefehler) — Regeln laufen weiter.")
+        raise
     # Array (Extraktion, D-089) oder Objekt (Module 7/10)
     m = re.search(r"\[\s*\{.*\}\s*\]", text, re.DOTALL) or re.search(r"\{.*\}", text, re.DOTALL)
     return json.loads(m.group(0)) if m else None
@@ -261,6 +283,7 @@ def kette(firma: dict) -> dict:
     module["5_url_check"] = "ok" if web_lebt else ("fehler" if website and web_lebt is False else "ohne Website")
 
     # 6+7 · Impressum laden + auslesen (KI optional)
+    seiten_html: dict[str, str] = {}
     if website and web_lebt is not False:
         try:
             imp_url = web.impressum_finden(website, hole=hole)
@@ -272,6 +295,7 @@ def kette(firma: dict) -> dict:
                 status_code, html = hole(url, timeout=10)
                 geladen += 1
                 if status_code == 200 and html:
+                    seiten_html[url] = html
                     impressum = web.impressum_auslesen(html, ki_abfrage=ki_abfrage)
                     if impressum.get("nachname"):
                         break
@@ -310,6 +334,27 @@ def kette(firma: dict) -> dict:
             module["6_website_auslesen"] = f"fehler: {ex}"
     else:
         module["6_website_auslesen"] = "ohne Website"
+
+    # 6b · Namens-Finder ohne KI (12.09.2026, 100.000-Leads-Auftrag):
+    # Kein Nachname aus dem Impressum → Vornamen-Lexikon über Impressum,
+    # Kontakt, Über-mich, Datenschutz. Ohne Personenname kein Lead (D-035),
+    # und genau daran scheiterten 70 % der Karten-Treffer.
+    if website and web_lebt is not False and not any(k.get("name") for k in kontakte):
+        try:
+            treffer, geprueft = namens_nachlauf(website, seiten_html, hole)
+            diff["namensfinder_seiten"] = len(geprueft)
+            if treffer:
+                kontakte.append({
+                    "name": f'{treffer["vorname"]} {treffer["nachname"]}'.strip(),
+                    "rolle": "Inhaber/in (Lexikon)", "email": "", "telefon": "",
+                    "quelle": "website",
+                })
+                diff["namensfinder_score"] = treffer["score"]
+                module["6b_namensfinder"] = "ok (lexikon)"
+            else:
+                module["6b_namensfinder"] = "kein Name"
+        except Exception as ex:  # noqa: BLE001
+            module["6b_namensfinder"] = f"fehler: {ex}"
     module.setdefault("7_ki_analyse", "uebersprungen")
     module["9_zweitquellen"] = "konflikt" if konflikte else "ok"
 
@@ -379,6 +424,8 @@ def abschluss(module, diff, felder, kontakte, konflikte, verworfen_grund, start,
                     }, ensure_ascii=False))
             except Exception as ex:  # noqa: BLE001
                 module["10_final"] = f"ki_fehler: {ex}"
+        elif KI_STATUS["aus"]:
+            module["ki"] = f"aus: {KI_STATUS['grund'][:120]}"
         if ki and ki.get("ampel") in ("gruen", "gelb", "rot"):
             ampel = ki["ampel"]
             diff["ampel_grund"] = str(ki.get("grund") or "")[:300]
