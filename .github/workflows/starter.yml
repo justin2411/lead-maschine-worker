@@ -15,7 +15,7 @@ permissions:
 jobs:
   dispatch:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - name: Aufträge anstoßen
@@ -32,6 +32,6 @@ jobs:
             for kv in "${teile[@]:1}"; do args+=(-f "$kv"); done
             echo "→ $wf ${args[*]}"
             if gh workflow run "$wf" --ref main "${args[@]}"; then n=$((n+1)); else echo "::warning::Dispatch fehlgeschlagen: $line"; fi
-            sleep 4
+            sleep 2
           done < starter/auftrag.txt
           echo "## Starter: $n Läufe angestoßen" >> "$GITHUB_STEP_SUMMARY"
