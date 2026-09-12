@@ -28,6 +28,7 @@ Kosten-Deckel: ANREICHERUNG_MAX_PRO_LAUF (Default 500).
 import argparse
 import json
 import os
+import random
 import re
 import sys
 import threading
@@ -41,7 +42,7 @@ from leadkern import drossel, email as lk_email, normalisierung, web
 from namen import namens_nachlauf
 
 USER_AGENT = "LeadMaschine2-Suchlauf/1.0 (+https://github.com/justin2411/lead-maschine-worker)"
-PARALLEL = 5
+PARALLEL = 3  # 12.09.2026: 5 -> 3, damit 40 parallele Läufe die App nicht überlasten
 MELDE_TAKT = 20
 KI_MODELL = "claude-haiku-4-5-20251001"
 
@@ -82,14 +83,19 @@ class App:
             f"{self.basis}{pfad}", data=daten, method=methode,
             headers={"Authorization": f"Bearer {self.token}",
                      "Content-Type": "application/json", "User-Agent": USER_AGENT})
+        # Robust gegen Lastspitzen der App (12.09.2026: bei 40 parallelen
+        # Läufen antwortete Vercel minutenlang mit Zeitüberschreitung und
+        # 33 Läufe brachen ab): 8 Versuche, Backoff bis 60 s mit Zufallsanteil.
         letzte = None
-        for versuch in range(4):
+        for versuch in range(8):
             try:
-                with urllib.request.urlopen(req, timeout=60) as antwort:
+                with urllib.request.urlopen(req, timeout=90) as antwort:
                     return json.loads(antwort.read().decode())
             except Exception as ex:  # noqa: BLE001
                 letzte = ex
-                time.sleep(2 ** (versuch + 1))
+                wartezeit = min(60, 3 * 2 ** versuch) + random.uniform(0, 5)
+                log(f"  {methode} {pfad} fehlgeschlagen ({ex}) — Versuch {versuch + 2}/8 in {wartezeit:.0f}s")
+                time.sleep(wartezeit)
         raise RuntimeError(f"{methode} {pfad} endgültig fehlgeschlagen: {letzte}")
 
     def arbeit(self, suchlauf_id: str, firma_id: str, limit: int, branche: str = "") -> list[dict]:
@@ -533,7 +539,13 @@ def main() -> int:
                 "ergebnis_diff": {}, "felder": {}, "kontakte": [],
                 "ampel": "gelb", "verworfen_grund": "", "dauer_ms": 0,
             }
-        app.ergebnis(ergebnis)
+        try:
+            app.ergebnis(ergebnis)
+        except Exception as ex:  # noqa: BLE001 — Meldung gescheitert: Firma bleibt 'roh', nächste Runde holt sie
+            log(f"  MELDUNG gescheitert für '{firma.get('name')}': {ex}")
+            with lock:
+                zaehler["melde_fehler"] = zaehler.get("melde_fehler", 0) + 1
+            return
         with lock:
             zaehler["fertig"] += 1
             if ergebnis["verworfen_grund"]:

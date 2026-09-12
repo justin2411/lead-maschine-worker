@@ -26,6 +26,7 @@ WORKER_TOKEN (Bearer für die beiden Fabrik-2-Endpunkte).
 import argparse
 import json
 import os
+import random
 import re
 import subprocess
 import sys
@@ -140,14 +141,14 @@ class AppClient:
             method="POST",
         )
         letzte_ex = None
-        for versuch in range(4):
+        for versuch in range(8):  # 12.09.2026: 4 -> 8, Backoff bis 60 s (App-Lastspitzen)
             try:
-                with urllib.request.urlopen(req, timeout=60) as antwort:
+                with urllib.request.urlopen(req, timeout=90) as antwort:
                     return json.loads(antwort.read().decode("utf-8"))
             except Exception as ex:  # noqa: BLE001 — Netz-Fehler tolerieren, mit Backoff
                 letzte_ex = ex
-                wartezeit = 2 ** (versuch + 1)
-                log(f"  POST {pfad} fehlgeschlagen ({ex}) — neuer Versuch in {wartezeit}s")
+                wartezeit = min(60, 3 * 2 ** versuch) + random.uniform(0, 5)
+                log(f"  POST {pfad} fehlgeschlagen ({ex}) — Versuch {versuch + 2}/8 in {wartezeit:.0f}s")
                 time.sleep(wartezeit)
         raise RuntimeError(f"POST {pfad} endgültig fehlgeschlagen: {letzte_ex}")
 
@@ -181,14 +182,32 @@ def scanne(poi_datei: str, branche: dict, limit: int, client: AppClient):
     paket = []
     limit_erreicht = False
 
+    geparkt: list[list] = []  # Pakete, die die App auch nach 8 Versuchen nicht annahm
+
     def sende_paket():
         if not paket:
             return
-        antwort = client.melde_paket(paket)
-        log(f"  Paket gemeldet: neu {antwort.get('neu', '?')}, "
-            f"dublette {antwort.get('dublette', '?')}, "
-            f"blacklist {antwort.get('blacklist', '?')}")
+        try:
+            antwort = client.melde_paket(paket)
+            log(f"  Paket gemeldet: neu {antwort.get('neu', '?')}, "
+                f"dublette {antwort.get('dublette', '?')}, "
+                f"blacklist {antwort.get('blacklist', '?')}")
+        except RuntimeError as ex:
+            # Lauf NICHT abbrechen (12.09.2026: so gingen 10 von 18 Branchen verloren) —
+            # Paket parken, am Ende noch einmal versuchen
+            log(f"  Paket geparkt ({ex})")
+            geparkt.append(list(paket))
         paket.clear()
+
+    def geparkte_nachreichen():
+        for p in list(geparkt):
+            try:
+                antwort = client.melde_paket(p)
+                log(f"  Geparktes Paket nachgereicht: neu {antwort.get('neu', '?')}")
+                geparkt.remove(p)
+            except RuntimeError as ex:
+                log(f"  Geparktes Paket endgültig verloren ({len(p)} Treffer): {ex}")
+                verluste["melde_fehler"] = verluste.get("melde_fehler", 0) + len(p)
 
     class Handler(osmium.SimpleHandler):
         def _pruefe(self, obj, osm_typ: str):
@@ -252,6 +271,9 @@ def scanne(poi_datei: str, branche: dict, limit: int, client: AppClient):
     start = time.time()
     Handler().apply_file(poi_datei)
     sende_paket()
+    if geparkt:
+        time.sleep(30)
+        geparkte_nachreichen()
     log(f"Scan fertig in {time.time() - start:.0f}s: {json.dumps(stufen)} / Verluste {json.dumps(verluste)}")
     return stufen, verluste
 

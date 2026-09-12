@@ -166,13 +166,30 @@ def lese_quelle(key: str, limit: int, client: App, suchlauf_id: str,
     besucht: set[str] = set()
     zielgruppe = rezept["zielgruppe"]
 
+    geparkt: list[list] = []  # Pakete, die die App auch nach 8 Versuchen nicht annahm
+
     def sende_paket() -> None:
         if not paket:
             return
-        antwort = client._req("POST", "/api/fabrik2/import-treffer",
-                              {"suchlauf_id": suchlauf_id, "treffer": list(paket)})
-        log(f"  Paket gemeldet: neu {antwort.get('neu', '?')}, dublette {antwort.get('dublette', '?')}")
+        try:
+            antwort = client._req("POST", "/api/fabrik2/import-treffer",
+                                  {"suchlauf_id": suchlauf_id, "treffer": list(paket)})
+            log(f"  Paket gemeldet: neu {antwort.get('neu', '?')}, dublette {antwort.get('dublette', '?')}")
+        except RuntimeError as ex:
+            log(f"  Paket geparkt ({ex})")  # Lauf läuft weiter, Nachreichen am Ende
+            geparkt.append(list(paket))
         paket.clear()
+
+    def geparkte_nachreichen() -> None:
+        if geparkt:
+            time.sleep(30)
+        for p in list(geparkt):
+            try:
+                client._req("POST", "/api/fabrik2/import-treffer", {"suchlauf_id": suchlauf_id, "treffer": p})
+                geparkt.remove(p)
+                log("  Geparktes Paket nachgereicht")
+            except RuntimeError as ex:
+                log(f"  Geparktes Paket endgültig verloren ({len(p)} Treffer): {ex}")
 
     while warteschlange and len(besucht) < rezept["max_seiten"]:
         if limit and stufen["gemeldet"] >= limit:
@@ -251,6 +268,7 @@ def lese_quelle(key: str, limit: int, client: App, suchlauf_id: str,
             if len(paket) >= PAKET_GROESSE:
                 sende_paket()
     sende_paket()
+    geparkte_nachreichen()
 
 
 def main() -> int:
