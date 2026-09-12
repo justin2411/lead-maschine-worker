@@ -35,7 +35,7 @@ on:
 jobs:
   suchlauf:
     runs-on: ubuntu-latest
-    timeout-minutes: 150
+    timeout-minutes: 330  # 12.09.2026: Welle 9 (9 OSM-Gruppen, 22.800 Friseur-Treffer) lief in 150 min ins Messer
     steps:
       - uses: actions/checkout@v5
 
