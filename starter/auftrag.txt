@@ -1,32 +1,22 @@
-# Welle 13 · 12.09.2026 19:30 · 30 weitere Zielgruppen, Staedte 1-20 (Breite statt Tiefe)
-# Justin: 'nicht nur Friseure, wir brauchen viele Zielgruppen'
-suchlauf.yml;branche=mobile_physio;quellen=maps;suchlauf_id=2767a76c-0925-4d6b-9573-d3ccdf2d251f;limit=0;maps_ab=0
-suchlauf.yml;branche=mobile_ergo;quellen=maps;suchlauf_id=8efb5a8e-211e-473d-bc70-34de4c1667f7;limit=0;maps_ab=0
-suchlauf.yml;branche=mobile_logo;quellen=maps;suchlauf_id=a77db432-0115-45ae-b275-e2339ae44e1c;limit=0;maps_ab=0
-suchlauf.yml;branche=kinderbetreuung;quellen=maps;suchlauf_id=34060f53-78a0-4a4e-8fd5-9f2d37b02c0c;limit=0;maps_ab=0
-suchlauf.yml;branche=tanzlehrer;quellen=maps;suchlauf_id=bbbfbb17-d4ea-43f8-8711-c60022b036bd;limit=0;maps_ab=0
-suchlauf.yml;branche=kampfsport;quellen=maps;suchlauf_id=340310bd-7b57-4505-a33d-a6711f605a47;limit=0;maps_ab=0
-suchlauf.yml;branche=schwimmlehrer;quellen=maps;suchlauf_id=f3875f73-e169-45d5-8392-2da17ff13d5a;limit=0;maps_ab=0
-suchlauf.yml;branche=golf_tennis;quellen=maps;suchlauf_id=a51dc74f-d51a-413d-960b-726738f84ceb;limit=0;maps_ab=0
-suchlauf.yml;branche=ernaehrung_kinder;quellen=maps;suchlauf_id=1c8eb44b-0de1-4c85-b2dc-efce54adcd0d;limit=0;maps_ab=0
-suchlauf.yml;branche=psych_berater;quellen=maps;suchlauf_id=df21049a-5fa5-4fb7-a328-d3cd421035a8;limit=0;maps_ab=0
-suchlauf.yml;branche=paarberater;quellen=maps;suchlauf_id=ecf92534-d9eb-493a-b626-89c0c82a980d;limit=0;maps_ab=0
-suchlauf.yml;branche=mediatoren;quellen=maps;suchlauf_id=2530c842-c586-48a3-89ad-fa87e34f5411;limit=0;maps_ab=0
-suchlauf.yml;branche=videografen;quellen=maps;suchlauf_id=5062fd6e-1dfd-46c1-8ae4-2b63913a1497;limit=0;maps_ab=0
-suchlauf.yml;branche=texter;quellen=maps;suchlauf_id=6ac1ec4b-eba9-4953-a661-9489c8e20ae6;limit=0;maps_ab=0
-suchlauf.yml;branche=illustratoren;quellen=maps;suchlauf_id=a812120a-d164-4bde-b2d8-1484692cfee7;limit=0;maps_ab=0
-suchlauf.yml;branche=buchhalter;quellen=maps;suchlauf_id=fa458e9f-f0fc-40b4-ac7c-d6319fbea328;limit=0;maps_ab=0
-suchlauf.yml;branche=ordnungscoach;quellen=maps;suchlauf_id=c0334633-f29c-4134-b080-34cca61035f8;limit=0;maps_ab=0
-suchlauf.yml;branche=fahrradmechaniker;quellen=maps;suchlauf_id=5b9ef8e2-14d5-4ce8-a8b9-3b6f767a270e;limit=0;maps_ab=0
-suchlauf.yml;branche=autopflege;quellen=maps;suchlauf_id=7c3d001d-9834-4cbd-b8b2-42b914abee70;limit=0;maps_ab=0
-suchlauf.yml;branche=schluesseldienst;quellen=maps;suchlauf_id=5701d745-7bf6-4fb0-8b35-1cf8aa5bab1c;limit=0;maps_ab=0
-suchlauf.yml;branche=umzugshelfer;quellen=maps;suchlauf_id=678fa8d4-4774-4f4b-84b2-2f14b921ad5f;limit=0;maps_ab=0
-suchlauf.yml;branche=kinderfotografen;quellen=maps;suchlauf_id=15c86a53-46fb-452c-af86-164f7f61120a;limit=0;maps_ab=0
-suchlauf.yml;branche=tierfotografen;quellen=maps;suchlauf_id=1ece2ac7-9871-4efb-8eb8-ddae20dcf8fd;limit=0;maps_ab=0
-suchlauf.yml;branche=musiker;quellen=maps;suchlauf_id=330f1d4a-5b8f-4d63-886b-993be8bd53e6;limit=0;maps_ab=0
-suchlauf.yml;branche=kinderanimation;quellen=maps;suchlauf_id=e601e345-3b79-400d-a6a0-ea1236624b54;limit=0;maps_ab=0
-suchlauf.yml;branche=floristen;quellen=maps;suchlauf_id=c7809317-690d-48a7-97d9-53475e3ff625;limit=0;maps_ab=0
-suchlauf.yml;branche=catering_solo;quellen=maps;suchlauf_id=026b49e2-938d-4823-bb91-d6dd438c00b6;limit=0;maps_ab=0
-suchlauf.yml;branche=kindersport;quellen=maps;suchlauf_id=97e35244-a5b9-462d-9cb0-6430a21f4883;limit=0;maps_ab=0
-suchlauf.yml;branche=tierpsychologen;quellen=maps;suchlauf_id=cd6c7d99-cd26-463e-bd72-d33480ea6646;limit=0;maps_ab=0
-suchlauf.yml;branche=pferdetrainer;quellen=maps;suchlauf_id=1181ff17-d460-4610-adee-a16bb2f50a74;limit=0;maps_ab=0
+# 12.09.2026 20:30 - Friseur-Anreicherung (Welle 9, 19.939 rohe Firmen) auf 20 Portionen parallel
+# statt einer Kette; alle anderen Gruppen sind angereichert (roh = 0).
+anreicherung.yml;suchlauf_id=eda66fd0-eda0-4b08-88b9-4a31380c4bb3;limit=0;kette=2
+anreicherung.yml;suchlauf_id=4c212192-3b45-4e01-8cfe-c1b293b01bf5;limit=0;kette=2
+anreicherung.yml;suchlauf_id=23c7340d-eeb8-4380-9fa8-ab010285bc65;limit=0;kette=2
+anreicherung.yml;suchlauf_id=91851d44-5a9b-45a1-b84a-d8981ee71bd3;limit=0;kette=2
+anreicherung.yml;suchlauf_id=0e395392-ff80-43ba-bfbf-0afc648f9467;limit=0;kette=2
+anreicherung.yml;suchlauf_id=450588f2-b0e8-412d-9900-2d5831530c17;limit=0;kette=2
+anreicherung.yml;suchlauf_id=6d480862-a191-4c71-8bf2-4c6bf4367c70;limit=0;kette=2
+anreicherung.yml;suchlauf_id=51d48d08-0301-4968-a6e2-1e479ad632e4;limit=0;kette=2
+anreicherung.yml;suchlauf_id=9639a496-5f81-453c-a6a0-95fbd67e2915;limit=0;kette=2
+anreicherung.yml;suchlauf_id=f4040f10-16f9-402f-a160-5a481e0a785a;limit=0;kette=2
+anreicherung.yml;suchlauf_id=599b8ad7-713d-4e15-a278-8784a693a370;limit=0;kette=2
+anreicherung.yml;suchlauf_id=bb9fb1fb-a45d-41fd-a0cd-56cc7dc91036;limit=0;kette=2
+anreicherung.yml;suchlauf_id=64c3b61c-1b4e-4214-8c9a-a77e2cadf022;limit=0;kette=2
+anreicherung.yml;suchlauf_id=5febde8c-78fd-4ca9-8313-01c0605e00e9;limit=0;kette=2
+anreicherung.yml;suchlauf_id=b9cb2fa6-2694-4028-ac1c-7c0b492f18c3;limit=0;kette=2
+anreicherung.yml;suchlauf_id=4172f0b0-8bd9-4480-8f1e-8c417572ba15;limit=0;kette=2
+anreicherung.yml;suchlauf_id=3011430a-e028-4e0a-a4d5-b19e8a0e9fd8;limit=0;kette=2
+anreicherung.yml;suchlauf_id=f1074d22-d834-4080-b482-9785a0567c37;limit=0;kette=2
+anreicherung.yml;suchlauf_id=7e9a4168-7f5d-42bf-928e-48730f255f95;limit=0;kette=2
+anreicherung.yml;suchlauf_id=5116f114-eac6-413b-b691-8dbe6cd721dc;limit=0;kette=2
