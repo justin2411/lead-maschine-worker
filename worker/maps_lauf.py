@@ -63,9 +63,15 @@ def main() -> int:
         return 0
 
     begriff = BEGRIFFE.get(args.branche, args.branche)
+    name_sperre = None
     try:
         from branchen import BRANCHEN
         zielgruppe = BRANCHEN.get(args.branche, {}).get("beruf", args.branche)
+        # Ketten-/Institutions-/Solo-Sperre der Branche (D-099) schon beim
+        # Einsammeln anwenden — spart Anreicherung für Nicht-Solo-Betriebe
+        import re as _re
+        _muster = BRANCHEN.get(args.branche, {}).get("name_sperre") or ""
+        name_sperre = _re.compile(_muster, _re.IGNORECASE) if _muster else None
     except Exception:  # noqa: BLE001
         zielgruppe = args.branche
 
@@ -75,7 +81,7 @@ def main() -> int:
     staedte = STAEDTE[ab:ab + max_staedte]
 
     stufen = {"queries": len(staedte), "roh": 0, "gemeldet": 0, "mit_handy": 0}
-    verluste = {"portal": 0, "ohne_name": 0, "ohne_schluessel": 0, "doppelt_im_lauf": 0}
+    verluste = {"portal": 0, "name_sperre": 0, "ohne_name": 0, "ohne_schluessel": 0, "doppelt_im_lauf": 0}
     gesehen: set[str] = set()
     paket: list[dict] = []
 
@@ -140,6 +146,9 @@ def main() -> int:
                     continue
                 if PORTAL_DOMAINS.search(website) or vorfilter.ist_institution({"name": name, "website": website}):
                     verluste["portal"] += 1
+                    continue
+                if name_sperre is not None and name_sperre.search(name):
+                    verluste["name_sperre"] += 1
                     continue
                 schluessel = normalisierung.telefon(telefon)["key"] or f"{name.lower()}|{plz}"
                 if schluessel in gesehen:

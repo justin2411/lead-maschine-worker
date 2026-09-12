@@ -168,3 +168,83 @@ BRANCHEN = {
         "name_sperre": r"gmbh|\bag\b|&\s?co|\bkg\b|\bohg\b|\bug\b|stadtwerke|e\.\s?v\.|innung|bauunternehm|baugesellschaft|energieversorg|filiale|gmbh|\bug\b|zentrum|reha\b|kollegen|partner|praxisgemeinschaft|gemeinschaftspraxis|klinik|krankenhaus|mvz|institut|akademie|verein|ambulan|förder|sozialstation|caritas|diakonie|\bawo\b|\bdrk\b|malteser|johanniter",
     },
 }
+
+
+# ── Erweiterung 12.09.2026 (Claude, 100.000-Leads-Auftrag) ──────────────
+# Zielgruppen für den Karten-Lauf (D-092) mit hohem Handy-Anteil: Solo-
+# Dienstleister ohne Ladengeschäft/Praxis, oft nur per Mobilnummer
+# erreichbar. Beruf-Labels sind bestehende CRM-Berufe (lib/pool-nachschub.ts),
+# wo es sie gibt. tag_filter leer = nur Karten-Lauf, kein OSM-Scan.
+# Die Solo-Sperre (D-099) hängt automatisch an jeder name_sperre.
+SOLO_SPERRE = (
+    r"gmbh|\bug\b|\bag\b|\bkg\b|\bohg\b|zentrum|reha\b|kollegen|partner|"
+    r"praxisgemeinschaft|gemeinschaftspraxis|klinik|krankenhaus|\bmvz\b|institut|"
+    r"akademie|verein|e\.\s?v\.|ambulan|förder|sozialstation|caritas|diakonie|"
+    r"\bawo\b|\bdrk\b|malteser|johanniter|stadt\b|gemeinde|landkreis|kreis\b"
+)
+
+KARTEN_ZIELGRUPPEN = {
+    # key: (Beruf-Label, name_regex, zusätzliche Sperre)
+    "personal_trainer":   ("Personal Trainer", r"personal\s?train|fitness\s?coach|fitness\s?trainer", r"mcfit|clever\s?fit|fitx|fitness\s?first|john\s?reed|kieser|injoy|easyfitness|bodystreet"),
+    "pilates":            ("Yogalehrer", r"pilates|yoga", r"mcfit|clever\s?fit|fitx|fitness\s?first"),
+    "nageldesign":        ("Nageldesignerin", r"nagel|nail", r""),
+    "wimpern_pmu":        ("Kosmetikerin", r"wimpern|lash|permanent|microblading|brow", r"douglas|rossmann"),
+    "mobile_kosmetik":    ("Kosmetikerin", r"kosmetik|beauty", r"douglas|rossmann|parfümerie"),
+    "make_up_artist":     ("Make-up-Artist", r"make-?up|visagist|styling", r"douglas|rossmann"),
+    "mobile_fusspflege":  ("Fußpflegerin", r"fu(ß|ss)pflege|podolog", r"sanitätshaus"),
+    "mobile_friseure":    ("Friseur", r"friseur|fris[öo]r|haar|hair", r"klier|essanelle|super\s?cut|hair\s?express|hairkiller|top\s?hair"),
+    "barbiere":           ("Friseur", r"barber|barbier|herrenfriseur", r"klier|essanelle|super\s?cut"),
+    "masseure":           ("Masseur", r"massage|masseur", r"thai\s?massage\s?gmbh|wellness\s?hotel|\bspa\b|therme|hotel"),
+    "hochzeitsplaner":    ("Hochzeitsplaner", r"hochzeit|wedding", r""),
+    "freie_redner":       ("Freier Redner", r"redner|rednerin|trauredner|zeremonie", r"standesamt|kirche|pfarr"),
+    "trauerredner":       ("Trauerredner", r"trauerredner|trauerrednerin|trauerbegleit", r"bestattung|bestatter|friedhof|kirche|pfarr"),
+    "hochzeitsfotografen":("Hochzeitsfotograf", r"fotograf|photograph", r"cewe|pixum|picture\s?people|studioline|\bdm\b|rossmann"),
+    "djs":                ("DJ", r"\bdj\b|discjockey", r"agentur\s?gmbh|club|diskothek|disco\b"),
+    "musiklehrer":        ("Musiklehrer", r"unterricht|musiklehrer|klavier|gitarre|gesang", r"musikschule\s+der\s+stadt|städtisch|kreismusikschule|vhs|volkshochschule|yamaha|music\s?store|thomann"),
+    "nachhilfe":          ("Nachhilfelehrer", r"nachhilfe|lernhilfe|einzelunterricht", r"schülerhilfe|studienkreis|abacus|lernstudio\s?barbarossa|mini-?lernkreis|vhs|volkshochschule"),
+    "sprachlehrer":       ("Sprachlehrer", r"sprach|deutsch|englisch|spanisch|französisch|italienisch", r"berlitz|inlingua|vhs|volkshochschule|goethe|sprachschule\s?gmbh|wall\s?street"),
+    "lerntherapeuten":    ("Lerntherapeut", r"lerntherap|legasthenie|dyskalkulie", r"schülerhilfe|studienkreis"),
+    "hp_psychotherapie":  ("Heilpraktiker für Psychotherapie", r"psychotherap|heilpraktik|psycholog", r"psychologische[r]?\s+psychotherapeut|ärztlich|kassensitz|\bdr\.\s?med|facharzt|psychiater"),
+    "hypnose":            ("Hypnosecoach", r"hypnos", r"schule|ausbildung"),
+    "mentalcoaches":      ("Mentalcoach", r"mental|coach", r"schule|ausbildung|\bicf\b|dbvc"),
+    "karrierecoaches":    ("Life-/Business-Coach", r"coach|beratung|bewerbung", r"schule|ausbildung|\bicf\b|dbvc|arbeitsagentur|jobcenter|ihk"),
+    "stillberaterinnen":  ("Stillberaterin", r"still|laktation|ibclc", r"klinik|krankenhaus"),
+    "trageberatung":      ("Trageberaterin", r"trage|babymassage|baby", r"klinik|krankenhaus|familienzentrum|familienbildung"),
+    "hebammen_praxis":    ("Hebamme", r"hebamme|wochenbett|geburt", r"klinik|krankenhaus|geburtshaus\s+team"),
+    "kindertagespflege":  ("Tagesmutter", r"tagespflege|tagesmutter|tagesvater|tageskind|tagesmama", r"kita|kindergarten|krippe|hort|ggmbh|elterninitiative"),
+    "abnehmcoach":        ("Ernährungsberater", r"ern[äa]hrung|abnehm|di[äa]t|gewicht", r"klinik|krankenhaus|krankenkasse|weight\s?watchers|apotheke"),
+    "chiropraktiker":     ("Chiropraktiker", r"chiropra", r"klinik|orthopäd|\bdr\.\s?med|facharzt"),
+    "tierphysio":         ("Tierphysiotherapeut", r"tierphysio|hundephysio|pferdephysio|tierosteo", r"tierklinik|tierarzt|tierärzt"),
+    "hundesitter":        ("Tierpfleger", r"hundesitter|gassi|dogwalk|dog\s?walk|hundebetreuung|tierbetreuung|katzensitter|hundepension|hundetagesstätte", r"tierheim|tierschutz|gnadenhof"),
+    "reitlehrer":         ("Reitlehrer", r"reit|pferd|horse", r"reiterhof\s?gmbh|reitverein|reit-\s?und\s?fahrverein|gestüt\s?gmbh|landgestüt"),
+    "hufschmiede":        ("Hufschmied", r"huf", r"tierklinik"),
+    "kfz_gutachter":      ("Kfz-Gutachter", r"gutachter|sachverständig|kfz", r"dekra|tüv|gtü|küs|autohaus|werkstatt\s?gmbh"),
+    "uebersetzer":        ("Übersetzer", r"übersetz|dolmetsch|translat", r"gmbh|agentur\s?gmbh|lingua\s?gmbh"),
+    "webdesigner":        ("IT-Freelancer", r"web|design|digital|medien", r"gmbh|agentur\s?gmbh"),
+    "grafikdesigner":     ("Grafikdesigner", r"grafik|design|illustrat", r"gmbh|agentur\s?gmbh|druckerei"),
+    "virtuelle_assistenz":("Virtuelle Assistentin", r"assisten|büroservice|backoffice", r"gmbh"),
+    "gartenpflege":       ("Gärtner", r"garten|grün|baum", r"galabau\s?gmbh|stadt|friedhof|gartencenter|baumarkt|dehner|obi|bauhaus"),
+    "hausmeisterservice": ("Hausmeisterservice", r"hausmeister|haus-?service|kleinreparatur", r"gmbh|facility|wohnungsbau|hausverwaltung"),
+    "reinigungsservice":  ("Reinigungskraft", r"reinigung|putz|haushaltshilfe|fensterputz", r"gebäudereinigung\s?gmbh|facility|gmbh|helpling|book\s?a\s?tiger"),
+    "seniorenassistenz":  ("Seniorenassistent", r"senior|alltagsbegleit|betreuung", r"pflegedienst|caritas|diakonie|awo|drk|gmbh|24\s?stunden|heim|residenz|stift"),
+    "schneiderinnen":     ("Schneiderin", r"schneider|näh|änderung", r"gmbh|c&a|h&m|textilreinigung"),
+    "piercer":            ("Tätowiererin", r"piercing|tattoo", r"gmbh|supply|laser|entfernung"),
+    # Handwerk je Gewerk (Label bleibt „Handwerksmeister")
+    "handwerk_elektro":   ("Handwerksmeister", r"elektro|elektrik", r"stadtwerke|innung|baumarkt|obi|bauhaus|hornbach|toom|energieversorg|netze"),
+    "handwerk_maler":     ("Handwerksmeister", r"maler|lackier", r"innung|baumarkt|obi|bauhaus|hornbach|toom|brillux|caparol"),
+    "handwerk_fliesen":   ("Handwerksmeister", r"fliesen|platten", r"innung|baumarkt|obi|bauhaus|hornbach|toom|fliesenhandel|fliesen\s?discount"),
+    "handwerk_dach":      ("Handwerksmeister", r"dach", r"innung|baumarkt|obi|bauhaus|hornbach|toom|dachbaustoffe"),
+    "handwerk_shk":       ("Handwerksmeister", r"sanitär|heizung|installat|klempner|gas|wasser", r"stadtwerke|innung|baumarkt|obi|bauhaus|hornbach|toom|energieversorg|viessmann|vaillant|buderus"),
+    "handwerk_tischler":  ("Handwerksmeister", r"tischler|schreiner|holz|möbel", r"innung|baumarkt|obi|bauhaus|hornbach|toom|ikea|möbelhaus|xxxlutz|roller|poco"),
+    "handwerk_raum":      ("Handwerksmeister", r"raumausstatt|polster|boden|parkett|tapezier", r"innung|baumarkt|obi|bauhaus|hornbach|toom|ikea|möbelhaus"),
+}
+
+for _key, (_beruf, _regex, _sperre) in KARTEN_ZIELGRUPPEN.items():
+    if _key in BRANCHEN:
+        continue
+    BRANCHEN[_key] = {
+        "beruf": _beruf,
+        "tag_filter": [],
+        "name_regex": _regex,
+        "name_sperre": (f"{_sperre}|" if _sperre else "") + SOLO_SPERRE,
+    }

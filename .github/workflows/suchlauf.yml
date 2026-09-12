@@ -28,6 +28,9 @@ on:
       maps_ab:
         description: "Karten-Lauf: Städte-Versatz in STAEDTE (Folgeläufe decken weitere Städte ab)"
         default: "0"
+      anreichern:
+        description: "Stapel-Anreicherung nach dem Suchlauf (1 = ja, 0 = nur sammeln — Justin 12.09.2026)"
+        default: "1"
 
 jobs:
   suchlauf:
@@ -127,6 +130,7 @@ jobs:
 
       # E-3 = Stapel-Modus Pflicht: nach dem Suchlauf automatisch anreichern
       - name: Stapel-Anreicherung (automatisch, E-3)
+        if: ${{ github.event.inputs.anreichern != '0' }}
         env:
           APP_URL: ${{ secrets.APP_URL }}
           WORKER_TOKEN: ${{ secrets.WORKER_TOKEN }}
