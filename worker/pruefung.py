@@ -61,9 +61,10 @@ KEIN_SOLO_MUSTER = re.compile(
 # Fund 13.09. 12:30: „GmbH", „AG", „Handelsregister", „kg" standen bei 11.000 Leads
 # in Datenschutztexten (Hosting-Anbieter, Google Ireland, „5 kg Honig") — keine
 # Aussage über den Betrieb selbst.
+# e. K. (eingetragener Kaufmann), Handelsregister/HRA und Amtsgericht sind KEIN
+# Ausschluss — das sind gerade die Solo-Selbstständigen (Fund 13.09., 15:30).
 RECHTSFORM_MUSTER = re.compile(
-    r"\b(gmbh|ug\s*\(haftungsbeschränkt\)|ag|ohg|e\.?\s?k\.?|se)\b|&\s*co\.?\s*kg\b|"
-    r"geschäftsführer(in)?:|handelsregister|hrb\s?\d|amtsgericht", re.I)
+    r"\b(gmbh|ug\s*\(haftungsbeschränkt\)|ag|ohg)\b|&\s*co\.?\s*kg\b|geschäftsführer(in)?:|hrb\s?\d", re.I)
 IMPRESSUM_URL = re.compile(r"impressum|imprint|legal|kontakt|about|ueber|über", re.I)
 # Plausibilität Ansprechpartner (Justin 13.09.: „richtigen Namen des AP … kein Quatsch"):
 # Firmen-/Berufsbegriffe, Titel oder Ziffern im Namensfeld → kein Personenname.
@@ -330,6 +331,8 @@ def pruefe(lead: dict) -> dict:
             # Justin 13.09., 12:30: Festnetz-Leads mit sonst sauberen Daten kommen
             # trotzdem in den Pool (Prio B, im Pool hinter dem Festnetz-Schalter).
             checks["festnetz"] = True
+            if not checks["telefon"]:
+                maengel.append("Telefon nicht auf Website")
     elif not checks["telefon"]:
         maengel.append("Handynummer nicht auf Website")
 
