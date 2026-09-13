@@ -1,2 +1,6 @@
-anreicherung.yml;suchlauf_id=001fe07f-dd3c-4e6e-9809-e45314b820ac;limit=0;kette=2
-anreicherung.yml;suchlauf_id=5034e3f7-e871-4d1d-a3c7-09520bf184a4;limit=0;kette=2
+pruefung.yml;limit=300;kette=60
+pruefung.yml;limit=300;kette=60
+pruefung.yml;limit=300;kette=60
+pruefung.yml;limit=300;kette=60
+pruefung.yml;limit=300;kette=60
+pruefung.yml;limit=300;kette=60
