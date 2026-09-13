@@ -47,7 +47,7 @@ from namen import VORNAMEN, html_zu_text, namens_urls  # noqa: E402
 
 VORNAMEN_LEX = {str(v).strip().lower() for v in (VORNAMEN.keys() if isinstance(VORNAMEN, dict) else VORNAMEN)}
 
-USER_AGENT = "lead-maschine-pruefung/1.1"  # Version: die App weist ältere Worker ab (Regel-Updates greifen sofort)
+USER_AGENT = "lead-maschine-pruefung/1.2"  # Version: die App weist ältere Worker ab (Regel-Updates greifen sofort)
 PARALLEL = 8
 MAX_SEITEN = 4
 
@@ -324,7 +324,9 @@ def pruefe(lead: dict) -> dict:
             checks["telefon"] = True
             ist_handy = True
         else:
-            maengel.append("keine Handynummer (nur Festnetz)")
+            # Justin 13.09., 12:30: Festnetz-Leads mit sonst sauberen Daten kommen
+            # trotzdem in den Pool (Prio B, im Pool hinter dem Festnetz-Schalter).
+            checks["festnetz"] = True
     elif not checks["telefon"]:
         maengel.append("Handynummer nicht auf Website")
 
@@ -348,7 +350,7 @@ def pruefe(lead: dict) -> dict:
         else:
             checks["email"] = False
 
-    alles_ok = (checks["name"] is True and checks["telefon"] is True and ist_handy
+    alles_ok = (checks["name"] is True and checks["telefon"] is True
                 and checks["website"] is True and checks["solo"] is True)
     if alles_ok:
         return {"ergebnis": "ok", "text": "geprüft ✓", "checks": checks, "nachtrag": nachtrag}
