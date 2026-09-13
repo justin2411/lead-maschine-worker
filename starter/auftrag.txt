@@ -1,4 +1,4 @@
-# Pruef-Worker Dauerlauf (13.09.2026 16:10): Ketten waren seit 15:15 ausgelaufen, 17.957 Leads in der Rueckhand offen
+# Pruef-Worker 1.3 (13.09.2026 16:40, D-126): zwoelf Dauerlauf-Ketten mit den neuen Regeln
 pruefung.yml;limit=300;kette=3;dauer=300
 pruefung.yml;limit=300;kette=3;dauer=300
 pruefung.yml;limit=300;kette=3;dauer=300
