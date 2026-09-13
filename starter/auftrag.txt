@@ -1,2 +1,2 @@
-# 13.09.2026 21:50: KI-Nachlauf w28ki2 - 320 Welle-28-B/F-Firmen, deren Anreicherung im Guthaben-Loch (21:05-21:24) ohne KI lief
-anreicherung.yml;suchlauf_id=325f0cf7-7ffd-412d-bda7-7bc80dc4479d;limit=0;kette=2
+# 13.09.2026 22:20: D-136 Drossel - nur noch Familie & Geburt. Portion famki = 814 Familie-Firmen (89 roh + 725 aus dem Guthaben-Loch ohne Namen)
+anreicherung.yml;suchlauf_id=3d2053ef-636d-45d2-88de-bc60bf3eb9bd;limit=0;kette=2
