@@ -1,0 +1,65 @@
+name: pruefung
+
+# D-120 (13.09.2026): Prüf-Worker — kontrolliert fertige Fabrik-2-Leads gegen
+# ihre Website (Name, Telefon, E-Mail, fremde Website) und schreibt das
+# Ergebnis nach leads.lead_quality. Ohne KI. Stapel je Lauf, Ketten-Modus
+# wie bei der Anreicherung; die Reservierung steckt in der DB, mehrere
+# Läufe dürfen parallel laufen.
+on:
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "Leads je Lauf (max. 500)"
+        default: "300"
+      kette:
+        description: "Ketten-Runden: erneut starten, solange Leads offen sind (0 = aus)"
+        default: "0"
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  pruefung:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: leadkern installieren
+        env:
+          LEADKERN_TOKEN: ${{ secrets.LEADKERN_TOKEN }}
+        run: |
+          if [ -n "$LEADKERN_TOKEN" ]; then
+            pip install --quiet "leadkern @ git+https://x-access-token:${LEADKERN_TOKEN}@github.com/justin2411/leadkern@main"
+          else
+            pip install --quiet "leadkern @ git+https://github.com/justin2411/leadkern@main"
+          fi
+
+      - name: Leads prüfen
+        id: stapel
+        env:
+          APP_URL: ${{ secrets.APP_URL }}
+          WORKER_TOKEN: ${{ secrets.WORKER_TOKEN }}
+        run: |
+          python worker/pruefung.py --limit "${{ github.event.inputs.limit }}"
+
+      - name: Nächsten Stapel anstoßen
+        if: ${{ steps.stapel.outputs.rest != '0' && github.event.inputs.kette != '0' && github.event.inputs.kette != '' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          rest_runden=$(( ${{ github.event.inputs.kette }} - 1 ))
+          if [ "$rest_runden" -le 0 ]; then
+            echo "Ketten-Runden aufgebraucht — Stopp." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          gh workflow run pruefung.yml --ref "$GITHUB_REF_NAME" \
+            -f limit="${{ github.event.inputs.limit }}" \
+            -f kette="$rest_runden"
+          echo "Kette: nächster Stapel angestoßen ($rest_runden Runden übrig)" >> "$GITHUB_STEP_SUMMARY"
