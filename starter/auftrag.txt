@@ -1,2 +1,9 @@
-# 13.09.2026 22:20: D-136 Drossel - nur noch Familie & Geburt. Portion famki = 814 Familie-Firmen (89 roh + 725 aus dem Guthaben-Loch ohne Namen)
-anreicherung.yml;suchlauf_id=3d2053ef-636d-45d2-88de-bc60bf3eb9bd;limit=0;kette=2
+# 13.09.2026 22:45: Rueckhand weiter pruefen (Justin: kein Thema) - 8 Pruef-Ketten, 5.088 ungeprueft. famki wurde bereits um 22:14 dispatcht (nicht erneut!)
+pruefung.yml;limit=300;kette=3;dauer=300
+pruefung.yml;limit=300;kette=3;dauer=300
+pruefung.yml;limit=300;kette=3;dauer=300
+pruefung.yml;limit=300;kette=3;dauer=300
+pruefung.yml;limit=300;kette=3;dauer=300
+pruefung.yml;limit=300;kette=3;dauer=300
+pruefung.yml;limit=300;kette=3;dauer=300
+pruefung.yml;limit=300;kette=3;dauer=300
