@@ -61,6 +61,9 @@ jobs:
             echo "Runde $runde fertig, offen: ${rest:-?}"
             [ "${rest:-0}" = "0" ] && break
             [ $(( ($(date +%s) - start) / 60 )) -ge "$dauer" ] && break
+            # Regel-Update auf main? Dann Lauf beenden — die Kette startet mit neuem Code.
+            git fetch -q origin main 2>/dev/null || true
+            if [ "$(git rev-parse origin/main 2>/dev/null)" != "$(git rev-parse HEAD)" ]; then echo "main hat sich bewegt — Neustart über Kette"; break; fi
           done
           echo "rest=${rest:-0}" >> "$GITHUB_OUTPUT"
 

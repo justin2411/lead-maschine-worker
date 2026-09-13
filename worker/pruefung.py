@@ -47,17 +47,24 @@ from namen import VORNAMEN, html_zu_text, namens_urls  # noqa: E402
 
 VORNAMEN_LEX = {str(v).strip().lower() for v in (VORNAMEN.keys() if isinstance(VORNAMEN, dict) else VORNAMEN)}
 
-USER_AGENT = "lead-maschine-pruefung/1.0"
+USER_AGENT = "lead-maschine-pruefung/1.1"  # Version: die App weist ältere Worker ab (Regel-Updates greifen sofort)
 PARALLEL = 8
 MAX_SEITEN = 4
 
 # Solo-Regel (D-099 / Justin 13.09.: „passende Leads für unsere AV-Beratung"):
 # Hinweise auf Personal, Filialen oder Kapitalgesellschaften halten den Lead zurück.
+# Team-/Filial-Hinweise: auf allen geladenen Seiten.
 KEIN_SOLO_MUSTER = re.compile(
     r"unser(e)?\s+(team|mitarbeiter(innen)?|filialen|standorte|niederlassungen)|"
-    r"wir\s+sind\s+ein\s+team|team\s+von\s+\d+|\d+\s+mitarbeiter|"
-    r"\b(gmbh|ug\s*\(haftungsbeschränkt\)|\bag\b|\bkg\b|ohg|franchise|zentrale)\b|"
-    r"geschäftsführer(in)?:|handelsregister|hrb\s?\d", re.I)
+    r"wir\s+sind\s+ein\s+team|team\s+von\s+\d+|\b[1-9]\d*\s+mitarbeiter|franchise", re.I)
+# Rechtsform/Handelsregister: NUR im Kopf des Impressums (Betreiberangaben).
+# Fund 13.09. 12:30: „GmbH", „AG", „Handelsregister", „kg" standen bei 11.000 Leads
+# in Datenschutztexten (Hosting-Anbieter, Google Ireland, „5 kg Honig") — keine
+# Aussage über den Betrieb selbst.
+RECHTSFORM_MUSTER = re.compile(
+    r"\b(gmbh|ug\s*\(haftungsbeschränkt\)|ag|ohg|e\.?\s?k\.?|se)\b|&\s*co\.?\s*kg\b|"
+    r"geschäftsführer(in)?:|handelsregister|hrb\s?\d|amtsgericht", re.I)
+IMPRESSUM_URL = re.compile(r"impressum|imprint|legal|kontakt|about|ueber|über", re.I)
 # Plausibilität Ansprechpartner (Justin 13.09.: „richtigen Namen des AP … kein Quatsch"):
 # Firmen-/Berufsbegriffe, Titel oder Ziffern im Namensfeld → kein Personenname.
 KEIN_PERSONENNAME = re.compile(
@@ -282,8 +289,11 @@ def pruefe(lead: dict) -> dict:
             checks["name"] = False
             maengel.append("Name nicht auf Website")
 
-    # Solo-Check (Impressum/Startseite): Team, Filialen, GmbH → Rückhand
-    solo_treffer = KEIN_SOLO_MUSTER.search(voll)
+    # Solo-Check: Team/Filialen überall; Rechtsform nur im Kopf des Impressums
+    # (erste 900 Zeichen der Impressumsseite, sonst der Startseite).
+    imp_urls = [u for u in geladen if IMPRESSUM_URL.search(u)]
+    imp_text = _norm(html_zu_text(geladen[imp_urls[0]] if imp_urls else next(iter(geladen.values()))))
+    solo_treffer = KEIN_SOLO_MUSTER.search(voll) or RECHTSFORM_MUSTER.search(imp_text[:900])
     if solo_treffer:
         checks["solo"] = False
         maengel.append(f"kein Solo-Betrieb ({solo_treffer.group(0).strip()[:30]})")
