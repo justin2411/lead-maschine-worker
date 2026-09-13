@@ -76,6 +76,8 @@ QUATSCH_MUSTER = re.compile(
     r"kostenfreies|erstgespräch|buchen|anrufen|rückruf|nutzen|senden|besuchen|vereinbaren|lassen|sprechen|"
     r"bewerten|schließen|erweitern|anfordern|erreichbarkeit|einstellungen|dokumente|partner|experte|expertin|"
     r"reise|aufgabe|kunden|brautpaar|sollten|hat|bei|per|am|im|an)\b", re.I)
+# Namenspartikel (van der Kaay, von der Ohe, de la Cruz) sind keine Floskeln
+PARTIKEL_MUSTER = re.compile(r"\b(van|von|de|da|del|della|di|du|le|la|el|al|ter|ten|zu|zur|zum)(\s+(der|den|dem|de|la|le|het))?\s+", re.I)
 TITEL_MUSTER = re.compile(r"^(?:(?:dr|prof|dipl|med|dent|phil|rer|nat|ing|mag|jur|h\.?c|habil)\.?[-\w.]*\s+)+", re.I)
 HANDY_MUSTER = re.compile(r"(?:\+49|0049|0)[\s./-]?1[5-7]\d[\d\s./-]{6,12}")
 MAIL_MUSTER = re.compile(r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}")
@@ -250,9 +252,10 @@ def pruefe(lead: dict) -> dict:
 
     # Name: erst Plausibilität (Personenname, 2–3 Wörter, Vorname bekannt), dann Abgleich mit Website
     name_ohne_titel = TITEL_MUSTER.sub("", name).strip() or name
-    worte = [w for w in re.split(r"\s+", name_ohne_titel) if w]
-    teile = [t for t in re.split(r"[\s-]+", _norm(name_ohne_titel)) if len(t) >= 2]
-    if KEIN_PERSONENNAME.search(name_ohne_titel) or QUATSCH_MUSTER.search(name_ohne_titel):
+    name_kern = PARTIKEL_MUSTER.sub(" ", " " + name_ohne_titel).strip() or name_ohne_titel
+    worte = [w for w in re.split(r"\s+", name_kern) if w]
+    teile = [t for t in re.split(r"[\s-]+", _norm(name_kern)) if len(t) >= 2]
+    if KEIN_PERSONENNAME.search(name_ohne_titel) or QUATSCH_MUSTER.search(name_kern):
         checks["name"] = False
         maengel.append("kein Personenname")
     elif len(worte) < 2 or len(worte) > 3 or len(teile) < 2:
