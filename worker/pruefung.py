@@ -406,7 +406,15 @@ def pruefe(lead: dict) -> dict:
     # übernehmen (die Person steht ja nachweislich auf der Seite). Handy bevorzugt.
     if not checks["telefon"] and checks["name"] in (True, "korrigiert"):
         neu = _telefon_von_website(texte, tel_links)
-        if neu and _telefon_kern(neu) != kern:
+        neu_kern = _telefon_kern(neu) if neu else ""
+        neu_ist_handy = neu_kern.startswith(("15", "16", "17")) and 10 <= len(neu_kern) <= 11
+        if ist_handy and neu and not neu_ist_handy:
+            # Karten-Handy, Website zeigt nur Festnetz: Handy behalten (Person und Betrieb
+            # sind über die Website bestätigt; die Mobilnummer steht oft bewusst nicht online).
+            checks["telefon"] = "karte"
+            checks["festnetz_website"] = neu
+            neu = ""
+        if neu and neu_kern != kern:
             nachtrag["phone"] = neu
             checks["telefon_alt"] = phone
             checks["telefon"] = "korrigiert"
@@ -414,7 +422,7 @@ def pruefe(lead: dict) -> dict:
             ist_handy = kern.startswith(("15", "16", "17")) and 10 <= len(kern) <= 11
             if not ist_handy:
                 checks["festnetz"] = True
-    if checks["telefon"] == "korrigiert":
+    if checks["telefon"] in ("korrigiert", "karte"):
         pass
     elif not ist_handy:
         handys = [h for h in HANDY_MUSTER.findall(" ".join(texte) + " " + tel_links) if 10 <= len(_telefon_kern(h)) <= 11]
@@ -453,7 +461,7 @@ def pruefe(lead: dict) -> dict:
         else:
             checks["email"] = False
 
-    alles_ok = (checks["name"] in (True, "korrigiert") and checks["telefon"] in (True, "korrigiert")
+    alles_ok = (checks["name"] in (True, "korrigiert") and checks["telefon"] in (True, "korrigiert", "karte")
                 and checks["website"] is True and checks["solo"] is True)
     if alles_ok:
         return {"ergebnis": "ok", "text": "geprüft ✓", "checks": checks, "nachtrag": nachtrag}
