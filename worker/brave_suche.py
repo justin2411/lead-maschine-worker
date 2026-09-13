@@ -145,9 +145,6 @@ BEGRIFFE = {
     "handwerk_raum": "Raumausstatter Polsterei",
     # Welle 20
     "fahrlehrer": "Fahrschule Fahrlehrer",
-    "versicherungsmakler": "Versicherungsmakler unabhängig",
-    "finanzberater": "Finanzberater Honorarberater",
-    "baufinanzierer": "Baufinanzierung Vermittler",
     "energieberater": "Energieberater Gebäudeenergieberater",
     "bausachverstaendige": "Bausachverständiger Baugutachter",
     "architekten_solo": "Architekt Architekturbüro Einzelunternehmen",

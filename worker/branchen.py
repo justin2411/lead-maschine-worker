@@ -270,9 +270,6 @@ KARTEN_ZIELGRUPPEN = {
     "handwerk_raum":      ("Handwerksmeister", r"raumausstatt|polster|boden|parkett|tapezier", r"innung|baumarkt|obi|bauhaus|hornbach|toom|ikea|möbelhaus"),
     # Welle 20 (13.09.2026): 70 weitere Solo-Gruppen, Katalog war abgefahren
     "fahrlehrer": ("Fahrlehrer", r"fahrschule|fahrlehrer", r"gmbh|academy\s?gmbh|verkehrsinstitut"),
-    "versicherungsmakler": ("Versicherungsmakler", r"versicherung|makler|vorsorge", r"allianz\s?ag|ergo\s?ag|gmbh|generalagentur\s?gmbh|check24|verivox|hauptvertret"),
-    "finanzberater": ("Finanzberater", r"finanz|vermögen|honorarberat", r"bank|sparkasse|volksbank|gmbh|ag\b|mlp|dvag|swiss\s?life|tecis"),
-    "baufinanzierer": ("Baufinanzierungsvermittler", r"baufinanz|immobilienfinanz|hypothek", r"bank|sparkasse|volksbank|gmbh|interhyp|dr\.?\s?klein|hüttig"),
     "energieberater": ("Energieberater", r"energieberat|energieausweis|gebäudeenergie", r"stadtwerke|gmbh|verbraucherzentrale|ag\b"),
     "bausachverstaendige": ("Bausachverständiger", r"sachverständ|gutachter|bauschaden|schimmel", r"tüv|dekra|gmbh|ag\b|institut"),
     "architekten_solo": ("Architekt", r"architekt|planung|bauplanung", r"gmbh|ag\b|partner|partnerschaft|mbb|bda\s?gmbh|planungsgesellschaft"),
