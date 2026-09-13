@@ -200,12 +200,12 @@ def lese_quelle(key: str, limit: int, client: App, suchlauf_id: str,
         besucht.add(url)
         status, roh = hole_roh(url)
         stufen["seiten_geladen"] += 1
-        quelle_waechter.pruefe_antwort(status, "" if url.endswith(".pdf") else roh[:5000].decode("utf-8", "replace"))
+        quelle_waechter.pruefe_antwort(status, "" if (url.lower().endswith(".pdf") or roh[:5] == b"%PDF-") else roh[:5000].decode("utf-8", "replace"))
         if status != 200 or not roh:
             log(f"  {url} → HTTP {status}, übersprungen")
             continue
 
-        if url.lower().endswith(".pdf"):
+        if url.lower().endswith(".pdf") or roh[:5] == b"%PDF-" or ".pdf?" in url.lower():
             try:
                 text = pdf_zu_text(roh)
             except Exception as ex:  # noqa: BLE001
