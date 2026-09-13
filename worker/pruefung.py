@@ -79,7 +79,7 @@ QUATSCH_MUSTER = re.compile(
 # Namenspartikel (van der Kaay, von der Ohe, de la Cruz) sind keine Floskeln
 PARTIKEL_MUSTER = re.compile(r"\b(van|von|de|da|del|della|di|du|le|la|el|al|ter|ten|zu|zur|zum)(\s+(der|den|dem|de|la|le|het))?\s+", re.I)
 TITEL_MUSTER = re.compile(r"^(?:(?:dr|prof|dipl|med|dent|phil|rer|nat|ing|mag|jur|h\.?c|habil)\.?[-\w.]*\s+)+", re.I)
-HANDY_MUSTER = re.compile(r"(?:\+49|0049|0)[\s./-]?1[5-7]\d[\d\s./-]{6,12}")
+HANDY_MUSTER = re.compile(r"(?:\+\s?49|0049|0)[\s./-]*(?:\(0\)[\s./-]*)?1[5-7]\d[\d\s./-]{6,12}")
 MAIL_MUSTER = re.compile(r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}")
 MAIL_SPERRE = re.compile(r"example|wixpress|sentry|noreply|no-reply|webmaster@|@(google|apple|facebook|instagram|jimdo|wordpress|1und1|ionos|strato)\.", re.I)
 
