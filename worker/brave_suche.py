@@ -238,6 +238,28 @@ BEGRIFFE = {
     'kaffeeroester': 'Kaffeerösterei Kleinrösterei Einzelunternehmen',
     'konditor': 'Konditorei Tortenmanufaktur Einzelunternehmen',
     'instrumentenbauer': 'Geigenbauer Klavierstimmer Instrumentenbau',
+    # Welle 27 (13.09.2026): Familie & Geburt, zweite Begriffsrunde
+    'hebamme_kurz': 'Hebamme',
+    'geburtsvorbereitung': 'Geburtsvorbereitungskurs',
+    'rueckbildung': 'Rückbildungskurs',
+    'familienhebamme': 'Familienhebamme',
+    'doula_kurz': 'Doula',
+    'stillberatung': 'Stillberatung',
+    'beikost': 'Beikostberatung',
+    'trageberatung_kurz': 'Trageberatung',
+    'babymassage_kurs': 'Babymassage Kurs',
+    'pekip': 'PEKiP Kurs',
+    'babyschwimmen': 'Babyschwimmen',
+    'musikgarten': 'Musikgarten Eltern-Kind',
+    'schwangerenyoga': 'Schwangerenyoga',
+    'kinderyoga': 'Kinderyoga',
+    'babyschlaf': 'Babyschlaf Beratung',
+    'muetterpflege': 'Mütterpflegerin',
+    'babybauch_foto': 'Babybauch Fotoshooting',
+    'familienfotograf': 'Familienfotograf',
+    'kinderwunsch_coach': 'Kinderwunsch Coaching',
+    'elternberatung': 'Elternberatung Erziehungsberatung privat',
+    'tagesmutter_kurz': 'Tagesmutter',
 }
 
 STAEDTE = [

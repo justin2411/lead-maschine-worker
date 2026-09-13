@@ -43,11 +43,11 @@ from concurrent.futures import ThreadPoolExecutor
 from leadkern import web
 
 sys.path.insert(0, os.path.dirname(__file__))
-from namen import VORNAMEN, html_zu_text, namens_urls  # noqa: E402
+from namen import VORNAMEN, finde_personenname, html_zu_text, namens_urls  # noqa: E402
 
 VORNAMEN_LEX = {str(v).strip().lower() for v in (VORNAMEN.keys() if isinstance(VORNAMEN, dict) else VORNAMEN)}
 
-USER_AGENT = "lead-maschine-pruefung/1.2"  # Version: die App weist ältere Worker ab (Regel-Updates greifen sofort)
+USER_AGENT = "lead-maschine-pruefung/1.3"  # Version: die App weist ältere Worker ab (Regel-Updates greifen sofort)
 PARALLEL = 8
 MAX_SEITEN = 4
 
@@ -55,16 +55,30 @@ MAX_SEITEN = 4
 # Hinweise auf Personal, Filialen oder Kapitalgesellschaften halten den Lead zurück.
 # Team-/Filial-Hinweise: auf allen geladenen Seiten.
 KEIN_SOLO_MUSTER = re.compile(
-    r"unser(e)?\s+(team|mitarbeiter(innen)?|filialen|standorte|niederlassungen)|"
-    r"wir\s+sind\s+ein\s+team|team\s+von\s+\d+|\b[1-9]\d*\s+mitarbeiter|franchise", re.I)
+    r"unsere?\s+(mitarbeiter(innen)?|filialen|standorte|niederlassungen)|"
+    r"\b[1-9]\d*\s+mitarbeiter|franchise", re.I)
+# Team-Phrasen sind nur ein weiches Signal (D-126, 13.09. 16:40): „unser Team" schreiben
+# auch Einzelkämpfer (Physio mit Rezeption, Fliesenleger mit Aushilfe). Sie zählen erst,
+# wenn auf den Seiten mindestens drei weitere Personen mit Vor- und Nachnamen stehen.
+TEAM_WEICH_MUSTER = re.compile(r"unsere?\s+team|wir\s+sind\s+ein\s+team|team\s+von\s+\d+", re.I)
+TEAM_MINDESTPERSONEN = 3
+PERSON_MUSTER = re.compile(r"\b([A-ZÄÖÜ][a-zäöüß]{2,})\s+([A-ZÄÖÜ][a-zäöüß]{2,}(?:-[A-ZÄÖÜ][a-zäöüß]{2,})?)\b")
+PERSON_NACHNAME_SPERRE = re.compile(
+    r"^(stra(ß|ss)e|weg|platz|allee|gasse|ring|damm|ufer|markt|team|praxis|studio|salon|coaching|yoga|massage|kosmetik|"
+    r"fotografie|design|consulting|events?|hochzeit|beauty|nails|hair|wellness|physio|ergo|logo|reiki|shiatsu|pilates|fitness|"
+    r"personal|training|beratung|coach|trainer|immobilien|elektro|bau|garten|service|montag|dienstag|mittwoch|donnerstag|freitag|"
+    r"samstag|sonntag|januar|februar|märz|april|mai|juni|juli|august|september|oktober|november|dezember|uhr|gmbh|und|oder|"
+    r"ihr|ihre|sie|wir|uns|str|hilf|bad|sankt|sie|kontakt|impressum|datenschutz|home|start|willkommen|news|blog|shop)$", re.I)
 # Rechtsform/Handelsregister: NUR im Kopf des Impressums (Betreiberangaben).
 # Fund 13.09. 12:30: „GmbH", „AG", „Handelsregister", „kg" standen bei 11.000 Leads
 # in Datenschutztexten (Hosting-Anbieter, Google Ireland, „5 kg Honig") — keine
 # Aussage über den Betrieb selbst.
 # e. K. (eingetragener Kaufmann), Handelsregister/HRA und Amtsgericht sind KEIN
 # Ausschluss — das sind gerade die Solo-Selbstständigen (Fund 13.09., 15:30).
+# „AG" flog am 13.09. (D-126) raus: im Impressum-Kopf traf es Masseure, Ergotherapeuten,
+# Reitlehrer — keine echte Aktiengesellschaft dabei. Nur noch ausgeschrieben.
 RECHTSFORM_MUSTER = re.compile(
-    r"\b(gmbh|ug\s*\(haftungsbeschränkt\)|ag|ohg)\b|&\s*co\.?\s*kg\b|geschäftsführer(in)?:|hrb\s?\d", re.I)
+    r"\b(gmbh|ug\s*\(haftungsbeschränkt\)|ohg|aktiengesellschaft)\b|&\s*co\.?\s*kg\b|geschäftsführer(in)?:|hrb\s?\d", re.I)
 IMPRESSUM_URL = re.compile(r"impressum|imprint|legal|kontakt|about|ueber|über", re.I)
 # Plausibilität Ansprechpartner (Justin 13.09.: „richtigen Namen des AP … kein Quatsch"):
 # Firmen-/Berufsbegriffe, Titel oder Ziffern im Namensfeld → kein Personenname.
@@ -90,6 +104,8 @@ QUATSCH_MUSTER = re.compile(
 PARTIKEL_MUSTER = re.compile(r"\b(van|von|de|da|del|della|di|du|le|la|el|al|ter|ten|zu|zur|zum)(\s+(der|den|dem|de|la|le|het))?\s+", re.I)
 TITEL_MUSTER = re.compile(r"^(?:(?:dr|prof|dipl|med|dent|phil|rer|nat|ing|mag|jur|h\.?c|habil)\.?[-\w.]*\s+)+", re.I)
 HANDY_MUSTER = re.compile(r"(?:\+\s?49|0049|0)[\s./-]*(?:\(0\)[\s./-]*)?1[5-7]\d[\d\s./-]{6,12}")
+# Jede deutsche Nummer (Festnetz oder Handy) im sichtbaren Text — für die Telefon-Korrektur (D-126)
+TEL_MUSTER = re.compile(r"(?:\+\s?49|0049|0)[\s./-]*(?:\(0\)[\s./-]*)?[1-9][\d\s./-]{5,15}\d")
 MAIL_MUSTER = re.compile(r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}")
 MAIL_SPERRE = re.compile(r"example|wixpress|sentry|noreply|no-reply|webmaster@|@(google|apple|facebook|instagram|jimdo|wordpress|1und1|ionos|strato)\.", re.I)
 
@@ -186,6 +202,46 @@ def _website_url(website: str) -> str:
     if not w:
         return ""
     return w if "//" in w else f"https://{w}"
+
+
+def _personen_auf_seiten(texte: list[str], eigener_nachname: str) -> set[tuple[str, str]]:
+    """Alle „Vorname Nachname"-Paare (Vorname im Lexikon) außer dem Lead selbst — Teamliste?"""
+    gefunden: set[tuple[str, str]] = set()
+    for text in texte:
+        for m in PERSON_MUSTER.finditer(text):
+            vn, nn = m.group(1).lower(), m.group(2).lower()
+            if vn not in VORNAMEN_LEX or nn in VORNAMEN_LEX or PERSON_NACHNAME_SPERRE.match(nn):
+                continue
+            if eigener_nachname and _norm(nn) == eigener_nachname:
+                continue
+            gefunden.add((vn, nn))
+    return gefunden
+
+
+def _telefon_von_website(texte: list[str], tel_links: str) -> str:
+    """Nummer der Website für die Telefon-Korrektur (D-126): tel:-Link zuerst,
+    sonst die erste Nummer im Text ohne „Fax" davor. Handy bevorzugt.
+    Rückgabe formatiert („0172 1234567" / „0221 123456") oder leer."""
+    kerne: list[str] = []
+    for t in tel_links.split():
+        k = _telefon_kern(t)
+        if 7 <= len(k) <= 12 and k not in kerne:
+            kerne.append(k)
+    for text in texte:
+        for m in TEL_MUSTER.finditer(text):
+            davor = text[max(0, m.start() - 12):m.start()].lower()
+            if "fax" in davor or re.search(r"\d\.\d", m.group(0)):
+                continue
+            k = _telefon_kern(m.group(0))
+            if 7 <= len(k) <= 12 and k not in kerne:
+                kerne.append(k)
+    if not kerne:
+        return ""
+    handys = [k for k in kerne if k.startswith(("15", "16", "17")) and 10 <= len(k) <= 11]
+    k = handys[0] if handys else kerne[0]
+    if handys:
+        return "0" + k[:3] + " " + k[3:]
+    return "0" + k
 
 
 # ── Seiten laden ──────────────────────────────────────────────────────
@@ -293,11 +349,39 @@ def pruefe(lead: dict) -> dict:
             checks["name"] = False
             maengel.append("Name nicht auf Website")
 
-    # Solo-Check: Team/Filialen überall; Rechtsform nur im Kopf des Impressums
-    # (erste 900 Zeichen der Impressumsseite, sonst der Startseite).
+    # Namens-Korrektur (D-126): fällt der Karten-Name durch, den Inhaber-Namen mit dem
+    # Lexikon-Finder auf den geladenen Seiten suchen (Impressum zuerst). Treffer mit
+    # Score >= 3, oder mit demselben Nachnamen wie der Lead, ersetzt den Namen.
+    nachtrag: dict = {}
+    eigener_nachname = teile[-1] if len(teile) >= 2 else ""
+    if checks["name"] is not True:
+        imp_zuerst = sorted(geladen.items(), key=lambda e: 0 if IMPRESSUM_URL.search(e[0]) else 1)
+        fund = finde_personenname([html_zu_text(h) for _, h in imp_zuerst])
+        if fund:
+            kandidat = f'{fund["vorname"]} {fund["nachname"]}'.strip()
+            gleicher_nachname = bool(eigener_nachname) and _norm(fund["nachname"]).split()[-1] == eigener_nachname
+            plausibel = not KEIN_PERSONENNAME.search(kandidat) and not QUATSCH_MUSTER.search(kandidat) \
+                and 2 <= len(kandidat.split()) <= 4 and _norm(kandidat) != _norm(name_kern)
+            if plausibel and (fund["score"] >= 3 or gleicher_nachname):
+                nachtrag["name"] = kandidat
+                checks["name_alt"] = name
+                checks["name_score"] = fund["score"]
+                checks["name"] = "korrigiert"
+                maengel = [m for m in maengel if not m.startswith(("kein Personenname", "Name ", "Vorname "))]
+                eigener_nachname = _norm(fund["nachname"]).split()[-1]
+
+    # Solo-Check: Mitarbeiter/Filialen/Franchise überall; Team-Phrasen nur mit Teamliste
+    # (>= 3 weitere Personen mit Vor- und Nachnamen); Rechtsform nur im Kopf des
+    # Impressums (erste 900 Zeichen der Impressumsseite, sonst der Startseite).
     imp_urls = [u for u in geladen if IMPRESSUM_URL.search(u)]
     imp_text = _norm(html_zu_text(geladen[imp_urls[0]] if imp_urls else next(iter(geladen.values()))))
     solo_treffer = KEIN_SOLO_MUSTER.search(voll) or RECHTSFORM_MUSTER.search(imp_text[:900])
+    team_phrase = TEAM_WEICH_MUSTER.search(voll)
+    if not solo_treffer and team_phrase:
+        personen = _personen_auf_seiten(texte, eigener_nachname)
+        checks["personen"] = len(personen)
+        if len(personen) >= TEAM_MINDESTPERSONEN:
+            solo_treffer = team_phrase
     if solo_treffer:
         checks["solo"] = False
         maengel.append(f"kein Solo-Betrieb ({solo_treffer.group(0).strip()[:30]})")
@@ -314,12 +398,25 @@ def pruefe(lead: dict) -> dict:
     ist_handy = kern.startswith(("15", "16", "17")) and 10 <= len(kern) <= 11
     if phone and (re.search(r"\d\.\d", phone) or re.search(r"/\d+\.\d", phone) or not (7 <= len(kern) <= 12)):
         return {"ergebnis": "maengel", "text": "geprüft: Telefonnummer unbrauchbar", "checks": {**checks, "telefon": False}}
-    nachtrag: dict = {}
     if len(kern) >= 7 and kern in seiten_ziffern:
         checks["telefon"] = True
     else:
         checks["telefon"] = False
-    if not ist_handy:
+    # Telefon-Korrektur (D-126): Karten-Nummer nicht auf der Website → Nummer der Website
+    # übernehmen (die Person steht ja nachweislich auf der Seite). Handy bevorzugt.
+    if not checks["telefon"] and checks["name"] in (True, "korrigiert"):
+        neu = _telefon_von_website(texte, tel_links)
+        if neu and _telefon_kern(neu) != kern:
+            nachtrag["phone"] = neu
+            checks["telefon_alt"] = phone
+            checks["telefon"] = "korrigiert"
+            kern = _telefon_kern(neu)
+            ist_handy = kern.startswith(("15", "16", "17")) and 10 <= len(kern) <= 11
+            if not ist_handy:
+                checks["festnetz"] = True
+    if checks["telefon"] == "korrigiert":
+        pass
+    elif not ist_handy:
         handys = [h for h in HANDY_MUSTER.findall(" ".join(texte) + " " + tel_links) if 10 <= len(_telefon_kern(h)) <= 11]
         if handys:
             k = _telefon_kern(handys[0])
@@ -356,7 +453,7 @@ def pruefe(lead: dict) -> dict:
         else:
             checks["email"] = False
 
-    alles_ok = (checks["name"] is True and checks["telefon"] is True
+    alles_ok = (checks["name"] in (True, "korrigiert") and checks["telefon"] in (True, "korrigiert")
                 and checks["website"] is True and checks["solo"] is True)
     if alles_ok:
         return {"ergebnis": "ok", "text": "geprüft ✓", "checks": checks, "nachtrag": nachtrag}
