@@ -4,16 +4,18 @@ ihre Website — ohne KI, nur Regeln. Justin: „einen Worker, der die neuen
 Leads alle überprüft: Name richtig, Website, Telefonnummer, Ansprechperson,
 E-Mail".
 
-Je Lead:
+Je Lead (100-%-Regel, Justin 13.09.: Website, richtiger Name, E-Mail, Handynummer,
+passend zur AV-Beratung = Solo-Selbstständige):
+  0. Solo-Check: Team/Mitarbeiter/Filialen/GmbH auf Website oder im Impressum → Rückhand.
   1. Website laden (Startseite; dazu Impressum/Kontakt/Über-mich-Seiten,
      höchstens vier). Nicht ladbar → „Website nicht erreichbar".
   2. Name: Vor- UND Nachname müssen auf einer der Seiten stehen. Nur der
      Nachname → „Vorname nicht auf Website"; gar nichts → „Name nicht auf
      Website" (dann ist die Ansprechperson wahrscheinlich falsch zugeordnet).
-  3. Telefon: die Ziffernfolge der Lead-Nummer (ab der Vorwahl, ohne Länder-
-     kennung) muss in der ziffernbereinigten Seite vorkommen.
-  4. E-Mail (nur wenn vorhanden): Domain gleich Website-Domain ODER Adresse
-     steht auf einer Seite. Sonst weicher Mangel.
+  3. Handynummer: Pflicht. Lead-Nummer muss auf der Seite stehen; ist sie
+     Festnetz, wird eine Handynummer von der Website nachgetragen (nachtrag.phone).
+  4. E-Mail: Pflicht. Domain gleich Website-Domain oder Adresse auf der Seite;
+     fehlt sie, wird sie von der Website nachgetragen (nachtrag.email).
   5. Fremde Website: Titel/Text deutet auf Portal, Verzeichnis, PDF, Behörde.
 
 Ergebnis geht an /api/fabrik2/pruefung-ergebnis und landet in
@@ -46,6 +48,17 @@ from namen import html_zu_text, namens_urls  # noqa: E402
 USER_AGENT = "lead-maschine-pruefung/1.0"
 PARALLEL = 4
 MAX_SEITEN = 4
+
+# Solo-Regel (D-099 / Justin 13.09.: „passende Leads für unsere AV-Beratung"):
+# Hinweise auf Personal, Filialen oder Kapitalgesellschaften halten den Lead zurück.
+KEIN_SOLO_MUSTER = re.compile(
+    r"unser(e)?\s+(team|mitarbeiter(innen)?|filialen|standorte|niederlassungen)|"
+    r"wir\s+sind\s+ein\s+team|team\s+von\s+\d+|\d+\s+mitarbeiter|"
+    r"\b(gmbh|ug\s*\(haftungsbeschränkt\)|\bag\b|\bkg\b|ohg|franchise|zentrale)\b|"
+    r"geschäftsführer(in)?:|handelsregister|hrb\s?\d", re.I)
+HANDY_MUSTER = re.compile(r"(?:\+49|0049|0)[\s./-]?1[5-7]\d[\d\s./-]{6,12}")
+MAIL_MUSTER = re.compile(r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}")
+MAIL_SPERRE = re.compile(r"example|wixpress|sentry|noreply|no-reply|webmaster@|@(google|apple|facebook|instagram|jimdo|wordpress|1und1|ionos|strato)\.", re.I)
 
 FREMD_MUSTER = re.compile(
     r"gelbe\s?seiten|11880|dasoertliche|das\s?örtliche|jameda|doctolib|yelp|kununu|"
@@ -222,32 +235,62 @@ def pruefe(lead: dict) -> dict:
         checks["name"] = False
         maengel.append("Name unvollständig")
 
-    # Telefon
+    # Solo-Check (Impressum/Startseite): Team, Filialen, GmbH → Rückhand
+    solo_treffer = KEIN_SOLO_MUSTER.search(voll)
+    if solo_treffer:
+        checks["solo"] = False
+        maengel.append(f"kein Solo-Betrieb ({solo_treffer.group(0).strip()[:30]})")
+    else:
+        checks["solo"] = True
+
+    # Telefon: Handy-Pflicht (Justin 13.09.). Lead-Nummer auf der Website?
+    # Ist die Lead-Nummer Festnetz, Handynummer von der Website nachtragen.
+    seiten_ziffern = _ziffern(roh)
     kern = _telefon_kern(phone)
-    if len(kern) >= 7:
-        seiten_ziffern = _ziffern(roh)
-        checks["telefon"] = kern in seiten_ziffern
-        if not checks["telefon"]:
-            maengel.append("Telefon nicht auf Website")
+    ist_handy = kern.startswith(("15", "16", "17"))
+    nachtrag: dict = {}
+    if len(kern) >= 7 and kern in seiten_ziffern:
+        checks["telefon"] = True
     else:
         checks["telefon"] = False
-        maengel.append("Telefonnummer unplausibel")
+    if not ist_handy:
+        handys = [h for h in HANDY_MUSTER.findall(roh) if len(_telefon_kern(h)) >= 10]
+        if handys:
+            nachtrag["phone"] = re.sub(r"\s+", " ", handys[0]).strip()
+            checks["handy_nachgetragen"] = True
+            checks["telefon"] = True
+            ist_handy = True
+        else:
+            maengel.append("keine Handynummer (nur Festnetz)")
+    elif not checks["telefon"]:
+        maengel.append("Handynummer nicht auf Website")
 
-    # E-Mail (weicher Mangel)
+    # E-Mail: Pflicht (Justin 13.09.). Fehlt sie, von der Website nachtragen.
+    dom_web = _domain(website)
     if email and "@" in email:
         dom_mail = email.split("@", 1)[1]
-        dom_web = _domain(website)
         if dom_mail == dom_web or (dom_web and dom_mail.endswith("." + dom_web)) or email in roh.lower():
             checks["email"] = True
         else:
             checks["email"] = False
             maengel.append("E-Mail passt nicht zur Website")
     else:
-        checks["email"] = None
+        kandidaten = [m for m in MAIL_MUSTER.findall(roh) if not MAIL_SPERRE.search(m)]
+        eigene = [m for m in kandidaten if dom_web and m.lower().split("@", 1)[1] == dom_web]
+        wahl = (eigene or kandidaten)[:1]
+        if wahl:
+            nachtrag["email"] = wahl[0].lower()
+            checks["email"] = True
+            checks["email_nachgetragen"] = True
+        else:
+            checks["email"] = False
+            maengel.append("keine E-Mail gefunden")
 
-    if checks["name"] is True and checks["telefon"] is True and checks["website"] is True:
-        return {"ergebnis": "ok", "text": "geprüft ✓", "checks": checks}
-    return {"ergebnis": "maengel", "text": ("geprüft: " + "; ".join(maengel))[:200], "checks": checks}
+    alles_ok = (checks["name"] is True and checks["telefon"] is True and ist_handy
+                and checks["email"] is True and checks["website"] is True and checks["solo"] is True)
+    if alles_ok:
+        return {"ergebnis": "ok", "text": "geprüft ✓", "checks": checks, "nachtrag": nachtrag}
+    return {"ergebnis": "maengel", "text": ("geprüft: " + "; ".join(maengel))[:200], "checks": checks, "nachtrag": nachtrag}
 
 
 def bearbeite(app: App, lead: dict, zaehler: dict, lock: threading.Lock) -> None:
