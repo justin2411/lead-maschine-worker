@@ -1,2 +1,2 @@
-# 13.09.2026 23:15: Quellen-Scout Hebammen-Listen (D-138) - sucht nur, zapft nichts an. Batch H wurde 22:31 dispatcht (nicht erneut!)
+# 13.09.2026 23:25: Quellen-Scout Hebammen-Listen v2 (D-138) - Websuche ueber die Claude-API, DuckDuckGo sperrt Runner-IPs. Batch H wurde 22:31 dispatcht (nicht erneut!)
 scout.yml;max_kandidaten=150

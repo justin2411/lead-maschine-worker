@@ -12,7 +12,8 @@ Gesperrte Plattformen (AGB/robots, siehe QUELLEN-KATALOG) werden gar nicht
 erst angefasst. Das Anzapfen läuft später über worker/quellen.py (Rezept je
 Quelle, Testlauf 50) — nie aus diesem Skript.
 """
-import io, json, re, sys, time, urllib.parse, urllib.request, urllib.robotparser
+import io, json, os, re, sys, time, urllib.parse, urllib.request, urllib.robotparser
+KOSTEN = {"suchen": 0}
 
 UA = "LeadMaschine2-Scout/1.0 (+https://github.com/justin2411/lead-maschine-worker)"
 GESPERRT = ("ammely", "hebammensuche", "gkv-spitzenverband", "berliner-hebammenvermittlung",
@@ -57,25 +58,54 @@ def hole(url: str, timeout: int = 20) -> tuple[int, bytes]:
 
 
 def ddg(frage: str) -> list[dict]:
-    status, roh = hole("https://html.duckduckgo.com/html/?q=" + urllib.parse.quote_plus(frage))
-    if status != 200 or not roh:
-        print(f"  DDG {status} für {frage!r}")
-        if status in (403, 429):
-            raise RuntimeError("DuckDuckGo sperrt — Scout stoppt (keine Umgehung)")
+    """Web-Suche über die Claude-API (Server-Tool web_search): DuckDuckGo-HTML
+    liefert von GitHub-Runnern nur 202/403 (Anomalie-Schutz) — keine Umgehung,
+    stattdessen eine bezahlte, offizielle Such-API (~1 Cent je Suche)."""
+    key = os.environ.get("ANTHROPIC_API_KEY", "").strip()
+    if not key:
+        raise RuntimeError("ANTHROPIC_API_KEY fehlt — keine Websuche möglich")
+    body = {
+        "model": os.environ.get("SCOUT_MODELL", "claude-haiku-4-5-20251001"),
+        "max_tokens": 1500,
+        "tools": [{"type": "web_search_20250305", "name": "web_search", "max_uses": 2,
+                   "user_location": {"type": "approximate", "country": "DE", "timezone": "Europe/Berlin"}}],
+        "messages": [{"role": "user", "content":
+                      f"Suche im Web nach: {frage}\nZiel sind öffentliche Listen freiberuflicher Hebammen mit Kontaktdaten "
+                      "(Landkreise, Städte, Gesundheitsämter, Hebammenzentralen, Hebammennetzwerke, Landesverbände; HTML oder PDF). "
+                      "Antworte danach NUR mit einem JSON-Array der gefundenen URLs: [{\"url\": \"...\", \"titel\": \"...\"}]"}],
+    }
+    req = urllib.request.Request("https://api.anthropic.com/v1/messages", data=json.dumps(body).encode(),
+                                 headers={"x-api-key": key, "anthropic-version": "2023-06-01",
+                                          "content-type": "application/json", "User-Agent": UA}, method="POST")
+    drossle("https://api.anthropic.com/")
+    try:
+        with urllib.request.urlopen(req, timeout=120) as a:
+            antwort = json.loads(a.read().decode("utf-8"))
+    except urllib.error.HTTPError as e:  # type: ignore[attr-defined]
+        detail = e.read()[:300].decode("utf-8", "replace")
+        if e.code in (400, 401, 402, 403, 429):
+            raise RuntimeError(f"Claude-API {e.code}: {detail}")
+        print(f"  API {e.code} für {frage!r}: {detail}")
         return []
-    html = roh.decode("utf-8", "replace")
-    if re.search(r"captcha|anomaly", html, re.I):
-        raise RuntimeError("DuckDuckGo Captcha — Scout stoppt (keine Umgehung)")
-    treffer = []
-    for m in re.finditer(r'<a[^>]+class="result__a"[^>]+href="([^"]+)"[^>]*>(.*?)</a>(?:.*?class="result__snippet"[^>]*>(.*?)</a>)?', html, re.S):
-        url = m.group(1)
-        if "uddg=" in url:
-            url = (urllib.parse.parse_qs(urllib.parse.urlsplit(url).query).get("uddg") or [""])[0]
-        titel = re.sub(r"<[^>]+>", "", m.group(2) or "")
-        snippet = re.sub(r"<[^>]+>", "", m.group(3) or "")
-        if url.startswith("http"):
-            treffer.append({"url": url, "titel": titel.strip(), "snippet": snippet.strip()})
-    return treffer
+    treffer: dict[str, dict] = {}
+    text_teile = []
+    for block in antwort.get("content", []):
+        if block.get("type") == "web_search_tool_result":
+            for r in (block.get("content") or []):
+                if isinstance(r, dict) and r.get("type") == "web_search_result" and str(r.get("url", "")).startswith("http"):
+                    treffer.setdefault(r["url"], {"url": r["url"], "titel": r.get("title", "") or "", "snippet": ""})
+        elif block.get("type") == "text":
+            text_teile.append(block.get("text", ""))
+    m = re.search(r"\[\s*\{.*\}\s*\]", "\n".join(text_teile), re.S)
+    if m:
+        try:
+            for e in json.loads(m.group(0)):
+                if isinstance(e, dict) and str(e.get("url", "")).startswith("http"):
+                    treffer.setdefault(e["url"], {"url": e["url"], "titel": str(e.get("titel", "")), "snippet": ""})
+        except ValueError:
+            pass
+    KOSTEN["suchen"] += sum(1 for b in antwort.get("content", []) if b.get("type") == "server_tool_use")
+    return list(treffer.values())
 
 
 def kandidat(t: dict) -> bool:
@@ -134,7 +164,7 @@ def bewerte(t: dict) -> dict:
 
 def main() -> int:
     max_kand = int((sys.argv[1] if len(sys.argv) > 1 else "150") or 150)
-    fragen = list(FRAGEN_ALLGEMEIN) + [f.format(bl=bl) for bl in BUNDESLAENDER for f in FRAGEN_JE_LAND]
+    fragen = list(FRAGEN_ALLGEMEIN) + [f.format(bl=bl) for bl in BUNDESLAENDER for f in FRAGEN_JE_LAND[:2]]
     gesehen: dict[str, dict] = {}
     try:
         for i, frage in enumerate(fragen, 1):
@@ -145,6 +175,7 @@ def main() -> int:
             print(f"[{i}/{len(fragen)}] {frage!r} → bisher {len(gesehen)} Kandidaten", flush=True)
     except RuntimeError as ex:
         print(f"ABBRUCH Suche: {ex}")
+    print(f"Web-Suchen über die Claude-API: {KOSTEN['suchen']}")
     kand = list(gesehen.values())
     # PDFs und Behörden-/Verbands-Domains zuerst, höchstens max_kand prüfen
     def prio(t):
