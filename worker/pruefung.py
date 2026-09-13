@@ -71,7 +71,7 @@ KEIN_PERSONENNAME = re.compile(
     r"praxis|service|beauty|studio|salon|heilpr|gmbh|kosmetik|physio|ergo|therap|coach|team|"
     r"massage|nails|nagel|design|foto|consult|media|medien|shop|store|handel|\bbau\b|elektro|"
     r"dach|maler|garten|pflege|mobil|zentrum|institut|schule|akademie|agentur|büro|buero|"
-    r"werkstatt|betrieb|firma|inhaber|geschäftsf|\b(dekra|tüv|tuev|gtü|gtue|enterprise|sixt|europcar|hertz|avis)\b|\d", re.I)
+    r"werkstatt|betrieb|firma|inhaber|geschäftsf|\b(dekra|tüv|tuev|gtü|gtue|europcar)\b|\d", re.I)
 # Floskeln/Menüpunkte, die als „Name" gelandet sind (z. B. „Sprechen Sie", „Gordon House" = Google-Adresse)
 QUATSCH_MUSTER = re.compile(
     r"\b(sie|ihr|ihre|ihrem|ihren|uns|mich|dich|wir|menu|menü|home|jetzt|anfrage|angebot|angebote|kontakt|"
@@ -95,7 +95,7 @@ FREMD_MUSTER = re.compile(
     r"branchenbuch|stadtbranchenbuch|cylex|firmenwissen|northdata|unternehmensverzeichnis|"
     r"stellenangebot|jobbörse|wikipedia|facebook\.com|instagram\.com|linkedin\.com|xing\.com|"
     r"ebay-kleinanzeigen|kleinanzeigen\.de|amtsblatt|landkreis|stadtverwaltung|"
-    r"(^|[./-])(enterprise|sixt|europcar|hertz|avis|dekra|tuev-nord|tuev-sued|tuv)\.(de|com)\b", re.I)
+    r"(^|//|www\.)(enterprise|sixt|europcar|hertz|avis|dekra|tuev-nord|tuev-sued|tuv)\.(de|com)\b", re.I)
 
 
 def log(msg: str) -> None:
