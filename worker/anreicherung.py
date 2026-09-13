@@ -42,7 +42,7 @@ from leadkern import drossel, email as lk_email, normalisierung, web
 from namen import namens_nachlauf
 
 USER_AGENT = "LeadMaschine2-Suchlauf/1.0 (+https://github.com/justin2411/lead-maschine-worker)"
-PARALLEL = 3  # 12.09.2026: 5 -> 3, damit 40 parallele Läufe die App nicht überlasten
+PARALLEL = 4  # 12.09.2026: 5 -> 3, damit 40 parallele Läufe die App nicht überlasten
 MELDE_TAKT = 20
 KI_MODELL = "claude-haiku-4-5-20251001"
 
