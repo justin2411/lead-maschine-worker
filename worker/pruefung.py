@@ -48,7 +48,7 @@ from namen import VORNAMEN, html_zu_text, namens_urls  # noqa: E402
 VORNAMEN_LEX = {str(v).strip().lower() for v in (VORNAMEN.keys() if isinstance(VORNAMEN, dict) else VORNAMEN)}
 
 USER_AGENT = "lead-maschine-pruefung/1.0"
-PARALLEL = 4
+PARALLEL = 8
 MAX_SEITEN = 4
 
 # Solo-Regel (D-099 / Justin 13.09.: „passende Leads für unsere AV-Beratung"):
@@ -292,16 +292,21 @@ def pruefe(lead: dict) -> dict:
 
     # Telefon: Handy-Pflicht (Justin 13.09.). Lead-Nummer auf der Website?
     # Ist die Lead-Nummer Festnetz, Handynummer von der Website nachtragen.
-    seiten_ziffern = _ziffern(roh)
+    # Telefonabgleich nur gegen sichtbaren Text und tel:-Links — im rohen
+    # Quelltext stehen CSS-Dezimalzahlen und Koordinaten, die wie Nummern aussehen.
+    tel_links = " ".join(re.findall(r'href=["\']tel:([^"\']+)', roh, re.I))
+    seiten_ziffern = _ziffern(" ".join(texte) + " " + tel_links)
     kern = _telefon_kern(phone)
-    ist_handy = kern.startswith(("15", "16", "17"))
+    ist_handy = kern.startswith(("15", "16", "17")) and 10 <= len(kern) <= 11
+    if phone and (re.search(r"\d\.\d", phone) or re.search(r"/\d+\.\d", phone) or not (7 <= len(kern) <= 12)):
+        return {"ergebnis": "maengel", "text": "geprüft: Telefonnummer unbrauchbar", "checks": {**checks, "telefon": False}}
     nachtrag: dict = {}
     if len(kern) >= 7 and kern in seiten_ziffern:
         checks["telefon"] = True
     else:
         checks["telefon"] = False
     if not ist_handy:
-        handys = [h for h in HANDY_MUSTER.findall(roh) if len(_telefon_kern(h)) >= 10]
+        handys = [h for h in HANDY_MUSTER.findall(" ".join(texte) + " " + tel_links) if 10 <= len(_telefon_kern(h)) <= 11]
         if handys:
             k = _telefon_kern(handys[0])
             nachtrag["phone"] = "0" + k[:3] + " " + k[3:]
