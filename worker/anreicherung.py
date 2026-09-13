@@ -366,10 +366,16 @@ def kette(firma: dict) -> dict:
     # 6c · KI-Nachschlag NUR wenn Regeln und Lexikon leer blieben — spart
     # rund zwei Drittel der KI-Aufrufe (Sparmodus, Justin 12.09.2026:
     # Guthaben knapp). Nimmt die schon geladenen Impressum-/Kontakt-Seiten.
+    # 13.09.2026 (Welle 26): Bei 40 % der lebenden Websites fand Modul 6 keine
+    # Impressum-Seite, der Lexikon-Finder (6b) lud aber Start-/Kontakt-Seiten —
+    # die landen jetzt ebenfalls in seiten_html, Impressum-artige URLs zuerst.
     if website and web_lebt is not False and seiten_html and not any(k.get("name") for k in kontakte) \
        and os.environ.get("ANTHROPIC_API_KEY") and not KI_STATUS["aus"]:
         try:
-            for url, html in list(seiten_html.items())[:2]:
+            def _ki_rang(url: str) -> int:
+                u = url.lower()
+                return 0 if re.search(r"impressum|imprint|kontakt|contact|ueber|über|about|team|profil", u) else 1
+            for url, html in sorted(seiten_html.items(), key=lambda e: _ki_rang(e[0]))[:2]:
                 imp_ki = web.impressum_auslesen(html, ki_abfrage=ki_abfrage)
                 if imp_ki.get("nachname"):
                     kontakte.append({

@@ -293,6 +293,7 @@ def namens_nachlauf(website: str, geladen: dict[str, str], hole, max_seiten: int
             geprueft.append(website)
             if status == 200 and start_html:
                 texte.append(html_zu_text(start_html))
+                geladen[website] = start_html  # für den KI-Nachschlag (6c) aufheben
         except Exception:  # noqa: BLE001
             start_html = ""
     if start_html:
@@ -318,6 +319,7 @@ def namens_nachlauf(website: str, geladen: dict[str, str], hole, max_seiten: int
         n += 1
         if status == 200 and html:
             texte.append(html_zu_text(html))
+            geladen[url] = html  # für den KI-Nachschlag (6c) aufheben
             treffer = finde_personenname(texte)
             if treffer and treffer["score"] >= 4:
                 break
