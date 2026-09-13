@@ -303,7 +303,8 @@ def pruefe(lead: dict) -> dict:
     if not ist_handy:
         handys = [h for h in HANDY_MUSTER.findall(roh) if len(_telefon_kern(h)) >= 10]
         if handys:
-            nachtrag["phone"] = re.sub(r"\s+", " ", handys[0]).strip()
+            k = _telefon_kern(handys[0])
+            nachtrag["phone"] = "0" + k[:3] + " " + k[3:]
             checks["handy_nachgetragen"] = True
             checks["telefon"] = True
             ist_handy = True
@@ -312,15 +313,15 @@ def pruefe(lead: dict) -> dict:
     elif not checks["telefon"]:
         maengel.append("Handynummer nicht auf Website")
 
-    # E-Mail: Pflicht (Justin 13.09.). Fehlt sie, von der Website nachtragen.
+    # E-Mail: kein K.-o.-Kriterium (Justin 13.09., 09:50). Fehlt sie, von der
+    # Website nachtragen; fehlt sie auch dort, bleibt der Lead trotzdem freigegeben.
     dom_web = _domain(website)
     if email and "@" in email:
         dom_mail = email.split("@", 1)[1]
         if dom_mail == dom_web or (dom_web and dom_mail.endswith("." + dom_web)) or email in roh.lower():
             checks["email"] = True
         else:
-            checks["email"] = False
-            maengel.append("E-Mail passt nicht zur Website")
+            checks["email"] = "fremd"
     else:
         kandidaten = [m for m in MAIL_MUSTER.findall(roh) if not MAIL_SPERRE.search(m)]
         eigene = [m for m in kandidaten if dom_web and m.lower().split("@", 1)[1] == dom_web]
@@ -331,10 +332,9 @@ def pruefe(lead: dict) -> dict:
             checks["email_nachgetragen"] = True
         else:
             checks["email"] = False
-            maengel.append("keine E-Mail gefunden")
 
     alles_ok = (checks["name"] is True and checks["telefon"] is True and ist_handy
-                and checks["email"] is True and checks["website"] is True and checks["solo"] is True)
+                and checks["website"] is True and checks["solo"] is True)
     if alles_ok:
         return {"ergebnis": "ok", "text": "geprüft ✓", "checks": checks, "nachtrag": nachtrag}
     return {"ergebnis": "maengel", "text": ("geprüft: " + "; ".join(maengel))[:200], "checks": checks, "nachtrag": nachtrag}
