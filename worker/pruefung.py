@@ -72,7 +72,8 @@ KEIN_PERSONENNAME = re.compile(
     r"massage|nails|nagel|design|foto|consult|media|medien|shop|store|handel|\bbau\b|elektro|"
     r"dach|maler|garten|pflege|mobil|zentrum|institut|schule|akademie|agentur|büro|buero|"
     r"werkstatt|betrieb|firma|inhaber|geschäftsf|architekt|\bdipl|gutachter|sachverst|makler|\bplaner|berater|trainer|"
-    r"steuerber|rechtsanw|anwalt|notar|apotheke|kanzlei|\b(dekra|tüv|tuev|gtü|gtue|europcar)\b|\d", re.I)
+    r"steuerber|rechtsanw|anwalt|notar|apotheke|kanzlei|mustermann|musterfrau|\bdienst|technischer|fachkraft|"
+    r"\b(dekra|tüv|tuev|gtü|gtue|europcar)\b|\d", re.I)
 # Floskeln/Menüpunkte, die als „Name" gelandet sind (z. B. „Sprechen Sie", „Gordon House" = Google-Adresse)
 QUATSCH_MUSTER = re.compile(
     r"\b(sie|ihr|ihre|ihrem|ihren|uns|mich|dich|wir|menu|menü|home|jetzt|anfrage|angebot|angebote|kontakt|"
