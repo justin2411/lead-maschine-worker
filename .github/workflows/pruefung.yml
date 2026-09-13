@@ -14,6 +14,9 @@ on:
       kette:
         description: "Ketten-Runden: erneut starten, solange Leads offen sind (0 = aus)"
         default: "0"
+      dauer:
+        description: "Dauerlauf in Minuten: Stapel um Stapel im selben Lauf, bis die Zeit um ist oder nichts mehr offen ist (0 = ein Stapel)"
+        default: "300"
 
 permissions:
   actions: write
@@ -22,7 +25,7 @@ permissions:
 jobs:
   pruefung:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 350
     steps:
       - uses: actions/checkout@v5
 
@@ -46,7 +49,20 @@ jobs:
           APP_URL: ${{ secrets.APP_URL }}
           WORKER_TOKEN: ${{ secrets.WORKER_TOKEN }}
         run: |
-          python worker/pruefung.py --limit "${{ github.event.inputs.limit }}"
+          # Dauerlauf (13.09.2026): Karten-Wellen füllen die 40 Runner-Plätze; ein Lauf,
+          # der je Stapel neu ansteht, kommt lange nicht dran. Deshalb bleibt dieser
+          # Lauf bis zu `dauer` Minuten aktiv und prüft Stapel um Stapel.
+          dauer="${{ github.event.inputs.dauer }}"; [ -z "$dauer" ] && dauer=0
+          start=$(date +%s); runde=0
+          while :; do
+            runde=$((runde+1))
+            python worker/pruefung.py --limit "${{ github.event.inputs.limit }}"
+            rest=$(grep '^rest=' "$GITHUB_OUTPUT" | tail -1 | cut -d= -f2)
+            echo "Runde $runde fertig, offen: ${rest:-?}"
+            [ "${rest:-0}" = "0" ] && break
+            [ $(( ($(date +%s) - start) / 60 )) -ge "$dauer" ] && break
+          done
+          echo "rest=${rest:-0}" >> "$GITHUB_OUTPUT"
 
       - name: Nächsten Stapel anstoßen
         if: ${{ steps.stapel.outputs.rest != '0' && github.event.inputs.kette != '0' && github.event.inputs.kette != '' }}
@@ -61,5 +77,6 @@ jobs:
           fi
           gh workflow run pruefung.yml --ref "$GITHUB_REF_NAME" \
             -f limit="${{ github.event.inputs.limit }}" \
-            -f kette="$rest_runden"
+            -f kette="$rest_runden" \
+            -f dauer="${{ github.event.inputs.dauer }}"
           echo "Kette: nächster Stapel angestoßen ($rest_runden Runden übrig)" >> "$GITHUB_STEP_SUMMARY"
