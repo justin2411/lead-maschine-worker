@@ -1,16 +1,2 @@
-# 13.09.2026 21:30: Anthropic-Guthaben wieder da (Justin) -> KI-Nachlauf komplett: handy3 1-9 (Welle 26b Handy) + w28ki 1-6 (Welle-28-Firmen ohne KI). Firmen ohne Namen stehen wieder auf roh.
-anreicherung.yml;suchlauf_id=700cd01d-a454-461b-a13e-3f8a7777b4bb;limit=0;kette=2
-anreicherung.yml;suchlauf_id=dfe38764-8c36-4d41-aaf7-4431712ced2b;limit=0;kette=2
-anreicherung.yml;suchlauf_id=d2e195ca-9b15-4606-b610-5aa3b1c3901c;limit=0;kette=2
-anreicherung.yml;suchlauf_id=bf87465d-954d-47df-a599-19332bbf301d;limit=0;kette=2
-anreicherung.yml;suchlauf_id=3e8ede14-350f-4416-bfd9-fe4f2677ec4b;limit=0;kette=2
-anreicherung.yml;suchlauf_id=0032b270-37ca-4d86-ad64-924e774d0596;limit=0;kette=2
-anreicherung.yml;suchlauf_id=05092c66-1744-4556-95d0-751cfac2da01;limit=0;kette=2
-anreicherung.yml;suchlauf_id=c4de34af-174e-45c0-951f-04e2c6566f5a;limit=0;kette=2
-anreicherung.yml;suchlauf_id=c13cf826-a715-423f-bb5f-56b17d2ce82e;limit=0;kette=2
-anreicherung.yml;suchlauf_id=9619ffb2-c8f8-443e-be10-01071e38c5c4;limit=0;kette=2
-anreicherung.yml;suchlauf_id=8f1afcd3-73f4-4f05-a055-3be3a9378163;limit=0;kette=2
-anreicherung.yml;suchlauf_id=d0022ed6-cc35-42c9-a6b6-8f5e12aca67e;limit=0;kette=2
-anreicherung.yml;suchlauf_id=55c12c3c-1a7c-4253-894e-9bb9fec85fbe;limit=0;kette=2
-anreicherung.yml;suchlauf_id=f86e843d-5856-43da-9c89-190c3b541eff;limit=0;kette=2
-anreicherung.yml;suchlauf_id=4223782a-ff9b-4808-ba12-a52aafea120d;limit=0;kette=2
+# 13.09.2026 21:50: KI-Nachlauf w28ki2 - 320 Welle-28-B/F-Firmen, deren Anreicherung im Guthaben-Loch (21:05-21:24) ohne KI lief
+anreicherung.yml;suchlauf_id=325f0cf7-7ffd-412d-bda7-7bc80dc4479d;limit=0;kette=2
