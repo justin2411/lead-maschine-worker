@@ -43,7 +43,9 @@ from concurrent.futures import ThreadPoolExecutor
 from leadkern import web
 
 sys.path.insert(0, os.path.dirname(__file__))
-from namen import html_zu_text, namens_urls  # noqa: E402
+from namen import VORNAMEN, html_zu_text, namens_urls  # noqa: E402
+
+VORNAMEN_LEX = {str(v).strip().lower() for v in (VORNAMEN.keys() if isinstance(VORNAMEN, dict) else VORNAMEN)}
 
 USER_AGENT = "lead-maschine-pruefung/1.0"
 PARALLEL = 4
@@ -56,6 +58,25 @@ KEIN_SOLO_MUSTER = re.compile(
     r"wir\s+sind\s+ein\s+team|team\s+von\s+\d+|\d+\s+mitarbeiter|"
     r"\b(gmbh|ug\s*\(haftungsbeschränkt\)|\bag\b|\bkg\b|ohg|franchise|zentrale)\b|"
     r"geschäftsführer(in)?:|handelsregister|hrb\s?\d", re.I)
+# Plausibilität Ansprechpartner (Justin 13.09.: „richtigen Namen des AP … kein Quatsch"):
+# Firmen-/Berufsbegriffe, Titel oder Ziffern im Namensfeld → kein Personenname.
+KEIN_PERSONENNAME = re.compile(
+    r"praxis|service|beauty|studio|salon|heilpr|gmbh|kosmetik|physio|ergo|therap|coach|team|"
+    r"massage|nails|nagel|design|foto|consult|media|medien|shop|store|handel|\bbau\b|elektro|"
+    r"dach|maler|garten|pflege|mobil|zentrum|institut|schule|akademie|agentur|büro|buero|"
+    r"werkstatt|betrieb|firma|inhaber|geschäftsf|\d", re.I)
+# Floskeln/Menüpunkte, die als „Name" gelandet sind (z. B. „Sprechen Sie", „Gordon House" = Google-Adresse)
+QUATSCH_MUSTER = re.compile(
+    r"\b(sie|ihr|ihre|ihrem|ihren|uns|mich|dich|wir|menu|menü|home|jetzt|anfrage|angebot|angebote|kontakt|"
+    r"cookie|cookies|datenschutz|impressum|leistungen|preise|fragen|website|telefon|phone|email|e-mail|mail|"
+    r"adresse|anbieter|verantwortlich|verantwortlicher|social|instagram|facebook|youtube|google|toggle|page|"
+    r"select|close|open|blog|about|start|startseite|über|ueber|willkommen|herzlich|dein|deine|der|die|das|"
+    r"des|den|dem|und|für|fuer|mit|zum|zur|vom|von der|str|straße|strasse|weg|platz|gasse|allee|"
+    r"gordon house|main|number|name|infos|info|aktuelle|hilfreiche|kostenlos|kostenlose|kostenloses|kostenfrei|"
+    r"kostenfreies|erstgespräch|buchen|anrufen|rückruf|nutzen|senden|besuchen|vereinbaren|lassen|sprechen|"
+    r"bewerten|schließen|erweitern|anfordern|erreichbarkeit|einstellungen|dokumente|partner|experte|expertin|"
+    r"reise|aufgabe|kunden|brautpaar|sollten|hat|bei|per|am|im|an)\b", re.I)
+TITEL_MUSTER = re.compile(r"^(?:(?:dr|prof|dipl|med|dent|phil|rer|nat|ing|mag|jur|h\.?c|habil)\.?[-\w.]*\s+)+", re.I)
 HANDY_MUSTER = re.compile(r"(?:\+49|0049|0)[\s./-]?1[5-7]\d[\d\s./-]{6,12}")
 MAIL_MUSTER = re.compile(r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}")
 MAIL_SPERRE = re.compile(r"example|wixpress|sentry|noreply|no-reply|webmaster@|@(google|apple|facebook|instagram|jimdo|wordpress|1und1|ionos|strato)\.", re.I)
@@ -159,11 +180,21 @@ def lade_seiten(website: str) -> tuple[dict[str, str], str]:
     """Startseite + Impressum/Kontakt/Über-mich. Rückgabe: {url: html}, Fehlertext."""
     url = _website_url(website)
     geladen: dict[str, str] = {}
-    status, html = 0, ""
-    try:
-        status, html = hole(url)
-    except Exception as ex:  # noqa: BLE001
-        return {}, f"Website nicht erreichbar ({type(ex).__name__})"
+    status, html, fehler = 0, "", ""
+    for versuch in range(2):
+        try:
+            status, html = hole(url)
+            fehler = ""
+        except Exception as ex:  # noqa: BLE001
+            status, html, fehler = 0, "", f"Website nicht erreichbar ({type(ex).__name__})"
+        if html and status < 400:
+            break
+        if status not in (0, 429, 502, 503, 504):
+            break
+        if versuch == 0:
+            time.sleep(5)
+    if fehler:
+        return {}, fehler
     if status >= 400 or not html:
         return {}, f"Website nicht erreichbar (HTTP {status})"
     geladen[url] = html
@@ -217,23 +248,36 @@ def pruefe(lead: dict) -> dict:
         maengel.append("Website ist ein Portal/Verzeichnis")
         checks["website"] = "fremd"
 
-    # Name
-    teile = [t for t in re.split(r"[\s-]+", _norm(name)) if len(t) >= 2]
-    if len(teile) >= 2:
+    # Name: erst Plausibilität (Personenname, 2–3 Wörter, Vorname bekannt), dann Abgleich mit Website
+    name_ohne_titel = TITEL_MUSTER.sub("", name).strip() or name
+    worte = [w for w in re.split(r"\s+", name_ohne_titel) if w]
+    teile = [t for t in re.split(r"[\s-]+", _norm(name_ohne_titel)) if len(t) >= 2]
+    if KEIN_PERSONENNAME.search(name_ohne_titel) or QUATSCH_MUSTER.search(name_ohne_titel):
+        checks["name"] = False
+        maengel.append("kein Personenname")
+    elif len(worte) < 2 or len(worte) > 3 or len(teile) < 2:
+        checks["name"] = False
+        maengel.append("Name unvollständig")
+    else:
         vorname, nachname = teile[0], teile[-1]
+        vorname_bekannt = vorname in VORNAMEN_LEX or (len(teile) >= 3 and teile[1] in VORNAMEN_LEX)
         vn_da = re.search(r"\b" + re.escape(vorname) + r"\b", voll) is not None
         nn_da = re.search(r"\b" + re.escape(nachname) + r"\b", voll) is not None
-        if vn_da and nn_da:
+        # Unbekannter Vorname (nicht im Lexikon): Name muss als ganze Wortfolge auf der Website stehen
+        ganz_da = re.search(r"\b" + re.escape(vorname) + r"\b(?:\W+\w+){0,2}?\W+" + re.escape(nachname) + r"\b", voll) is not None \
+            or re.search(r"\b" + re.escape(nachname) + r"\b\W+" + re.escape(vorname) + r"\b", voll) is not None
+        checks["vorname_lexikon"] = vorname_bekannt
+        if vn_da and nn_da and (vorname_bekannt or ganz_da):
             checks["name"] = True
+        elif vn_da and nn_da:
+            checks["name"] = "getrennt"
+            maengel.append("Vorname unbekannt, Name nicht als Ganzes auf Website")
         elif nn_da:
             checks["name"] = "nachname"
             maengel.append("Vorname nicht auf Website")
         else:
             checks["name"] = False
             maengel.append("Name nicht auf Website")
-    else:
-        checks["name"] = False
-        maengel.append("Name unvollständig")
 
     # Solo-Check (Impressum/Startseite): Team, Filialen, GmbH → Rückhand
     solo_treffer = KEIN_SOLO_MUSTER.search(voll)
