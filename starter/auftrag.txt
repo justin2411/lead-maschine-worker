@@ -1,15 +1,18 @@
-# 13.09.2026 23:35: D-138 Testlaeufe 50 je Hebammen-Listen-Quelle (anreichern=0, Leads landen gehalten in der Rueckhand) + 2 Pruef-Ketten fuer die 434 frischen Familie-Leads. Batch H und Scout sind durch (nicht erneut!)
-suchlauf.yml;branche=hebammen;quellen=verband_hebammen_giessen;suchlauf_id=92ba5acd-a53b-4f84-af88-c02beb7d6f0a;limit=50;anreichern=0
-suchlauf.yml;branche=hebammen;quellen=verband_hebammen_hamburg_geburt;suchlauf_id=35a650b5-65a6-4a2a-aba3-23f430c13115;limit=50;anreichern=0
-suchlauf.yml;branche=hebammen;quellen=verband_hebammen_hassfurt;suchlauf_id=b9761dfd-316b-444f-878d-b1c3d82210cf;limit=50;anreichern=0
-suchlauf.yml;branche=hebammen;quellen=verband_hebammen_heidenheim;suchlauf_id=0e7d9dcb-8d6c-411b-afc0-a9f900be6fcf;limit=50;anreichern=0
-suchlauf.yml;branche=hebammen;quellen=verband_hebammen_hildesheim;suchlauf_id=a6101ccd-0b3b-479f-b7ab-2454c77ed032;limit=50;anreichern=0
-suchlauf.yml;branche=hebammen;quellen=verband_hebammen_kissingen;suchlauf_id=2793791c-e3a6-4834-93bd-c5f40e281de3;limit=50;anreichern=0
-suchlauf.yml;branche=hebammen;quellen=verband_hebammen_konstanz;suchlauf_id=064064ae-0484-4f1b-9114-b8f45108893b;limit=50;anreichern=0
-suchlauf.yml;branche=hebammen;quellen=verband_hebammen_leverkusen;suchlauf_id=c8289ab0-5507-40cb-a842-3d014d4a3fba;limit=50;anreichern=0
-suchlauf.yml;branche=hebammen;quellen=verband_hebammen_limburg;suchlauf_id=3aa5f5a4-9cd9-4284-8348-09bad04e00a9;limit=50;anreichern=0
-suchlauf.yml;branche=hebammen;quellen=verband_hebammen_marburg;suchlauf_id=60d27ddd-ee83-4619-af03-6c7d2fb7630c;limit=50;anreichern=0
-suchlauf.yml;branche=hebammen;quellen=verband_hebammen_mkk;suchlauf_id=e86a9e9c-3285-4125-ac76-2e9e0c50e6de;limit=50;anreichern=0
-suchlauf.yml;branche=hebammen;quellen=verband_hebammen_traunstein;suchlauf_id=b8c6e872-f49f-4fb2-9918-8042477325c0;limit=50;anreichern=0
-pruefung.yml;limit=300;kette=2;dauer=120
-pruefung.yml;limit=300;kette=2;dauer=120
+# 14.09.2026 07:15: D-139 Batch AT-CH - Hebammen in Oesterreich (Wien nach Bezirken), deutschsprachiger Schweiz, Suedtirol, Liechtenstein: 17 Bloecke ab Index 1114. Testlaeufe D-138 und Batch H sind durch (nicht erneut!)
+suchlauf.yml;branche=hebammen;quellen=maps;suchlauf_id=2ad454f5-ad3a-4589-bc38-958d599c678b;limit=0;maps_ab=1114
+suchlauf.yml;branche=hebammen;quellen=maps;suchlauf_id=34b0a836-8773-46e4-b252-19f5cfca5262;limit=0;maps_ab=1134
+suchlauf.yml;branche=hebammen;quellen=maps;suchlauf_id=9226a305-b79d-448a-ae11-b1d425340696;limit=0;maps_ab=1154
+suchlauf.yml;branche=hebammen;quellen=maps;suchlauf_id=17473502-2e0b-401f-8a0d-22afa3b9a20b;limit=0;maps_ab=1174
+suchlauf.yml;branche=hebammen;quellen=maps;suchlauf_id=8dfc64cb-7015-4600-8740-a442b056e2f3;limit=0;maps_ab=1194
+suchlauf.yml;branche=hebammen;quellen=maps;suchlauf_id=2dc42119-4819-4b2f-bd2b-5f07f26f1b82;limit=0;maps_ab=1214
+suchlauf.yml;branche=hebammen;quellen=maps;suchlauf_id=83a325e3-4246-47d2-8f26-7338b1110654;limit=0;maps_ab=1234
+suchlauf.yml;branche=hebammen;quellen=maps;suchlauf_id=198eefcc-9dec-4a7a-9c9c-1c16cc57f7ac;limit=0;maps_ab=1254
+suchlauf.yml;branche=hebammen;quellen=maps;suchlauf_id=048d50a3-37f8-4da0-be09-fdf857bab59e;limit=0;maps_ab=1274
+suchlauf.yml;branche=hebammen;quellen=maps;suchlauf_id=a6233435-d2ea-434a-b1fa-bc2681e16496;limit=0;maps_ab=1294
+suchlauf.yml;branche=hebammen;quellen=maps;suchlauf_id=4faefd95-fcc3-4c68-a25d-405b8e813b52;limit=0;maps_ab=1314
+suchlauf.yml;branche=hebammen;quellen=maps;suchlauf_id=2f5933f5-22fe-456a-8e8d-b2fa800f59e4;limit=0;maps_ab=1334
+suchlauf.yml;branche=hebammen;quellen=maps;suchlauf_id=b1e2fd38-c3e8-4688-bda3-49583d74ea37;limit=0;maps_ab=1354
+suchlauf.yml;branche=hebammen;quellen=maps;suchlauf_id=42e0ed24-bba6-4065-b9d9-ecde20c472eb;limit=0;maps_ab=1374
+suchlauf.yml;branche=hebammen;quellen=maps;suchlauf_id=ff856f36-ebe0-4c05-a261-d6f9469c23c1;limit=0;maps_ab=1394
+suchlauf.yml;branche=hebammen;quellen=maps;suchlauf_id=f51c06f1-efa2-4d1a-a706-4afd54c01c63;limit=0;maps_ab=1414
+suchlauf.yml;branche=hebammen;quellen=maps;suchlauf_id=82886ec9-563f-4808-aeed-6a17de4f9c34;limit=0;maps_ab=1434
