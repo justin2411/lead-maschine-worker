@@ -182,14 +182,52 @@ def _ziffern(text: str) -> str:
     return re.sub(r"\D", "", text)
 
 
+# D-139 (14.09.2026): Österreich, Schweiz, Liechtenstein, Südtirol. Auslandsnummern
+# behalten die Länderkennung im Kern (43…, 41…, 423…, 39…), damit sie nicht mit
+# deutschen Nummern verwechselt werden; verglichen wird mit dem nationalen Teil.
+AUSLAND_KENNUNGEN = ("423", "43", "41", "39")
+
+
 def _telefon_kern(phone: str) -> str:
-    """Nationale Ziffernfolge ohne Länderkennung und ohne führende 0."""
+    """Nationale Ziffernfolge ohne Länderkennung und ohne führende 0 — bei
+    Auslandsnummern (+43/+41/+423/+39, nur mit ausdrücklicher Vorwahl) MIT Kennung."""
+    roh = (phone or "").strip()
     z = _ziffern(phone)
-    if z.startswith("0049"):
-        z = z[4:]
-    elif z.startswith("49") and len(z) >= 11:
+    international = roh.startswith("+") or z.startswith("00")
+    if z.startswith("00"):
+        z = z[2:]
+        international = True
+    if international and z.startswith(AUSLAND_KENNUNGEN) and not z.startswith("49"):
+        return z
+    if z.startswith("49") and (international or len(z) >= 11):
         z = z[2:]
     return z.lstrip("0")
+
+
+def _ausland(kern: str) -> bool:
+    return kern.startswith(AUSLAND_KENNUNGEN) and len(kern) >= 10
+
+
+def _national(kern: str) -> str:
+    """Nationaler Teil ohne Länderkennung (für den Abgleich mit der Website)."""
+    if _ausland(kern):
+        for k in AUSLAND_KENNUNGEN:
+            if kern.startswith(k):
+                return kern[len(k):]
+    return kern
+
+
+def _ist_handy(kern: str) -> bool:
+    """DE 015/016/017 · AT +43 6[5-9]… · CH +41 7[5-9]… · IT +39 3…"""
+    if _ausland(kern):
+        if kern.startswith("436") and len(kern) >= 4 and kern[3] in "56789":
+            return 11 <= len(kern) <= 13
+        if kern.startswith("417") and len(kern) >= 4 and kern[3] in "56789":
+            return 11 <= len(kern) <= 12
+        if kern.startswith("393"):
+            return 11 <= len(kern) <= 13
+        return False
+    return kern.startswith(("15", "16", "17")) and 10 <= len(kern) <= 11
 
 
 def _domain(url: str) -> str:
@@ -237,7 +275,7 @@ def _telefon_von_website(texte: list[str], tel_links: str) -> str:
                 kerne.append(k)
     if not kerne:
         return ""
-    handys = [k for k in kerne if k.startswith(("15", "16", "17")) and 10 <= len(k) <= 11]
+    handys = [k for k in kerne if _ist_handy(k)]
     k = handys[0] if handys else kerne[0]
     if handys:
         return "0" + k[:3] + " " + k[3:]
@@ -395,19 +433,28 @@ def pruefe(lead: dict) -> dict:
     tel_links = " ".join(re.findall(r'href=["\']tel:([^"\']+)', roh, re.I))
     seiten_ziffern = _ziffern(" ".join(texte) + " " + tel_links)
     kern = _telefon_kern(phone)
-    ist_handy = kern.startswith(("15", "16", "17")) and 10 <= len(kern) <= 11
-    if phone and (re.search(r"\d\.\d", phone) or re.search(r"/\d+\.\d", phone) or not (7 <= len(kern) <= 12)):
+    ist_handy = _ist_handy(kern)
+    ausland = _ausland(kern)
+    if phone and (re.search(r"\d\.\d", phone) or re.search(r"/\d+\.\d", phone) or not (7 <= len(kern) <= 13)):
         return {"ergebnis": "maengel", "text": "geprüft: Telefonnummer unbrauchbar", "checks": {**checks, "telefon": False}}
-    if len(kern) >= 7 and kern in seiten_ziffern:
+    if len(kern) >= 7 and _national(kern) in seiten_ziffern:
         checks["telefon"] = True
     else:
         checks["telefon"] = False
     # Telefon-Korrektur (D-126): Karten-Nummer nicht auf der Website → Nummer der Website
     # übernehmen (die Person steht ja nachweislich auf der Seite). Handy bevorzugt.
-    if not checks["telefon"] and checks["name"] in (True, "korrigiert"):
+    # Auslands-Leads (D-139): keine Korrektur/kein Nachtrag mit deutschen Mustern —
+    # Karten-Nummer bleibt, Handy-Status nach Landesregel, sonst Festnetz (Prio B).
+    if ausland:
+        if not ist_handy:
+            checks["festnetz"] = True
+        if not checks["telefon"]:
+            checks["telefon"] = "karte"
+            checks["ausland"] = True
+    elif not checks["telefon"] and checks["name"] in (True, "korrigiert"):
         neu = _telefon_von_website(texte, tel_links)
         neu_kern = _telefon_kern(neu) if neu else ""
-        neu_ist_handy = neu_kern.startswith(("15", "16", "17")) and 10 <= len(neu_kern) <= 11
+        neu_ist_handy = _ist_handy(neu_kern)
         if ist_handy and neu and not neu_ist_handy:
             # Karten-Handy, Website zeigt nur Festnetz: Handy behalten (Person und Betrieb
             # sind über die Website bestätigt; die Mobilnummer steht oft bewusst nicht online).
@@ -419,7 +466,7 @@ def pruefe(lead: dict) -> dict:
             checks["telefon_alt"] = phone
             checks["telefon"] = "korrigiert"
             kern = _telefon_kern(neu)
-            ist_handy = kern.startswith(("15", "16", "17")) and 10 <= len(kern) <= 11
+            ist_handy = _ist_handy(kern)
             if not ist_handy:
                 checks["festnetz"] = True
     if checks["telefon"] in ("korrigiert", "karte"):
