@@ -1,4 +1,4 @@
-# 30.09.2026 Gelbe Reserve nachschaerfen (Justin: Ja): 12.861 gelbe Firmen der besten Gruppen mit Website ohne Namen, 26 Portionen (Handy zuerst). Runden je 10 per awk nach auftrag.txt kopieren. Rollback: fabrik2_gelb30_herkunft.
+# 30.09.2026 Gelbe Reserve nachschaerfen (Justin: Ja): 8.196 gelbe Firmen der besten Gruppen mit Website, ohne Namen und ohne bisherigen KI-Versuch (4.665 nach Korrektur zurueckgesetzt), 26 Portionen (Handy zuerst). Runden je 10 per awk nach auftrag.txt kopieren. Rollback: fabrik2_gelb30_herkunft.
 # Runde G1
 anreicherung.yml;suchlauf_id=f44ee840-ace5-47c6-8540-ee2d2996a82f;limit=0;kette=2
 anreicherung.yml;suchlauf_id=9a4e9b8f-3394-4660-95c9-6460a0b47342;limit=0;kette=2
