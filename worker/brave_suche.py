@@ -243,6 +243,13 @@ BEGRIFFE = {
     'geburtsvorbereitung': 'Geburtsvorbereitungskurs',
     'rueckbildung': 'Rückbildungskurs',
     'familienhebamme': 'Familienhebamme',
+    # Welle 31 (30.09.2026): weitere Hebammen-Suchbegriffe
+    'hebamme_wochenbett': 'Hebamme Wochenbettbetreuung Hausbesuch',
+    'hebamme_nachsorge': 'Hebamme Nachsorge',
+    'hebammenhilfe': 'Hebammenhilfe',
+    'beleghebamme': 'Beleghebamme',
+    'hebamme_akupunktur': 'Hebamme Akupunktur Schwangerschaft',
+    'hebamme_vorsorge': 'Hebamme Schwangerenvorsorge',
     'doula_kurz': 'Doula',
     'stillberatung': 'Stillberatung',
     'beikost': 'Beikostberatung',
