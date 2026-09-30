@@ -1,0 +1,47 @@
+# Welle 30 Anreicherung (vorbereitet 30.09.2026 03:00 Berlin). NICHT direkt dispatchen.
+# Erst nach Justins OK zum KI-Guthaben: je Runde die 10 Zeilen als starter/auftrag.txt KOMPLETT ersetzen und pushen (max. ~10 Portionen parallel, DB-Last).
+# Naechste Runde erst, wenn die vorige keine roh-Firmen mehr hat (select ... where foerderband->>'ki_nachlauf'='w30').
+# Runde 1: Familie & Geburt Handy (1-5) + Handy Ernaehrung/Heilpraktiker/HP-Psych (12-16)
+anreicherung.yml;suchlauf_id=5e1ecd53-1356-4d1d-aa8b-1f5c491f9dd7;limit=0;kette=2
+anreicherung.yml;suchlauf_id=414d2950-a7a1-4554-8e62-f619f9125ac0;limit=0;kette=2
+anreicherung.yml;suchlauf_id=a3c06376-ae32-4aa7-aa8b-34c08b546578;limit=0;kette=2
+anreicherung.yml;suchlauf_id=c21e0957-136b-4ef4-b22d-5f5e9499faeb;limit=0;kette=2
+anreicherung.yml;suchlauf_id=00cbf56a-9a7e-40ba-b449-54da64d3f63f;limit=0;kette=2
+anreicherung.yml;suchlauf_id=a3d711bc-f2ef-4e52-b635-b465fdadef8e;limit=0;kette=2
+anreicherung.yml;suchlauf_id=ed8f9c54-7ff1-460e-8075-0575e020886e;limit=0;kette=2
+anreicherung.yml;suchlauf_id=7ee42fda-393a-4d8f-b1fb-20847e9cc923;limit=0;kette=2
+anreicherung.yml;suchlauf_id=7dfa40b7-b5c9-4b0a-ab8a-e44e2482b3ca;limit=0;kette=2
+anreicherung.yml;suchlauf_id=db9d027c-fe18-464b-a9e8-d9565b3ba6b1;limit=0;kette=2
+# Runde 2: Handy Hochzeit/Osteopath/Tierheilpraktiker/Yoga (17-26)
+anreicherung.yml;suchlauf_id=b7ff7bf9-cd1e-479c-b4c6-0b3aec3be245;limit=0;kette=2
+anreicherung.yml;suchlauf_id=49de153b-0b61-4643-a56e-2023095aa058;limit=0;kette=2
+anreicherung.yml;suchlauf_id=1251ab81-6401-43b1-af4a-eafd47ace4a3;limit=0;kette=2
+anreicherung.yml;suchlauf_id=fc5e3a0f-7b41-41fc-b2fe-6257efdbc6a0;limit=0;kette=2
+anreicherung.yml;suchlauf_id=c82881e6-1250-409c-9c3b-1e3a1e7e5896;limit=0;kette=2
+anreicherung.yml;suchlauf_id=1ee8e659-19ae-430c-b85a-117b95b261a0;limit=0;kette=2
+anreicherung.yml;suchlauf_id=6c495c6b-da4b-42e9-ba67-f7c1a72c938c;limit=0;kette=2
+anreicherung.yml;suchlauf_id=7096ef3e-dd98-49d8-82b8-783516217ea5;limit=0;kette=2
+anreicherung.yml;suchlauf_id=ee05710b-ccb6-49ac-a3e4-10e0382b413e;limit=0;kette=2
+anreicherung.yml;suchlauf_id=e49a0d8a-b589-4da1-b5f3-8f12cf17afd2;limit=0;kette=2
+# Runde 3: Festnetz Familie & Geburt (6-11) + Festnetz Ernaehrung/Heilpraktiker (27-30)
+anreicherung.yml;suchlauf_id=cae249ee-3d9a-4a11-a0ec-42d3abfd55cd;limit=0;kette=2
+anreicherung.yml;suchlauf_id=ef2c687e-e439-484a-81e1-628e134cc3a6;limit=0;kette=2
+anreicherung.yml;suchlauf_id=141af18c-8fb1-4952-a01e-742a73a21871;limit=0;kette=2
+anreicherung.yml;suchlauf_id=73a114e3-ada9-4bbe-a23a-75a8b98a3c8c;limit=0;kette=2
+anreicherung.yml;suchlauf_id=c902bc18-ad56-4c02-86a6-7d4f5c7f2981;limit=0;kette=2
+anreicherung.yml;suchlauf_id=8e82b73e-30b3-477e-9837-2d668d0dd43b;limit=0;kette=2
+anreicherung.yml;suchlauf_id=56510fdd-cbfc-4818-af23-8e3ca7cdf5ac;limit=0;kette=2
+anreicherung.yml;suchlauf_id=fdf27eaa-8444-4be1-9cb2-322f5b9c9a03;limit=0;kette=2
+anreicherung.yml;suchlauf_id=43393a64-4c43-415a-b48b-389ca1584c99;limit=0;kette=2
+anreicherung.yml;suchlauf_id=392dfb3e-5547-44bd-b65d-0ec1475c1b4c;limit=0;kette=2
+# Runde 4: Festnetz HP-Psych/Hochzeit/Osteopath/Tierheilpraktiker/Yoga (31-40)
+anreicherung.yml;suchlauf_id=de62a767-669b-4deb-a3e3-1a251311da19;limit=0;kette=2
+anreicherung.yml;suchlauf_id=dd00b9f1-38fa-4c83-82ff-f8ce5e81eb5b;limit=0;kette=2
+anreicherung.yml;suchlauf_id=77c2eac4-e2a0-4117-85b5-823d0e0a65eb;limit=0;kette=2
+anreicherung.yml;suchlauf_id=5728b1e3-aae1-4a7e-97ea-17e87f530222;limit=0;kette=2
+anreicherung.yml;suchlauf_id=e62d2317-962d-42ec-b108-a53ebe85341f;limit=0;kette=2
+anreicherung.yml;suchlauf_id=a3e57895-e8ee-4ffe-8945-5d72791d69c9;limit=0;kette=2
+anreicherung.yml;suchlauf_id=225b4c1d-b8c3-4810-b538-8c3bb032e10e;limit=0;kette=2
+anreicherung.yml;suchlauf_id=32cd12e2-c83b-42b5-97f3-81d277f59d4e;limit=0;kette=2
+anreicherung.yml;suchlauf_id=3e41172d-c3f3-4a82-b80d-691de46f9508;limit=0;kette=2
+anreicherung.yml;suchlauf_id=67c9a946-1e05-4c1f-b1ea-d4ca98b7f45c;limit=0;kette=2
