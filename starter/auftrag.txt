@@ -1,22 +1,15 @@
-# 30.09.2026 ~16:05 Welle 30 Runde 4 (Portionen 31-40) + gelbe Reserve G2 (Portionen 11-20) + W31 Hebammen Teil 2 (Portion 3, 162 Firmen). Nicht erneut dispatchen!
-anreicherung.yml;suchlauf_id=de62a767-669b-4deb-a3e3-1a251311da19;limit=0;kette=2
-anreicherung.yml;suchlauf_id=dd00b9f1-38fa-4c83-82ff-f8ce5e81eb5b;limit=0;kette=2
-anreicherung.yml;suchlauf_id=77c2eac4-e2a0-4117-85b5-823d0e0a65eb;limit=0;kette=2
-anreicherung.yml;suchlauf_id=5728b1e3-aae1-4a7e-97ea-17e87f530222;limit=0;kette=2
-anreicherung.yml;suchlauf_id=e62d2317-962d-42ec-b108-a53ebe85341f;limit=0;kette=2
-anreicherung.yml;suchlauf_id=a3e57895-e8ee-4ffe-8945-5d72791d69c9;limit=0;kette=2
-anreicherung.yml;suchlauf_id=225b4c1d-b8c3-4810-b538-8c3bb032e10e;limit=0;kette=2
-anreicherung.yml;suchlauf_id=32cd12e2-c83b-42b5-97f3-81d277f59d4e;limit=0;kette=2
-anreicherung.yml;suchlauf_id=3e41172d-c3f3-4a82-b80d-691de46f9508;limit=0;kette=2
-anreicherung.yml;suchlauf_id=67c9a946-1e05-4c1f-b1ea-d4ca98b7f45c;limit=0;kette=2
-anreicherung.yml;suchlauf_id=6dcc5c1f-1347-4de6-9d1d-ecf6f41da084;limit=0;kette=2
-anreicherung.yml;suchlauf_id=fc8a06c3-ca6f-4210-854c-8d7cad6020f8;limit=0;kette=2
-anreicherung.yml;suchlauf_id=f824bbff-5d33-412f-ad65-c9576b371858;limit=0;kette=2
-anreicherung.yml;suchlauf_id=09b647af-e60a-417e-9bcf-4e42e4da5462;limit=0;kette=2
-anreicherung.yml;suchlauf_id=0924893e-b1c0-4bb8-ad4c-ce2355c28a9f;limit=0;kette=2
-anreicherung.yml;suchlauf_id=82ec2bc1-e098-4fb1-a681-e32a85da4258;limit=0;kette=2
-anreicherung.yml;suchlauf_id=02bbf36f-5176-49a8-94f1-955c35f09676;limit=0;kette=2
-anreicherung.yml;suchlauf_id=6c94ff40-b36e-4080-9a72-6dcf4867297b;limit=0;kette=2
-anreicherung.yml;suchlauf_id=bb165ea4-c5c4-48fb-97bc-944458a11da8;limit=0;kette=2
-anreicherung.yml;suchlauf_id=5a0f7e83-bc75-41f4-9bdd-f327159b3a6e;limit=0;kette=2
-anreicherung.yml;suchlauf_id=4b18ec59-e628-4ba2-8583-8b394a97a244;limit=0;kette=2
+# 30.09.2026 ~17:05 8 Pruef-Ketten (6.579 pruefbar nach Altersscan) + gelbe Reserve G3 (Portionen 21-26). Nicht erneut dispatchen!
+pruefung.yml;limit=300;kette=3;dauer=300
+pruefung.yml;limit=300;kette=3;dauer=300
+pruefung.yml;limit=300;kette=3;dauer=300
+pruefung.yml;limit=300;kette=3;dauer=300
+pruefung.yml;limit=300;kette=3;dauer=300
+pruefung.yml;limit=300;kette=3;dauer=300
+pruefung.yml;limit=300;kette=3;dauer=300
+pruefung.yml;limit=300;kette=3;dauer=300
+anreicherung.yml;suchlauf_id=aa7c0df1-5869-48de-80d3-30c76dbe0bd2;limit=0;kette=2
+anreicherung.yml;suchlauf_id=1d972164-b789-4c66-900c-2a7117ce82c6;limit=0;kette=2
+anreicherung.yml;suchlauf_id=5acc9f3d-f84a-4688-b941-54fba767536b;limit=0;kette=2
+anreicherung.yml;suchlauf_id=2f18bc36-b806-4769-936c-a1c7e75e6c6c;limit=0;kette=2
+anreicherung.yml;suchlauf_id=d257ce53-33bb-4703-a782-d1d35480bacd;limit=0;kette=2
+anreicherung.yml;suchlauf_id=864f10cd-7209-48d5-b6b6-6471efa5accf;limit=0;kette=2
