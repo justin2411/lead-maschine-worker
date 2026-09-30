@@ -1,15 +1,6 @@
-# 30.09.2026 ~17:05 8 Pruef-Ketten (6.579 pruefbar nach Altersscan) + gelbe Reserve G3 (Portionen 21-26). Nicht erneut dispatchen!
+# 30.09.2026 ~22:00 5 Pruef-Ketten (1.342 pruefbar nach Altersscan). Nicht erneut dispatchen!
 pruefung.yml;limit=300;kette=3;dauer=300
 pruefung.yml;limit=300;kette=3;dauer=300
 pruefung.yml;limit=300;kette=3;dauer=300
 pruefung.yml;limit=300;kette=3;dauer=300
 pruefung.yml;limit=300;kette=3;dauer=300
-pruefung.yml;limit=300;kette=3;dauer=300
-pruefung.yml;limit=300;kette=3;dauer=300
-pruefung.yml;limit=300;kette=3;dauer=300
-anreicherung.yml;suchlauf_id=aa7c0df1-5869-48de-80d3-30c76dbe0bd2;limit=0;kette=2
-anreicherung.yml;suchlauf_id=1d972164-b789-4c66-900c-2a7117ce82c6;limit=0;kette=2
-anreicherung.yml;suchlauf_id=5acc9f3d-f84a-4688-b941-54fba767536b;limit=0;kette=2
-anreicherung.yml;suchlauf_id=2f18bc36-b806-4769-936c-a1c7e75e6c6c;limit=0;kette=2
-anreicherung.yml;suchlauf_id=d257ce53-33bb-4703-a782-d1d35480bacd;limit=0;kette=2
-anreicherung.yml;suchlauf_id=864f10cd-7209-48d5-b6b6-6471efa5accf;limit=0;kette=2
