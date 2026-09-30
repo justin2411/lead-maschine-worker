@@ -1,0 +1,30 @@
+# 30.09.2026 Gelbe Reserve nachschaerfen (Justin: Ja): 12.861 gelbe Firmen der besten Gruppen mit Website ohne Namen, 26 Portionen (Handy zuerst). Runden je 10 per awk nach auftrag.txt kopieren. Rollback: fabrik2_gelb30_herkunft.
+# Runde G1
+anreicherung.yml;suchlauf_id=f44ee840-ace5-47c6-8540-ee2d2996a82f;limit=0;kette=2
+anreicherung.yml;suchlauf_id=9a4e9b8f-3394-4660-95c9-6460a0b47342;limit=0;kette=2
+anreicherung.yml;suchlauf_id=d87de35f-09c1-47cb-976d-173a4e23b1be;limit=0;kette=2
+anreicherung.yml;suchlauf_id=e5afdd78-05ec-4e6f-ae34-4892c275ecae;limit=0;kette=2
+anreicherung.yml;suchlauf_id=566546d2-8661-43db-a0d3-f7a610af0d93;limit=0;kette=2
+anreicherung.yml;suchlauf_id=39969401-9454-4139-baff-bfb227b15143;limit=0;kette=2
+anreicherung.yml;suchlauf_id=187846bb-e120-458e-ac67-a790baf29a50;limit=0;kette=2
+anreicherung.yml;suchlauf_id=722cb479-d473-4c87-b9a6-429e0c4e9d41;limit=0;kette=2
+anreicherung.yml;suchlauf_id=1e55378f-4652-48f0-949b-b139eb7a7431;limit=0;kette=2
+anreicherung.yml;suchlauf_id=60848fb2-41b6-4582-895e-7d432ef3af84;limit=0;kette=2
+# Runde G2
+anreicherung.yml;suchlauf_id=6dcc5c1f-1347-4de6-9d1d-ecf6f41da084;limit=0;kette=2
+anreicherung.yml;suchlauf_id=fc8a06c3-ca6f-4210-854c-8d7cad6020f8;limit=0;kette=2
+anreicherung.yml;suchlauf_id=f824bbff-5d33-412f-ad65-c9576b371858;limit=0;kette=2
+anreicherung.yml;suchlauf_id=09b647af-e60a-417e-9bcf-4e42e4da5462;limit=0;kette=2
+anreicherung.yml;suchlauf_id=0924893e-b1c0-4bb8-ad4c-ce2355c28a9f;limit=0;kette=2
+anreicherung.yml;suchlauf_id=82ec2bc1-e098-4fb1-a681-e32a85da4258;limit=0;kette=2
+anreicherung.yml;suchlauf_id=02bbf36f-5176-49a8-94f1-955c35f09676;limit=0;kette=2
+anreicherung.yml;suchlauf_id=6c94ff40-b36e-4080-9a72-6dcf4867297b;limit=0;kette=2
+anreicherung.yml;suchlauf_id=bb165ea4-c5c4-48fb-97bc-944458a11da8;limit=0;kette=2
+anreicherung.yml;suchlauf_id=5a0f7e83-bc75-41f4-9bdd-f327159b3a6e;limit=0;kette=2
+# Runde G3
+anreicherung.yml;suchlauf_id=aa7c0df1-5869-48de-80d3-30c76dbe0bd2;limit=0;kette=2
+anreicherung.yml;suchlauf_id=1d972164-b789-4c66-900c-2a7117ce82c6;limit=0;kette=2
+anreicherung.yml;suchlauf_id=5acc9f3d-f84a-4688-b941-54fba767536b;limit=0;kette=2
+anreicherung.yml;suchlauf_id=2f18bc36-b806-4769-936c-a1c7e75e6c6c;limit=0;kette=2
+anreicherung.yml;suchlauf_id=d257ce53-33bb-4703-a782-d1d35480bacd;limit=0;kette=2
+anreicherung.yml;suchlauf_id=864f10cd-7209-48d5-b6b6-6471efa5accf;limit=0;kette=2
