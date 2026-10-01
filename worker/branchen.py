@@ -336,6 +336,13 @@ KARTEN_ZIELGRUPPEN = {
     "laktation":         ("Stillberaterin", r"still|laktation|ibclc|beratung", r"gmbh|\bug\b|klinik|krankenhaus|familienzentrum|familienbildung|elternschule|volkshochschule|\bvhs\b|caritas|diakonie|\bawo\b|\bdrk\b|johanniter|malteser|pro\s?familia|kirche|pfarr|verein|e\.\s?v\.|stadt|landkreis"),
     "kinderschlaf":      ("Babyschlaf-Beraterin", r"schlaf|baby|kind|coach|berat", r"gmbh|\bug\b|klinik|krankenhaus|familienzentrum|familienbildung|elternschule|volkshochschule|\bvhs\b|caritas|diakonie|\bawo\b|\bdrk\b|johanniter|malteser|pro\s?familia|kirche|pfarr|verein|e\.\s?v\.|stadt|landkreis"),
     # Welle 33 (01.10.2026, Justin: „ok ja“ zu weiteren Familie-&-Geburt-Zielgruppen): neue Suchbegriffe
+    # Welle 34 Teil 3 (02.10.2026 nachts, Justin: Gruppen mit guter Termin-Quote): Synonym-Begriffe
+    "homoeopathie": ("Heilpraktiker", r"hom[öo]opath|naturheil|heilprakt|klassische", r"gmbh|\bug\b|klinik|krankenhaus|verein|e\.\s?v\.|kette|stadt|landkreis|mvz|zentrum"),
+    "akupunktur_tcm": ("Heilpraktiker", r"akupunkt|tcm|chinesische|naturheil|heilprakt", r"gmbh|\bug\b|klinik|krankenhaus|verein|e\.\s?v\.|kette|stadt|landkreis|mvz|zentrum"),
+    "tierkommunikation": ("Tierheilpraktiker", r"tier|kommunikat|hund|pferd|katze|animal", r"gmbh|\bug\b|klinik|krankenhaus|verein|e\.\s?v\.|kette|stadt|landkreis|mvz|zentrum"),
+    "psych_beratung": ("Heilpraktiker für Psychotherapie", r"psycholog|beratung|coach|heilprakt|therapie|seele|praxis", r"gmbh|\bug\b|klinik|krankenhaus|verein|e\.\s?v\.|kette|stadt|landkreis|mvz|zentrum"),
+    "hochzeitsdeko": ("Hochzeitsplaner", r"hochzeit|wedding|deko|event|braut|trau|feier", r"gmbh|\bug\b|klinik|krankenhaus|verein|e\.\s?v\.|kette|stadt|landkreis|mvz|zentrum"),
+    "ernaehrungscoach": ("Ernährungsberater", r"ern[äa]hrung|coach|di[äa]t|abnehm|food|nutri|essen", r"gmbh|\bug\b|klinik|krankenhaus|verein|e\.\s?v\.|kette|stadt|landkreis|mvz|zentrum"),
     # Namensfilter W33 (01.10. abends) ohne allgemeine Wörter (berat, coach, kurs, gruppe, pflege, sprache) — sie zogen Schreibbüros, Optiker, Seniorenheime; Kitas/Horte/Beratungsstellen gesperrt
     # elterncoaching/familiencoach: Name muss Familienbezug haben — mit „coach|berat“ kamen 92 % allgemeine Coaches (W33)
     "familiencoach": ("Elternberaterin", r"famili|eltern|kind|kids|erzieh|baby|mama|teen|jugend|pubert", r"gmbh|\bug\b|klinik|krankenhaus|familienzentrum|familienbildung|elternschule|volkshochschule|\bvhs\b|caritas|diakonie|\bawo\b|\bdrk\b|johanniter|malteser|pro\s?familia|kirche|pfarr|verein|e\.\s?v\.|stadt|landkreis"),
@@ -435,6 +442,8 @@ NAME_PFLICHT_KARTE = {
     "babyzeichensprache", "elternkurs", "grosstagespflege",
     # W34 (01.10.2026): „Reiki Shiatsu Ayurveda“ lieferte viele Thai-/Wellness-Massagen
     "reiki_shiatsu",
+    # W34 Teil 3: breite Synonym-Begriffe
+    "psych_beratung", "hochzeitsdeko", "ernaehrungscoach",
 }
 for _key in NAME_PFLICHT_KARTE:
     if _key in BRANCHEN:

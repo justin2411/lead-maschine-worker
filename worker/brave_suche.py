@@ -274,6 +274,13 @@ BEGRIFFE = {
     'newborn_fotograf': 'Newborn Fotografie',
     'laktation': 'Laktationsberaterin IBCLC',
     'kinderschlaf': 'Kinderschlafberatung',
+    # Welle 34 Teil 3 (02.10.2026): Synonym-Begriffe für Gruppen mit guter Termin-Quote
+    'homoeopathie': 'Homöopathie Praxis',
+    'akupunktur_tcm': 'Akupunktur TCM Praxis',
+    'tierkommunikation': 'Tierkommunikation',
+    'psych_beratung': 'Psychologische Beratung',
+    'hochzeitsdeko': 'Hochzeitsdekoration',
+    'ernaehrungscoach': 'Ernährungscoach',
     # Welle 33 (01.10.2026): weitere Familien-Suchbegriffe
     'familiencoach': 'Familiencoach',
     'schreibaby': 'Schreibaby Beratung',
