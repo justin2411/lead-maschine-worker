@@ -433,6 +433,8 @@ for _key, (_beruf, _regex, _sperre) in KARTEN_ZIELGRUPPEN.items():
 NAME_PFLICHT_KARTE = {
     "elterncoaching", "familiencoach", "schreibaby", "spielgruppe", "krabbelgruppe",
     "babyzeichensprache", "elternkurs", "grosstagespflege",
+    # W34 (01.10.2026): „Reiki Shiatsu Ayurveda“ lieferte viele Thai-/Wellness-Massagen
+    "reiki_shiatsu",
 }
 for _key in NAME_PFLICHT_KARTE:
     if _key in BRANCHEN:
