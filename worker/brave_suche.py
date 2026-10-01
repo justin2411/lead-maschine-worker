@@ -274,6 +274,17 @@ BEGRIFFE = {
     'newborn_fotograf': 'Newborn Fotografie',
     'laktation': 'Laktationsberaterin IBCLC',
     'kinderschlaf': 'Kinderschlafberatung',
+    # Welle 33 (01.10.2026): weitere Familien-Suchbegriffe
+    'familiencoach': 'Familiencoach',
+    'schreibaby': 'Schreibaby Beratung',
+    'spielgruppe': 'Spielgruppe Kleinkinder',
+    'krabbelgruppe': 'Krabbelgruppe',
+    'babyzeichensprache': 'Babyzeichensprache Kurs',
+    'elternkurs': 'Elternkurs',
+    'grosstagespflege': 'Großtagespflege',
+    'schwangerschaftsbegleitung': 'Schwangerschaftsbegleitung',
+    'wochenbettbetreuung': 'Wochenbettbetreuung',
+    'nanny': 'Nanny Kinderbetreuung',
 }
 
 STAEDTE = [
