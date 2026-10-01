@@ -336,14 +336,15 @@ KARTEN_ZIELGRUPPEN = {
     "laktation":         ("Stillberaterin", r"still|laktation|ibclc|beratung", r"gmbh|\bug\b|klinik|krankenhaus|familienzentrum|familienbildung|elternschule|volkshochschule|\bvhs\b|caritas|diakonie|\bawo\b|\bdrk\b|johanniter|malteser|pro\s?familia|kirche|pfarr|verein|e\.\s?v\.|stadt|landkreis"),
     "kinderschlaf":      ("Babyschlaf-Beraterin", r"schlaf|baby|kind|coach|berat", r"gmbh|\bug\b|klinik|krankenhaus|familienzentrum|familienbildung|elternschule|volkshochschule|\bvhs\b|caritas|diakonie|\bawo\b|\bdrk\b|johanniter|malteser|pro\s?familia|kirche|pfarr|verein|e\.\s?v\.|stadt|landkreis"),
     # Welle 33 (01.10.2026, Justin: „ok ja“ zu weiteren Familie-&-Geburt-Zielgruppen): neue Suchbegriffe
+    # Namensfilter W33 (01.10. abends) ohne allgemeine Wörter (berat, coach, kurs, gruppe, pflege, sprache) — sie zogen Schreibbüros, Optiker, Seniorenheime; Kitas/Horte/Beratungsstellen gesperrt
     # elterncoaching/familiencoach: Name muss Familienbezug haben — mit „coach|berat“ kamen 92 % allgemeine Coaches (W33)
     "familiencoach": ("Elternberaterin", r"famili|eltern|kind|kids|erzieh|baby|mama|teen|jugend|pubert", r"gmbh|\bug\b|klinik|krankenhaus|familienzentrum|familienbildung|elternschule|volkshochschule|\bvhs\b|caritas|diakonie|\bawo\b|\bdrk\b|johanniter|malteser|pro\s?familia|kirche|pfarr|verein|e\.\s?v\.|stadt|landkreis"),
-    "schreibaby": ("Babyschlaf-Beraterin", r"schrei|baby|schlaf|berat|coach|eltern", r"gmbh|\bug\b|klinik|krankenhaus|familienzentrum|familienbildung|elternschule|volkshochschule|\bvhs\b|caritas|diakonie|\bawo\b|\bdrk\b|johanniter|malteser|pro\s?familia|kirche|pfarr|verein|e\.\s?v\.|stadt|landkreis"),
-    "spielgruppe": ("Eltern-Kind-Kursleiterin", r"spiel|gruppe|kind|baby|eltern|kurs|krabbel", r"gmbh|\bug\b|klinik|krankenhaus|familienzentrum|familienbildung|elternschule|volkshochschule|\bvhs\b|caritas|diakonie|\bawo\b|\bdrk\b|johanniter|malteser|pro\s?familia|kirche|pfarr|verein|e\.\s?v\.|stadt|landkreis"),
-    "krabbelgruppe": ("Eltern-Kind-Kursleiterin", r"krabbel|spiel|gruppe|kind|baby|eltern|kurs", r"gmbh|\bug\b|klinik|krankenhaus|familienzentrum|familienbildung|elternschule|volkshochschule|\bvhs\b|caritas|diakonie|\bawo\b|\bdrk\b|johanniter|malteser|pro\s?familia|kirche|pfarr|verein|e\.\s?v\.|stadt|landkreis"),
-    "babyzeichensprache": ("Eltern-Kind-Kursleiterin", r"zeichen|sign|baby|sprache|kurs|eltern|kind", r"gmbh|\bug\b|klinik|krankenhaus|familienzentrum|familienbildung|elternschule|volkshochschule|\bvhs\b|caritas|diakonie|\bawo\b|\bdrk\b|johanniter|malteser|pro\s?familia|kirche|pfarr|verein|e\.\s?v\.|stadt|landkreis"),
-    "elternkurs": ("Eltern-Kind-Kursleiterin", r"eltern|kurs|kind|baby|famili|erzieh", r"gmbh|\bug\b|klinik|krankenhaus|familienzentrum|familienbildung|elternschule|volkshochschule|\bvhs\b|caritas|diakonie|\bawo\b|\bdrk\b|johanniter|malteser|pro\s?familia|kirche|pfarr|verein|e\.\s?v\.|stadt|landkreis"),
-    "grosstagespflege": ("Tagesmutter", r"tages|pflege|kinder|betreu|mutter|nest|zwerg|krabbel|m[äa]use|spatz", r"gmbh|\bug\b|klinik|krankenhaus|familienzentrum|familienbildung|elternschule|volkshochschule|\bvhs\b|caritas|diakonie|\bawo\b|\bdrk\b|johanniter|malteser|pro\s?familia|kirche|pfarr|verein|e\.\s?v\.|stadt|landkreis"),
+    "schreibaby": ("Babyschlaf-Beraterin", r"schreibaby|schreikind|baby|schlaf|eltern|kind|famili|mama", r"gmbh|\bug\b|klinik|krankenhaus|familienzentrum|familienbildung|elternschule|volkshochschule|\bvhs\b|caritas|diakonie|\bawo\b|\bdrk\b|johanniter|malteser|pro\s?familia|kirche|pfarr|verein|e\.\s?v\.|stadt|landkreis|kita\b|kindergarten|\bhort\b|senioren|beratungsstelle|gesundheitsamt"),
+    "spielgruppe": ("Eltern-Kind-Kursleiterin", r"spielgruppe|spielkreis|krabbel|kind|kids|baby|eltern|famili|zwerg|knirps|m[äa]use|wichtel", r"gmbh|\bug\b|klinik|krankenhaus|familienzentrum|familienbildung|elternschule|volkshochschule|\bvhs\b|caritas|diakonie|\bawo\b|\bdrk\b|johanniter|malteser|pro\s?familia|kirche|pfarr|verein|e\.\s?v\.|stadt|landkreis|kita\b|kindergarten|\bhort\b|senioren|beratungsstelle|gesundheitsamt"),
+    "krabbelgruppe": ("Eltern-Kind-Kursleiterin", r"krabbel|spielgruppe|spielkreis|kind|kids|baby|eltern|famili|zwerg|knirps|m[äa]use|wichtel", r"gmbh|\bug\b|klinik|krankenhaus|familienzentrum|familienbildung|elternschule|volkshochschule|\bvhs\b|caritas|diakonie|\bawo\b|\bdrk\b|johanniter|malteser|pro\s?familia|kirche|pfarr|verein|e\.\s?v\.|stadt|landkreis|kita\b|kindergarten|\bhort\b|senioren|beratungsstelle|gesundheitsamt"),
+    "babyzeichensprache": ("Eltern-Kind-Kursleiterin", r"babyzeichen|babysign|baby|eltern|kind|famili", r"gmbh|\bug\b|klinik|krankenhaus|familienzentrum|familienbildung|elternschule|volkshochschule|\bvhs\b|caritas|diakonie|\bawo\b|\bdrk\b|johanniter|malteser|pro\s?familia|kirche|pfarr|verein|e\.\s?v\.|stadt|landkreis|kita\b|kindergarten|\bhort\b|senioren|beratungsstelle|gesundheitsamt"),
+    "elternkurs": ("Eltern-Kind-Kursleiterin", r"eltern|kind|kids|baby|famili|erzieh|mama", r"gmbh|\bug\b|klinik|krankenhaus|familienzentrum|familienbildung|elternschule|volkshochschule|\bvhs\b|caritas|diakonie|\bawo\b|\bdrk\b|johanniter|malteser|pro\s?familia|kirche|pfarr|verein|e\.\s?v\.|stadt|landkreis|kita\b|kindergarten|\bhort\b|senioren|beratungsstelle|gesundheitsamt"),
+    "grosstagespflege": ("Tagesmutter", r"tagesmutter|tagesvater|tagespflege|tageskind|kinder|nest|zwerg|krabbel|m[äa]use|spatz|knirps|wichtel", r"gmbh|\bug\b|klinik|krankenhaus|familienzentrum|familienbildung|elternschule|volkshochschule|\bvhs\b|caritas|diakonie|\bawo\b|\bdrk\b|johanniter|malteser|pro\s?familia|kirche|pfarr|verein|e\.\s?v\.|stadt|landkreis|kita\b|kindergarten|\bhort\b|senioren|beratungsstelle|gesundheitsamt"),
     "schwangerschaftsbegleitung": ("Doula", r"doula|schwanger|begleit|geburt|mama", r"gmbh|\bug\b|klinik|krankenhaus|familienzentrum|familienbildung|elternschule|volkshochschule|\bvhs\b|caritas|diakonie|\bawo\b|\bdrk\b|johanniter|malteser|pro\s?familia|kirche|pfarr|verein|e\.\s?v\.|stadt|landkreis"),
     "wochenbettbetreuung": ("Mütterpflegerin", r"wochenbett|m[üu]tter|muetter|pfleg|mama|famili|betreu", r"gmbh|\bug\b|klinik|krankenhaus|familienzentrum|familienbildung|elternschule|volkshochschule|\bvhs\b|caritas|diakonie|\bawo\b|\bdrk\b|johanniter|malteser|pro\s?familia|kirche|pfarr|verein|e\.\s?v\.|stadt|landkreis"),
     "nanny": ("Babysitter", r"nanny|babysit|kinderbetreu|leihoma|kinderfrau", r"gmbh|\bug\b|klinik|krankenhaus|familienzentrum|familienbildung|elternschule|volkshochschule|\bvhs\b|caritas|diakonie|\bawo\b|\bdrk\b|johanniter|malteser|pro\s?familia|kirche|pfarr|verein|e\.\s?v\.|stadt|landkreis"),
@@ -424,3 +425,15 @@ for _key, (_beruf, _regex, _sperre) in KARTEN_ZIELGRUPPEN.items():
         "name_regex": _regex,
         "name_sperre": (f"{_sperre}|" if _sperre else "") + SOLO_SPERRE,
     }
+
+# Karten-Schlüssel, deren Suchbegriff auf Google Maps viel Fremdes liefert
+# (W33, 01.10.2026: Schreibbüros, Optiker, allgemeine Coaches, Seniorenheime).
+# Für sie muss der Name beim Einsammeln zum name_regex passen — maps_lauf.py
+# wertet sonst nur die Sperre aus.
+NAME_PFLICHT_KARTE = {
+    "elterncoaching", "familiencoach", "schreibaby", "spielgruppe", "krabbelgruppe",
+    "babyzeichensprache", "elternkurs", "grosstagespflege",
+}
+for _key in NAME_PFLICHT_KARTE:
+    if _key in BRANCHEN:
+        BRANCHEN[_key]["name_pflicht"] = KARTEN_ZIELGRUPPEN[_key][1]
