@@ -267,6 +267,13 @@ BEGRIFFE = {
     'kinderwunsch_coach': 'Kinderwunsch Coaching',
     'elternberatung': 'Elternberatung Erziehungsberatung privat',
     'tagesmutter_kurz': 'Tagesmutter',
+    # Welle 32 (01.10.2026): neue Familien-Suchbegriffe
+    'geburtsbegleitung': 'Geburtsbegleitung',
+    'hypnobirthing': 'Hypnobirthing Kurs',
+    'elterncoaching': 'Elterncoaching',
+    'newborn_fotograf': 'Newborn Fotografie',
+    'laktation': 'Laktationsberaterin IBCLC',
+    'kinderschlaf': 'Kinderschlafberatung',
 }
 
 STAEDTE = [
