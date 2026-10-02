@@ -1,9 +1,4 @@
-anreicherung.yml;suchlauf_id=1ff87501-e4fa-4f34-b7bf-a5ceae3871e6;limit=0;kette=2
-anreicherung.yml;suchlauf_id=d8d1375e-f929-49f4-859a-0a909ca60ee6;limit=0;kette=2
-anreicherung.yml;suchlauf_id=ea21ec67-2d60-45ad-8c44-1b4a46af2e0c;limit=0;kette=2
-anreicherung.yml;suchlauf_id=5c4e038b-58a9-49b5-9771-125b92252a5d;limit=0;kette=2
-anreicherung.yml;suchlauf_id=a03d1cc7-7f75-483e-91e1-6c01bc1aad11;limit=0;kette=2
-anreicherung.yml;suchlauf_id=654e1271-ffd2-40c9-8852-dfc7214d8c5e;limit=0;kette=2
-anreicherung.yml;suchlauf_id=cb06c6ba-fe44-4d5c-a967-f269bb34ac80;limit=0;kette=2
-anreicherung.yml;suchlauf_id=5f1db389-cb85-4dac-a5fe-611447be30b6;limit=0;kette=2
-anreicherung.yml;suchlauf_id=d32c2856-7638-4236-9c16-9f739e475ab9;limit=0;kette=2
+pruefung.yml;limit=300;kette=3;dauer=300
+pruefung.yml;limit=300;kette=3;dauer=300
+pruefung.yml;limit=300;kette=3;dauer=300
+pruefung.yml;limit=300;kette=3;dauer=300
