@@ -448,3 +448,90 @@ NAME_PFLICHT_KARTE = {
 for _key in NAME_PFLICHT_KARTE:
     if _key in BRANCHEN:
         BRANCHEN[_key]["name_pflicht"] = KARTEN_ZIELGRUPPEN[_key][1]
+
+
+# ============================================================
+# Callcenter-Zielgruppen (18.10.2026) — BETRIEBE MIT PERSONAL
+#
+# Der Katalog oben sucht Solo-Selbstständige: jede Zielgruppe bekommt
+# SOLO_SPERRE angehängt, die „gmbh|ug|ag|kg|zentrum|partner" ausschließt.
+# Für das Callcenter-Geschäft (Weiterbildungsförderung nach § 82 SGB III)
+# ist das genau verkehrt herum: gefördert wird die Weiterbildung
+# BESTEHENDER sozialversicherungspflichtiger Mitarbeiter, ein Betrieb
+# ohne Angestellte kommt gar nicht infrage.
+#
+# Diese Einträge stehen deshalb bewusst NACH dem KARTEN_ZIELGRUPPEN-Loop
+# und im Vollformat — so hängt sich SOLO_SPERRE nicht an. Gesperrt wird
+# nur, was wirklich stört: Ketten und Filialisten (zentral gesteuert, der
+# Standort entscheidet nichts), Versender und öffentliche Träger.
+#
+# Die Auswahl folgt den gemessenen Terminquoten des Callcenters
+# (Termine je erreichtem Entscheider, Stand 18.10.2026):
+#   Optiker 12,5 % · Steuer-/Lohnbüro 5,1 % · Werbeagentur 4,8 % ·
+#   Reisebüro 4,3 % · Hausverwaltung 2,6 %
+# Hörakustiker und Apotheken sind ungetestet, folgen aber demselben
+# Muster: Filiale mit fest angestelltem Fachpersonal.
+# ============================================================
+
+KETTEN_UND_AEMTER = (
+    r"stadt\b|gemeinde|landkreis|kreis\b|universit|klinik|krankenhaus|"
+    r"bundeswehr|justizvollzug"
+)
+
+CALLCENTER_ZIELGRUPPEN = {
+    "optiker": {
+        "beruf": "Optiker",
+        "tag_filter": [{"shop": "optician"}],
+        "name_regex": r"optik|optiker|brillen|augenoptik|sehzentrum|contactlinsen|kontaktlinsen",
+        "name_sperre": r"fielmann|apollo[\s-]?optik|pearle|mister\s?spex|brillen\.de|robin\s?look|"
+                       r"binder\s?optik|eyes\s?\+?\s?more|smartbuyglasses|optiker[\s-]?zentrale|" + KETTEN_UND_AEMTER,
+    },
+    "hoerakustiker": {
+        "beruf": "Hörakustiker",
+        "tag_filter": [{"shop": "hearing_aids"}],
+        "name_regex": r"h[öo]rger[äa]t|h[öo]rakustik|h[öo]rzentrum|akustiker|h[öo]rstudio|h[öo]rberat",
+        "name_sperre": r"\bkind\b|amplifon|geers|iffland|audibene|h[öo]rger[äa]te\s?seifert|neuroth|"
+                       r"audio\s?nova|h[öo]rpartner|" + KETTEN_UND_AEMTER,
+    },
+    "reisebuero": {
+        "beruf": "Reisebüro",
+        "tag_filter": [{"shop": "travel_agency"}, {"office": "travel_agent"}],
+        "name_regex": r"reisebüro|reiseb[üu]ro|reisecenter|reisewelt|urlaubsb[üu]ro|travel|reiseland|reisepartner",
+        "name_sperre": r"\btui\b|dertour|der\s?touristik|alltours|\bfti\b|lufthansa|expedia|booking|"
+                       r"check24|opodo|flixbus|bahn\b|" + KETTEN_UND_AEMTER,
+    },
+    "apotheke": {
+        "beruf": "Apotheke",
+        "tag_filter": [{"amenity": "pharmacy"}, {"healthcare": "pharmacy"}],
+        "name_regex": r"apotheke",
+        "name_sperre": r"docmorris|shop[\s-]?apotheke|versandapotheke|medpex|apotheke\.de|aponeo|"
+                       r"krankenhausapotheke|klinikapotheke|" + KETTEN_UND_AEMTER,
+    },
+    "steuerbuero": {
+        "beruf": "Steuer- & Lohnbüro",
+        "tag_filter": [{"office": "tax_advisor"}, {"office": "accountant"}],
+        "name_regex": r"steuerberat|steuerkanzlei|steuerb[üu]ro|lohnb[üu]ro|lohnabrechnung|"
+                      r"wirtschaftspr[üu]f|buchf[üu]hrungsb[üu]ro",
+        "name_sperre": r"\bdatev\b|\betl\b|advision|lohi\b|vereinigte\s?lohnsteuerhilfe|"
+                       r"lohnsteuerhilfeverein|finanzamt|" + KETTEN_UND_AEMTER,
+    },
+    "hausverwaltung": {
+        "beruf": "Hausverwaltung",
+        "tag_filter": [{"office": "property_management"}],
+        "name_regex": r"hausverwalt|immobilienverwalt|wohnungsverwalt|\bweg[\s-]?verwalt|"
+                      r"objektverwalt|mietverwalt|grundst[üu]cksverwalt",
+        "name_sperre": r"vonovia|deutsche\s?wohnen|lbs\b|sparkasse|volksbank|vivawest|grand\s?city|"
+                       r"wohnungsbaugenossenschaft|wohnungsgesellschaft|" + KETTEN_UND_AEMTER,
+    },
+    "werbeagentur": {
+        "beruf": "Marketing- & Werbeagentur",
+        "tag_filter": [{"office": "advertising_agency"}, {"office": "advertising"}],
+        "name_regex": r"werbeagentur|marketingagentur|werbung|kreativagentur|fullservice[\s-]?agentur|"
+                      r"mediaagentur|kommunikationsagentur|online[\s-]?marketing",
+        "name_sperre": r"serviceplan|jung\s?von\s?matt|ogilvy|publicis|\bwpp\b|dentsu|omnicom|"
+                       r"stellenanzeigen|" + KETTEN_UND_AEMTER,
+    },
+}
+
+for _key, _wert in CALLCENTER_ZIELGRUPPEN.items():
+    BRANCHEN[_key] = _wert
