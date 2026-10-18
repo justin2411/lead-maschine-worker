@@ -1,4 +1,21 @@
-pruefung.yml;limit=300;kette=3;dauer=300
-pruefung.yml;limit=300;kette=3;dauer=300
-pruefung.yml;limit=300;kette=3;dauer=300
-pruefung.yml;limit=300;kette=3;dauer=300
+# Aufträge für den Starter (.github/workflows/starter.yml).
+# Format: <workflow-datei>;<input>=<wert>;<input>=<wert>…
+# Zeilen mit # sind Kommentare. NACH dem Lauf wieder auskommentieren —
+# ein erneuter Push auf diese Datei startet sie sonst ein zweites Mal.
+
+# ERLEDIGT — die vier Prüf-Ketten der Welle 33/34 sind gelaufen.
+# Stillgelegt am 18.10.2026: sie brauchen den KI-Schlüssel, und der
+# Suchlauf unten soll erst einmal ohne Anreicherung nur sammeln.
+# pruefung.yml;limit=300;kette=3;dauer=300
+# pruefung.yml;limit=300;kette=3;dauer=300
+# pruefung.yml;limit=300;kette=3;dauer=300
+# pruefung.yml;limit=300;kette=3;dauer=300
+
+# ── 18.10.2026 · Callcenter-Zielgruppen, nur sammeln ────────────────
+# Sieben Zielgruppen für das Callcenter-Geschäft (§ 82 SGB III), neu im
+# Katalog seit PR #1 — Betriebe mit Personal, ohne SOLO_SPERRE.
+#   anreichern=0  → nur OSM sammeln, KEINE KI-Anreicherung (Justin)
+#   limit=0       → alle Treffer melden
+# Alle sieben in EINEM Lauf: der 4-GB-Geofabrik-Extrakt wird nur einmal
+# geladen. Die suchlauf_id-Reihenfolge entspricht der branche-Reihenfolge.
+suchlauf.yml;branche=optiker,apotheke,steuerbuero,reisebuero,werbeagentur,hoerakustiker,hausverwaltung;quellen=osm;suchlauf_id=5c3136a6-6c1f-43cd-b2f4-9b71f16bad9e,8fcff1df-4197-4719-b126-e203c8250b4f,b69cb288-2005-40a8-ae30-18e94851b112,d3140c2f-564d-4498-b90b-e563c260217b,30ea350a-7e58-46bd-9c58-b6e71fd02bfe,745386ad-52a7-4f14-92d0-d3fc6c98d120,27e57314-36ad-46aa-89a5-d4fbf067ef20;limit=0;anreichern=0
