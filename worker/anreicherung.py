@@ -39,6 +39,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 from leadkern import drossel, email as lk_email, normalisierung, web
 
+from baukasten import berufs_baukasten
 from namen import namens_nachlauf
 
 USER_AGENT = "LeadMaschine2-Suchlauf/1.0 (+https://github.com/justin2411/lead-maschine-worker)"
@@ -292,7 +293,9 @@ def kette(firma: dict) -> dict:
     seiten_html: dict[str, str] = {}
     if website and web_lebt is not False:
         try:
-            imp_url = web.impressum_finden(website, hole=hole)
+            # D-276: Auf Berufs-Baukästen (hebamio.de) gehört das Impressum dem Software-Anbieter —
+            # nie Name/Telefon/E-Mail daraus, nur die Kontaktseite.
+            imp_url = None if berufs_baukasten(website) else web.impressum_finden(website, hole=hole)
             geladen = 0
             impressum = {}
             for url in [u for u in (imp_url, f"{website.rstrip('/')}/kontakt") if u]:
