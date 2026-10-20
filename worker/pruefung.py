@@ -7,6 +7,7 @@ E-Mail".
 Je Lead (100-%-Regel, Justin 13.09.: Website, richtiger Name, E-Mail, Handynummer,
 passend zur AV-Beratung = Solo-Selbstständige):
   0. Solo-Check: Team/Mitarbeiter/Filialen/GmbH auf Website oder im Impressum → Rückhand.
+     Auf Berufs-Baukästen (hebamio.de, D-276) zählt das Anbieter-Impressum nicht.
   1. Website laden (Startseite; dazu Impressum/Kontakt/Über-mich-Seiten,
      höchstens vier). Nicht ladbar → „Website nicht erreichbar".
   2. Name: Vor- UND Nachname müssen auf einer der Seiten stehen. Nur der
@@ -43,6 +44,7 @@ from concurrent.futures import ThreadPoolExecutor
 from leadkern import web
 
 sys.path.insert(0, os.path.dirname(__file__))
+from baukasten import anbieter_seite, ohne_anbieter  # noqa: E402
 from namen import VORNAMEN, finde_personenname, html_zu_text, namens_urls  # noqa: E402
 
 VORNAMEN_LEX = {str(v).strip().lower() for v in (VORNAMEN.keys() if isinstance(VORNAMEN, dict) else VORNAMEN)}
@@ -343,6 +345,14 @@ def pruefe(lead: dict) -> dict:
     geladen, fehler = lade_seiten(website)
     if fehler:
         return {"ergebnis": "fehler", "text": f"geprüft: {fehler}", "checks": {**checks, "website": False}}
+    # D-276: Auf Berufs-Baukästen (hebamio.de) gehört das Impressum dem Software-Anbieter,
+    # nicht der Hebamme — es zählt für keinen Befund (Solo, Name, Telefon, E-Mail).
+    # Ein eigenes Impressum auf der Unterdomain trägt kein Anbieter-Zeichen im Kopf und bleibt.
+    anbieter = [u for u, h in geladen.items() if anbieter_seite(_norm(html_zu_text(h)), website)]
+    if anbieter and len(anbieter) < len(geladen):
+        for u in anbieter:
+            del geladen[u]
+        checks["anbieter_impressum"] = True
     checks["website"] = True
     checks["seiten"] = len(geladen)
 
@@ -412,9 +422,15 @@ def pruefe(lead: dict) -> dict:
     # (>= 3 weitere Personen mit Vor- und Nachnamen); Rechtsform nur im Kopf des
     # Impressums (erste 900 Zeichen der Impressumsseite, sonst der Startseite).
     imp_urls = [u for u in geladen if IMPRESSUM_URL.search(u)]
-    imp_text = _norm(html_zu_text(geladen[imp_urls[0]] if imp_urls else next(iter(geladen.values()))))
-    solo_treffer = KEIN_SOLO_MUSTER.search(voll) or RECHTSFORM_MUSTER.search(imp_text[:900])
-    team_phrase = TEAM_WEICH_MUSTER.search(voll)
+    imp_text = _norm(html_zu_text(geladen[imp_urls[0]] if imp_urls else next(iter(geladen.values()))))[:900]
+
+    def erster(muster: re.Pattern, text: str) -> re.Match | None:
+        # D-276: Treffer neben dem Baukasten-Anbieter („© hebamio GmbH“) zählen nicht
+        treffer = ohne_anbieter(list(muster.finditer(text)), text, website)
+        return treffer[0] if treffer else None
+
+    solo_treffer = erster(KEIN_SOLO_MUSTER, voll) or erster(RECHTSFORM_MUSTER, imp_text)
+    team_phrase = erster(TEAM_WEICH_MUSTER, voll)
     if not solo_treffer and team_phrase:
         personen = _personen_auf_seiten(texte, eigener_nachname)
         checks["personen"] = len(personen)
