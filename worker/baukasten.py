@@ -1,7 +1,8 @@
 """
 Berufs-Baukästen (D-274 / D-276): Mini-Homepage-Anbieter eines Berufs, bei denen
-jede Unterdomain die Seite einer Solo-Selbstständigen ist (zurzeit hebamio.de →
-Hebamme, `name.hebamio.de`).
+jede Unterdomain die Seite einer Solo-Selbstständigen ist (hebamio.de → Hebamme,
+`name.hebamio.de`; seit D-277 agtcm-therapeut.de → Heilpraktiker, Praxis-Seiten aus
+dem Website-Projekt des TCM-Verbands AGTCM e.V.).
 
 Gemeinsame Quelle für den Sammler (CRM-Repo, `server/commoncrawl/sammler.py`,
 importiert über WORKER_DIR) und die Worker hier (Prüfung, Anreicherung). Neue
@@ -17,11 +18,14 @@ from __future__ import annotations
 import re
 import urllib.parse
 
-BERUFS_BAUKASTEN = {"hebamio.de": "Hebamme"}
+BERUFS_BAUKASTEN = {"hebamio.de": "Hebamme", "agtcm-therapeut.de": "Heilpraktiker"}
 
 # Erkennungszeichen des Anbieters (Text nach _norm: klein, Umlaute ausgeschrieben).
 BAUKASTEN_ANBIETER = {
     "hebamio.de": re.compile(r"somedio|hebamio\s+(gmbh|impressum)|(©|\(c\)|copyright)\s*(\d{4}\s*)?hebamio", re.I),
+    # D-277: Verband/Agentur, nie die Praxis-Mailadressen name@agtcm-therapeut.de
+    "agtcm-therapeut.de": re.compile(r"agtcm\s+e\.\s*v\.|\(agtcm\)|arbeitsgemeinschaft\s+fu?e?r\s+klassische\s+akupunktur"
+                                     r"|triple-i|therapeuten-website-projekt", re.I),
 }
 # Ein Rechtsform-Treffer so nah an einem Anbieter-Zeichen gehört zum Anbieter.
 ANBIETER_ABSTAND = 80
