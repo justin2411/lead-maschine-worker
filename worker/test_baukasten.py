@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-"""D-276: Anbieter-Impressum auf Berufs-Baukästen zählt nicht. Ohne Netz: python3 worker/test_baukasten.py"""
+"""D-276/D-277: Anbieter-Impressum auf Berufs-Baukästen zählt nicht. Ohne Netz: python3 worker/test_baukasten.py"""
 import os
 import re
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from baukasten import anbieter_seite, berufs_baukasten, ohne_anbieter  # noqa: E402
+from baukasten import BERUFS_BAUKASTEN, anbieter_seite, berufs_baukasten, ohne_anbieter  # noqa: E402
 
 RF = re.compile(r"\bgmbh\b|hrb\s?\d")
 
@@ -29,3 +29,14 @@ assert treffer("startseite ... © 2026 hebamio gmbh", "https://anna.hebamio.de/"
 assert treffer("hebammenpraxis muster gmbh, hrb 1234" + " " * 200 + "© hebamio gmbh",
                "https://anna.hebamio.de/") == ["gmbh", "hrb 1"]
 print("ok")
+
+# D-277: agtcm-therapeut.de (Heilpraktiker, eigenes Impressum je Praxis)
+assert berufs_baukasten("https://praxis-muster.agtcm-therapeut.de/") == "agtcm-therapeut.de"
+assert berufs_baukasten("https://www.agtcm-therapeut.de/") is None
+assert BERUFS_BAUKASTEN["agtcm-therapeut.de"] == "Heilpraktiker"
+assert anbieter_seite("impressum agtcm e.v. arbeitsgemeinschaft fuer klassische akupunktur und tcm",
+                      "https://praxis.agtcm-therapeut.de/")
+praxis = "impressum anna muster, heilpraktikerin, kontakt: anna@agtcm-therapeut.de " + "x " * 200
+assert not anbieter_seite(praxis, "https://praxis.agtcm-therapeut.de/")
+assert treffer("praxis muster" + " " * 200 + "webdesign triple-i gmbh", "https://praxis.agtcm-therapeut.de/") == []
+print("ok agtcm")
